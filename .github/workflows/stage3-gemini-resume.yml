@@ -1,0 +1,224 @@
+name: Stage 3 Gemini Visual Benchmark — Resumable
+
+on:
+  push:
+    paths:
+      - "benchmark/gemini-resume-trigger.txt"
+  workflow_dispatch:
+
+concurrency:
+  group: stage3-gemini-visual-benchmark-resumable
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      IMAGE_MODEL: gemini-3.1-flash-image
+      IMAGE_RESOLUTION: 2K
+      GENERATION_ID: gemini31flashimage-v1
+      PPT_MASTER_COMMIT: 65bb2eca59a36270819caba377097910c4466c6e
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate exact approved benchmark configuration
+        run: |
+          test -n "${GEMINI_API_KEY}"
+          test "${IMAGE_MODEL}" = "gemini-3.1-flash-image"
+          test "${IMAGE_RESOLUTION}" = "2K"
+          test "${GENERATION_ID}" = "gemini31flashimage-v1"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install benchmark dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-genai pillow python-pptx pyyaml cairosvg fonttools XlsxWriter skia-pathops uharfbuzz
+
+      - name: Build deterministic benchmark prompts
+        run: |
+          PYTHONPATH=. python scripts/create_queuezero_mock_assets.py
+          PYTHONPATH=. python scripts/build_stage3_variant_inputs.py
+
+      - name: Generate or resume four Gemini visual assets
+        id: generate_assets
+        continue-on-error: true
+        run: |
+          PYTHONPATH=. python tools/stage3_gemini_image_gen.py \
+            --model "${IMAGE_MODEL}" \
+            --resolution "${IMAGE_RESOLUTION}" \
+            --output-dir "benchmark/generated/queuezero/${GENERATION_ID}"
+
+      - name: Copy deterministic prompts into persistent benchmark directory
+        if: always()
+        run: |
+          OUTDIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          mkdir -p "${OUTDIR}/prompts"
+          cp dist/prompts/*.txt "${OUTDIR}/prompts/"
+
+      - name: Package complete image-first PPTX
+        id: package_image_first
+        if: steps.generate_assets.outcome == 'success'
+        run: |
+          OUTDIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          PYTHONPATH=. python scripts/build_stage3_image_first.py \
+            --assets-dir "${OUTDIR}/image_first" \
+            --out "${OUTDIR}/queuezero_image_first.pptx" \
+            --manifest "${OUTDIR}/image_first/package_manifest.json"
+
+      - name: Audit image-first structural baseline
+        id: audit_image_first
+        if: steps.package_image_first.outcome == 'success'
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from pptx import Presentation
+          from pptx.enum.shapes import MSO_SHAPE_TYPE
+
+          root = Path('benchmark/generated/queuezero/gemini31flashimage-v1')
+          prs = Presentation(root / 'queuezero_image_first.pptx')
+          assert len(prs.slides) == 3, len(prs.slides)
+          for idx, slide in enumerate(prs.slides, 1):
+              assert len(slide.shapes) == 1, (idx, len(slide.shapes))
+              shape = slide.shapes[0]
+              assert shape.shape_type == MSO_SHAPE_TYPE.PICTURE, (idx, shape.shape_type)
+              assert shape.width >= prs.slide_width * 0.99
+              assert shape.height >= prs.slide_height * 0.99
+          print('PASS: image-first baseline = 3 slides / 3 full-slide pictures')
+          PY
+
+      - name: Checkout pinned PPT Master for visually scored hybrid build
+        if: steps.generate_assets.outcome == 'success'
+        run: |
+          git clone --filter=blob:none --no-checkout https://github.com/hugohe3/ppt-master.git /tmp/ppt-master
+          git -C /tmp/ppt-master checkout "${PPT_MASTER_COMMIT}"
+          test "$(git -C /tmp/ppt-master rev-parse HEAD)" = "${PPT_MASTER_COMMIT}"
+
+      - name: Build hybrid deck with real bounded Gemini hero
+        id: build_hybrid_visual
+        if: steps.generate_assets.outcome == 'success'
+        run: |
+          OUTDIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          PYTHONPATH=. python scripts/build_stage3_hybrid.py \
+            --ppt-master-root /tmp/ppt-master \
+            --hero-asset "${OUTDIR}/hybrid/problem_hero.jpg" \
+            --out "${OUTDIR}/queuezero_hybrid_visual.pptx" \
+            --realizations "${OUTDIR}/realizations/hybrid_visual" \
+            --adapter-workspace "${OUTDIR}/ppt_master_adapter_workspace"
+
+      - name: Audit generated asset dimensions and hybrid hero locality
+        id: audit_visual_assets
+        if: steps.build_hybrid_visual.outcome == 'success'
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image
+          from pptx import Presentation
+          from pptx.enum.shapes import MSO_SHAPE_TYPE
+
+          root = Path('benchmark/generated/queuezero/gemini31flashimage-v1')
+          expected = {
+              root / 'image_first/problem_hook.jpg': 16/9,
+              root / 'image_first/how_it_works.jpg': 16/9,
+              root / 'image_first/validation_traction.jpg': 16/9,
+              root / 'hybrid/problem_hero.jpg': 4/3,
+          }
+          for path, ratio in expected.items():
+              with Image.open(path) as im:
+                  assert im.format == 'JPEG', (path, im.format)
+                  observed = im.width / im.height
+                  assert abs(observed - ratio) < 0.02, (path, im.size, observed)
+                  print(path, im.size, im.format)
+
+          prs = Presentation(root / 'queuezero_hybrid_visual.pptx')
+          full_slide_pictures = 0
+          pictures = 0
+          for slide in prs.slides:
+              for shape in slide.shapes:
+                  if shape.shape_type == MSO_SHAPE_TYPE.PICTURE:
+                      pictures += 1
+                      if shape.width >= prs.slide_width * 0.99 and shape.height >= prs.slide_height * 0.99:
+                          full_slide_pictures += 1
+          assert pictures >= 2, pictures
+          assert full_slide_pictures == 0, full_slide_pictures
+          print(f'PASS: hybrid visual deck has {pictures} bounded/replaceable pictures and no full-slide picture')
+          PY
+
+      - name: Write visual benchmark run receipt
+        if: always()
+        env:
+          GENERATE_OUTCOME: ${{ steps.generate_assets.outcome }}
+          PACKAGE_OUTCOME: ${{ steps.package_image_first.outcome }}
+          IMAGE_AUDIT_OUTCOME: ${{ steps.audit_image_first.outcome }}
+          HYBRID_OUTCOME: ${{ steps.build_hybrid_visual.outcome }}
+          VISUAL_AUDIT_OUTCOME: ${{ steps.audit_visual_assets.outcome }}
+        run: |
+          OUTDIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          mkdir -p "${OUTDIR}"
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path('benchmark/generated/queuezero/gemini31flashimage-v1')
+          payload = {
+              'schema_version': 'stage3-visual-benchmark-run-v1',
+              'model': 'gemini-3.1-flash-image',
+              'resolution': '2K',
+              'output_mime_type': 'image/jpeg',
+              'generation_id': 'gemini31flashimage-v1',
+              'steps': {
+                  'generate_assets': os.getenv('GENERATE_OUTCOME'),
+                  'package_image_first': os.getenv('PACKAGE_OUTCOME'),
+                  'audit_image_first': os.getenv('IMAGE_AUDIT_OUTCOME'),
+                  'build_hybrid_visual': os.getenv('HYBRID_OUTCOME'),
+                  'audit_visual_assets': os.getenv('VISUAL_AUDIT_OUTCOME'),
+              },
+          }
+          (root / 'run_receipt.json').write_text(json.dumps(payload, indent=2) + '\n')
+          PY
+
+      - name: Persist all successful or partial benchmark outputs before final gate
+        if: always()
+        run: |
+          OUTDIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          git config user.name "stage3-gemini-worker"
+          git config user.email "stage3-gemini-worker@users.noreply.github.com"
+          git add -f "${OUTDIR}"
+          if git diff --cached --quiet; then
+            echo "No new benchmark outputs to persist"
+          else
+            git commit -m "benchmark: persist resumable ${GENERATION_ID} Gemini outputs"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+      - name: Final visual benchmark gate
+        if: always()
+        env:
+          GENERATE_OUTCOME: ${{ steps.generate_assets.outcome }}
+          PACKAGE_OUTCOME: ${{ steps.package_image_first.outcome }}
+          IMAGE_AUDIT_OUTCOME: ${{ steps.audit_image_first.outcome }}
+          HYBRID_OUTCOME: ${{ steps.build_hybrid_visual.outcome }}
+          VISUAL_AUDIT_OUTCOME: ${{ steps.audit_visual_assets.outcome }}
+        run: |
+          echo "generate: ${GENERATE_OUTCOME}"
+          echo "package image-first: ${PACKAGE_OUTCOME}"
+          echo "image-first audit: ${IMAGE_AUDIT_OUTCOME}"
+          echo "hybrid visual: ${HYBRID_OUTCOME}"
+          echo "visual asset audit: ${VISUAL_AUDIT_OUTCOME}"
+          if [ "${GENERATE_OUTCOME}" != "success" ] || \
+             [ "${PACKAGE_OUTCOME}" != "success" ] || \
+             [ "${IMAGE_AUDIT_OUTCOME}" != "success" ] || \
+             [ "${HYBRID_OUTCOME}" != "success" ] || \
+             [ "${VISUAL_AUDIT_OUTCOME}" != "success" ]; then
+            exit 1
+          fi
