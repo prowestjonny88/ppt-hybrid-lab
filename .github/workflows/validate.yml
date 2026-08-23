@@ -19,7 +19,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   validate:
@@ -45,42 +45,55 @@ jobs:
           test "$(git -C /tmp/ppt-master rev-parse HEAD)" = "65bb2eca59a36270819caba377097910c4466c6e"
 
       - name: Validate Stage 3 slide semantics
+        id: validate_semantics
         run: python tests/validate_slide_semantics.py
 
       - name: Validate A/B/C render-plan fairness
+        id: validate_plans
         run: python tests/validate_render_plans.py
 
       - name: Probe V2 native single-object patch
+        id: probe_v2
         run: python tests/probes/native_patch_probe.py
 
       - name: Create deterministic benchmark asset fixtures
+        id: assets
         run: python scripts/create_queuezero_mock_assets.py
 
       - name: Build fairness manifests and model prompt inputs
+        id: variant_inputs
         run: python scripts/build_stage3_variant_inputs.py
 
       - name: Build native-vector QueueZero benchmark deck
+        id: build_native
         run: python scripts/build_stage3_native.py
 
       - name: Audit native-vector PPTX objects and realization mapping
+        id: audit_native
         run: python tests/audit_native_output.py
 
       - name: Build hybrid QueueZero benchmark deck
+        id: build_hybrid
         run: python scripts/build_stage3_hybrid.py --ppt-master-root /tmp/ppt-master
 
       - name: Audit hybrid PPTX native SVG and bounded image structure
+        id: audit_hybrid
         run: python tests/audit_hybrid_output.py
 
       - name: Run native-vector panic edits
+        id: panic_native
         run: python tests/run_panic_edits.py --variant native_vector --pptx dist/queuezero_native_vector.pptx --out-dir dist/panic/native_vector
 
       - name: Run hybrid panic edits
+        id: panic_hybrid
         run: python tests/run_panic_edits.py --variant hybrid --pptx dist/queuezero_hybrid.pptx --out-dir dist/panic/hybrid
 
       - name: Upload Stage 3 current artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: queuezero-stage3-current
+          if-no-files-found: warn
           path: |
             dist/queuezero_native_vector.pptx
             dist/queuezero_hybrid.pptx
@@ -92,3 +105,34 @@ jobs:
             dist/panic/hybrid/summary.json
             dist/variant_inputs/*.json
             dist/prompts/*.txt
+
+      - name: Write tracked Stage 3 CI receipt
+        if: always() && github.event_name != 'pull_request'
+        env:
+          STAGE3_JOB_STATUS: ${{ job.status }}
+          STAGE3_VALIDATE_SEMANTICS: ${{ steps.validate_semantics.outcome }}
+          STAGE3_VALIDATE_PLANS: ${{ steps.validate_plans.outcome }}
+          STAGE3_PROBE_V2: ${{ steps.probe_v2.outcome }}
+          STAGE3_ASSETS: ${{ steps.assets.outcome }}
+          STAGE3_VARIANT_INPUTS: ${{ steps.variant_inputs.outcome }}
+          STAGE3_BUILD_NATIVE: ${{ steps.build_native.outcome }}
+          STAGE3_AUDIT_NATIVE: ${{ steps.audit_native.outcome }}
+          STAGE3_BUILD_HYBRID: ${{ steps.build_hybrid.outcome }}
+          STAGE3_AUDIT_HYBRID: ${{ steps.audit_hybrid.outcome }}
+          STAGE3_PANIC_NATIVE: ${{ steps.panic_native.outcome }}
+          STAGE3_PANIC_HYBRID: ${{ steps.panic_hybrid.outcome }}
+        run: python scripts/write_stage3_ci_receipt.py
+
+      - name: Commit Stage 3 CI receipt
+        if: always() && github.event_name != 'pull_request'
+        run: |
+          git config user.name "stage3-ci"
+          git config user.email "stage3-ci@users.noreply.github.com"
+          git add benchmark/results/STAGE3_CI_LATEST.json
+          if git diff --cached --quiet; then
+            echo "No CI receipt change"
+          else
+            git commit -m "ci: publish Stage 3 validation receipt"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
