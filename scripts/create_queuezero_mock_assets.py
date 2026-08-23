@@ -23,11 +23,30 @@ def product_ui(path):
     image.save(path)
 
 
+def structural_problem_hero(path):
+    """Text-free deterministic fixture used only for structural hybrid testing."""
+    image = Image.new("RGB", (960, 720), "#F3F4F6")
+    d = ImageDraw.Draw(image)
+    d.rectangle((0, 470, 960, 720), fill="#D1D5DB")
+    d.rectangle((500, 105, 900, 320), fill="#FFFFFF", outline="#9CA3AF", width=4)
+    d.rectangle((555, 150, 845, 265), fill="#2563EB")
+    people = [(155, 500), (290, 470), (425, 440), (560, 410), (695, 380)]
+    for idx, (x, y) in enumerate(people):
+        fill = "#2563EB" if idx == 0 else "#6B7280"
+        d.ellipse((x - 34, y - 90, x + 34, y - 22), fill=fill)
+        d.rounded_rectangle((x - 45, y - 25, x + 45, y + 105), radius=22, fill=fill)
+    d.line((105, 625, 790, 365), fill="#9CA3AF", width=8)
+    image.save(path)
+
+
 def main():
     ASSETS.mkdir(parents=True, exist_ok=True)
-    path = ASSETS / "product_ui_v1.png"
-    product_ui(path)
-    print(f"Created deterministic asset: {path.relative_to(ROOT)}")
+    product = ASSETS / "product_ui_v1.png"
+    hero = ASSETS / "problem_hero_structural_v1.png"
+    product_ui(product)
+    structural_problem_hero(hero)
+    print(f"Created deterministic asset: {product.relative_to(ROOT)}")
+    print(f"Created structural-only hero fixture: {hero.relative_to(ROOT)}")
 
 
 if __name__ == "__main__":
