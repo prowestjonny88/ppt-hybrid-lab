@@ -1,0 +1,181 @@
+name: Stage 3 Gemini Paid Probe
+
+on:
+  push:
+    paths:
+      - "benchmark/gemini-probe-trigger.txt"
+  workflow_dispatch:
+
+concurrency:
+  group: stage3-gemini-paid-probe
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      IMAGE_MODEL: gemini-3.1-flash-image
+      IMAGE_RESOLUTION: 2K
+      GENERATION_ID: gemini31flashimage-v1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate secret and exact stable model pin
+        run: |
+          test -n "${GEMINI_API_KEY}"
+          test "${IMAGE_MODEL}" = "gemini-3.1-flash-image"
+          test "${IMAGE_RESOLUTION}" = "2K"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build deterministic benchmark prompt
+        run: |
+          python -m pip install --upgrade pip
+          pip install pillow pyyaml
+          PYTHONPATH=. python scripts/create_queuezero_mock_assets.py
+          PYTHONPATH=. python scripts/build_stage3_variant_inputs.py
+          test -s dist/prompts/problem-hook.image_first.txt
+
+      - name: Make one resumable 2K Problem-slide request via official REST endpoint
+        id: request
+        shell: bash
+        run: |
+          set +e
+          mkdir -p benchmark/results
+          OUTDIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          mkdir -p "${OUTDIR}/image_first" "${OUTDIR}/prompts"
+          cp dist/prompts/problem-hook.image_first.txt "${OUTDIR}/prompts/"
+
+          jq -n \
+            --arg model "${IMAGE_MODEL}" \
+            --rawfile prompt dist/prompts/problem-hook.image_first.txt \
+            '{model:$model,input:$prompt,response_format:{type:"image",mime_type:"image/png",aspect_ratio:"16:9",image_size:"2K"}}' \
+            > /tmp/gemini-request.json
+
+          HTTP_CODE=$(curl -sS \
+            -D /tmp/gemini-headers.txt \
+            -o /tmp/gemini-response.json \
+            -w "%{http_code}" \
+            -X POST "https://generativelanguage.googleapis.com/v1beta/interactions" \
+            -H "x-goog-api-key: ${GEMINI_API_KEY}" \
+            -H "Content-Type: application/json" \
+            --data-binary @/tmp/gemini-request.json)
+          CURL_RC=$?
+
+          python - "$HTTP_CODE" "$CURL_RC" <<'PY'
+          import base64, hashlib, json, sys
+          from pathlib import Path
+
+          http_code = int(sys.argv[1]) if sys.argv[1].isdigit() else 0
+          curl_rc = int(sys.argv[2])
+          response_path = Path('/tmp/gemini-response.json')
+          headers_path = Path('/tmp/gemini-headers.txt')
+          response_text = response_path.read_text(errors='replace') if response_path.exists() else ''
+          headers = headers_path.read_text(errors='replace') if headers_path.exists() else ''
+          request_id = None
+          for line in headers.splitlines():
+              low = line.lower()
+              if low.startswith('x-request-id:') or low.startswith('x-goog-request-id:'):
+                  request_id = line.split(':', 1)[1].strip()
+                  break
+
+          result = {
+              'schema_version': 'stage3-gemini-paid-probe-v1',
+              'provider': 'Google Gemini Developer API',
+              'endpoint': 'v1beta/interactions',
+              'model': 'gemini-3.1-flash-image',
+              'resolution': '2K',
+              'aspect_ratio': '16:9',
+              'job': 'problem-hook.image_first',
+              'http_code': http_code,
+              'curl_exit_code': curl_rc,
+              'request_id': request_id,
+              'success': False,
+          }
+
+          try:
+              payload = json.loads(response_text) if response_text else {}
+          except Exception:
+              payload = {}
+
+          image_data = None
+          mime_type = None
+          for step in payload.get('steps', []) if isinstance(payload, dict) else []:
+              if step.get('type') != 'model_output':
+                  continue
+              for block in step.get('content', []) or []:
+                  if block.get('type') == 'image' and block.get('data'):
+                      image_data = block['data']
+                      mime_type = block.get('mime_type')
+                      break
+              if image_data:
+                  break
+
+          if 200 <= http_code < 300 and image_data:
+              raw = base64.b64decode(image_data)
+              out = Path('benchmark/generated/queuezero/gemini31flashimage-v1/image_first/problem_hook.png')
+              out.write_bytes(raw)
+              result.update({
+                  'success': True,
+                  'mime_type': mime_type,
+                  'image_bytes': len(raw),
+                  'image_sha256': hashlib.sha256(raw).hexdigest(),
+                  'output_path': str(out),
+                  'interaction_id': payload.get('id') if isinstance(payload, dict) else None,
+                  'model_returned': payload.get('model') if isinstance(payload, dict) else None,
+              })
+          else:
+              err = payload.get('error', {}) if isinstance(payload, dict) else {}
+              result['error'] = {
+                  'code': err.get('code'),
+                  'status': err.get('status'),
+                  'message': err.get('message') or (response_text[:4000] if response_text else 'no response body'),
+              }
+
+          Path('benchmark/results/GEMINI_IMAGE_PROBE.json').write_text(
+              json.dumps(result, indent=2, ensure_ascii=False) + '\n', encoding='utf-8'
+          )
+          print(json.dumps(result, indent=2, ensure_ascii=False))
+          if not result['success']:
+              raise SystemExit(2)
+          PY
+          PROBE_RC=$?
+          echo "probe_rc=${PROBE_RC}" >> "$GITHUB_OUTPUT"
+          exit 0
+
+      - name: Persist probe result and any successful first benchmark image
+        if: always()
+        run: |
+          git config user.name "stage3-gemini-probe"
+          git config user.email "stage3-gemini-probe@users.noreply.github.com"
+          git add -f benchmark/results/GEMINI_IMAGE_PROBE.json || true
+          git add -f "benchmark/generated/queuezero/${GENERATION_ID}/image_first/problem_hook.png" || true
+          git add -f "benchmark/generated/queuezero/${GENERATION_ID}/prompts/problem-hook.image_first.txt" || true
+          if git diff --cached --quiet; then
+            echo "No probe result changes"
+          else
+            git commit -m "benchmark: persist Gemini image probe result"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+
+      - name: Fail job after diagnostic is safely persisted
+        if: always()
+        env:
+          PROBE_RC: ${{ steps.request.outputs.probe_rc }}
+        run: |
+          if [ "${PROBE_RC}" != "0" ]; then
+            echo "Gemini paid probe failed; see benchmark/results/GEMINI_IMAGE_PROBE.json"
+            exit 1
+          fi
+          echo "Gemini paid probe succeeded and Problem image was persisted for benchmark reuse."
