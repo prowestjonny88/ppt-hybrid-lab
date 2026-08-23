@@ -1,0 +1,135 @@
+name: Stage 3 Image Baseline
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_spend:
+        description: "Type YES to allow paid OpenRouter image generation"
+        required: true
+        default: "NO"
+      model:
+        description: "OpenRouter image model slug"
+        required: true
+        default: "bytedance-seed/seedream-4.5"
+      resolution:
+        description: "Requested image resolution"
+        required: true
+        default: "2K"
+      generation_id:
+        description: "Persistent benchmark generation ID"
+        required: true
+        default: "seedream45-v1"
+
+concurrency:
+  group: stage3-image-baseline
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    env:
+      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      IMAGE_MODEL: ${{ inputs.model }}
+      IMAGE_RESOLUTION: ${{ inputs.resolution }}
+      GENERATION_ID: ${{ inputs.generation_id }}
+      CONFIRM_SPEND: ${{ inputs.confirm_spend }}
+
+    steps:
+      - name: Require explicit paid-generation approval
+        run: |
+          if [ "${CONFIRM_SPEND}" != "YES" ]; then
+            echo "Paid image generation was NOT approved. Re-run and type YES to proceed."
+            exit 1
+          fi
+          if ! [[ "${GENERATION_ID}" =~ ^[A-Za-z0-9._-]+$ ]]; then
+            echo "generation_id may contain only letters, digits, dot, underscore and hyphen"
+            exit 1
+          fi
+          if [ -z "${OPENROUTER_API_KEY}" ]; then
+            echo "OPENROUTER_API_KEY secret is missing"
+            exit 1
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install image-baseline dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pillow python-pptx pyyaml
+
+      - name: Build deterministic Stage 3 prompts
+        run: |
+          PYTHONPATH=. python scripts/create_queuezero_mock_assets.py
+          PYTHONPATH=. python scripts/build_stage3_variant_inputs.py
+
+      - name: Generate image-first slides and bounded hybrid hero
+        run: |
+          OUTPUT_DIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          python tools/stage3_openrouter_image_gen.py \
+            --model "${IMAGE_MODEL}" \
+            --resolution "${IMAGE_RESOLUTION}" \
+            --output-dir "${OUTPUT_DIR}"
+          mkdir -p "${OUTPUT_DIR}/prompts"
+          cp dist/prompts/*.txt "${OUTPUT_DIR}/prompts/"
+
+      - name: Package image-first PPTX
+        run: |
+          OUTPUT_DIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          PYTHONPATH=. python scripts/build_stage3_image_first.py \
+            --assets-dir "${OUTPUT_DIR}/image_first" \
+            --out "${OUTPUT_DIR}/queuezero_image_first.pptx" \
+            --manifest "${OUTPUT_DIR}/image_first/package_manifest.json"
+
+      - name: Audit image-first structural baseline
+        run: |
+          OUTPUT_DIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          PYTHONPATH=. python - <<'PY'
+          import os
+          from pathlib import Path
+          from pptx import Presentation
+          from pptx.enum.shapes import MSO_SHAPE_TYPE
+
+          root = Path("benchmark/generated/queuezero") / os.environ["GENERATION_ID"]
+          prs = Presentation(root / "queuezero_image_first.pptx")
+          if len(prs.slides) != 3:
+              raise SystemExit(f"expected 3 slides, got {len(prs.slides)}")
+          for idx, slide in enumerate(prs.slides, 1):
+              if len(slide.shapes) != 1:
+                  raise SystemExit(f"slide {idx}: expected exactly one full-slide picture")
+              shape = slide.shapes[0]
+              if shape.shape_type != MSO_SHAPE_TYPE.PICTURE:
+                  raise SystemExit(f"slide {idx}: baseline object is not a picture")
+              if shape.width < prs.slide_width * 0.99 or shape.height < prs.slide_height * 0.99:
+                  raise SystemExit(f"slide {idx}: picture is not full-slide")
+          print("Image-first structural baseline passed: 3 slides, 3 full-slide pictures")
+          PY
+
+      - name: Upload paid visual benchmark artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: queuezero-stage3-${{ inputs.generation_id }}
+          path: benchmark/generated/queuezero/${{ inputs.generation_id }}/
+          if-no-files-found: error
+
+      - name: Persist generated benchmark assets
+        run: |
+          OUTPUT_DIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          git config user.name "stage3-image-worker"
+          git config user.email "stage3-image-worker@users.noreply.github.com"
+          git add -f "${OUTPUT_DIR}"
+          if git diff --cached --quiet; then
+            echo "No generated benchmark changes"
+          else
+            git commit -m "benchmark: persist ${GENERATION_ID} OpenRouter visual baseline"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
