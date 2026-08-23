@@ -3,6 +3,9 @@ name: OX Worker
 on:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   run-ox-worker:
     runs-on: ubuntu-latest
