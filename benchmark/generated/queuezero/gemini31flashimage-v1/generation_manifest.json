@@ -1,0 +1,168 @@
+{
+  "schema_version": "stage3-gemini-image-generation-v2",
+  "provider": "Google Gemini Developer API",
+  "model": "gemini-3.1-flash-image",
+  "resolved_model": "models/gemini-3.1-flash-image",
+  "resolution": "2K",
+  "output_mime_type": "image/jpeg",
+  "fallback_allowed": false,
+  "jobs": [
+    {
+      "status": "success",
+      "kind": "image_first",
+      "model": "gemini-3.1-flash-image",
+      "prompt_path": "dist/prompts/problem-hook.image_first.txt",
+      "prompt_sha256": "0659fd26a78e46e26df84aad9488430240b0bf727c213596f92b3c11f1944667",
+      "output_path": "benchmark/generated/queuezero/gemini31flashimage-v1/image_first/problem_hook.jpg",
+      "image_sha256": "386e16c2fadcc2259bde115061c8fc08f259718cb8112a33a3109c9b0082ab7d",
+      "image_bytes": 2376434,
+      "mime_type": "image/jpeg",
+      "aspect_ratio": "16:9",
+      "image_size": "2K",
+      "response": {
+        "interaction_id": "v1_Chd3ZW1LYXJXcUs4Q0xxdHNQN2VIWmdBSRIXd2VtS2FyV3FLOENMcXRzUDdlSFpnQUk",
+        "output_text": "",
+        "usage": {
+          "input_tokens_by_modality": [
+            {
+              "modality": "text",
+              "tokens": 589
+            }
+          ],
+          "output_tokens_by_modality": [
+            {
+              "modality": "image",
+              "tokens": 1120
+            }
+          ],
+          "total_cached_tokens": 0,
+          "total_input_tokens": 589,
+          "total_output_tokens": 1646,
+          "total_thought_tokens": 0,
+          "total_tokens": 2235,
+          "total_tool_use_tokens": 0,
+          "raw_prompt_token": 1031
+        },
+        "mime_type": "image/jpeg"
+      }
+    },
+    {
+      "status": "success",
+      "kind": "image_first",
+      "model": "gemini-3.1-flash-image",
+      "prompt_path": "dist/prompts/how-it-works.image_first.txt",
+      "prompt_sha256": "c7e2aeafd8d180cb7d57a50460fc4e922e7a374bdfa6d2a485309c918835a0a5",
+      "output_path": "benchmark/generated/queuezero/gemini31flashimage-v1/image_first/how_it_works.jpg",
+      "image_sha256": "116db509f247e24f8a7277bde303c6d56e3c22d2717c06bae7b5ea32a012484d",
+      "image_bytes": 2027537,
+      "mime_type": "image/jpeg",
+      "aspect_ratio": "16:9",
+      "image_size": "2K",
+      "response": {
+        "interaction_id": "v1_ChcwT21LYXYtOE5fQ0NxdHNQZzlPRTJBNBIXME9tS2F2LThOX0NDcXRzUGc5T0UyQTQ",
+        "output_text": "",
+        "usage": {
+          "input_tokens_by_modality": [
+            {
+              "modality": "text",
+              "tokens": 600
+            }
+          ],
+          "output_tokens_by_modality": [
+            {
+              "modality": "image",
+              "tokens": 1120
+            }
+          ],
+          "total_cached_tokens": 0,
+          "total_input_tokens": 600,
+          "total_output_tokens": 1610,
+          "total_thought_tokens": 0,
+          "total_tokens": 2210,
+          "total_tool_use_tokens": 0,
+          "raw_prompt_token": 1042
+        },
+        "mime_type": "image/jpeg"
+      }
+    },
+    {
+      "status": "success",
+      "kind": "image_first",
+      "model": "gemini-3.1-flash-image",
+      "prompt_path": "dist/prompts/validation-traction.image_first.txt",
+      "prompt_sha256": "2e4b3187585f7d9ce95aa872587cb7d65f30c4685aced4e9f13f67e9653c5902",
+      "output_path": "benchmark/generated/queuezero/gemini31flashimage-v1/image_first/validation_traction.jpg",
+      "image_sha256": "de255dd853fd61ad0c7658ae19390c70fb9682d4d4d54712e64cd097d9194dc5",
+      "image_bytes": 2211968,
+      "mime_type": "image/jpeg",
+      "aspect_ratio": "16:9",
+      "image_size": "2K",
+      "response": {
+        "interaction_id": "v1_ChczLW1LYXNLNktjMjdxdHNQNm8zS3lRWRIXMy1tS2FzSzZLYzI3cXRzUDZvM0t5UVk",
+        "output_text": "",
+        "usage": {
+          "input_tokens_by_modality": [
+            {
+              "modality": "text",
+              "tokens": 731
+            }
+          ],
+          "output_tokens_by_modality": [
+            {
+              "modality": "image",
+              "tokens": 1120
+            }
+          ],
+          "total_cached_tokens": 0,
+          "total_input_tokens": 731,
+          "total_output_tokens": 1648,
+          "total_thought_tokens": 0,
+          "total_tokens": 2379,
+          "total_tool_use_tokens": 0,
+          "raw_prompt_token": 1173
+        },
+        "mime_type": "image/jpeg"
+      }
+    },
+    {
+      "status": "success",
+      "kind": "hybrid_bounded_asset",
+      "model": "gemini-3.1-flash-image",
+      "prompt_path": "dist/prompts/problem-hook.problem_hero.hybrid.txt",
+      "prompt_sha256": "7002bee87132c91db5ad5c1f0efd45a22a869bdb9aeffecbd2972ca0d55a6a28",
+      "output_path": "benchmark/generated/queuezero/gemini31flashimage-v1/hybrid/problem_hero.jpg",
+      "image_sha256": "763090b6884bc9bf289fae55842eeb2eef144f016928f9c8f6b62de68dc814c6",
+      "image_bytes": 2864234,
+      "mime_type": "image/jpeg",
+      "aspect_ratio": "4:3",
+      "image_size": "2K",
+      "response": {
+        "interaction_id": "v1_Chc4T21LYXFiY0Y3aUpxdHNQd0pYQjhBRRIXOE9tS2FxYmNGN2lKcXRzUHdKWEI4QUU",
+        "output_text": "",
+        "usage": {
+          "input_tokens_by_modality": [
+            {
+              "modality": "text",
+              "tokens": 248
+            }
+          ],
+          "output_tokens_by_modality": [
+            {
+              "modality": "image",
+              "tokens": 1120
+            }
+          ],
+          "total_cached_tokens": 0,
+          "total_input_tokens": 248,
+          "total_output_tokens": 1517,
+          "total_thought_tokens": 0,
+          "total_tokens": 1765,
+          "total_tool_use_tokens": 0,
+          "raw_prompt_token": 690
+        },
+        "mime_type": "image/jpeg"
+      }
+    }
+  ],
+  "complete": true
+}

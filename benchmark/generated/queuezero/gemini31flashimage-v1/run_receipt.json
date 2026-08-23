@@ -1,0 +1,14 @@
+{
+  "schema_version": "stage3-visual-benchmark-run-v1",
+  "model": "gemini-3.1-flash-image",
+  "resolution": "2K",
+  "output_mime_type": "image/jpeg",
+  "generation_id": "gemini31flashimage-v1",
+  "steps": {
+    "generate_assets": "success",
+    "package_image_first": "failure",
+    "audit_image_first": "skipped",
+    "build_hybrid_visual": "skipped",
+    "audit_visual_assets": "skipped"
+  }
+}

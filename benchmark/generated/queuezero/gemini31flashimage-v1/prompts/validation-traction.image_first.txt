@@ -1,0 +1,47 @@
+Create ONE complete 16:9 hackathon pitch slide as a full-slide image baseline.
+This is a controlled architecture benchmark. Preserve all supplied semantics exactly; do not add facts, metrics, claims, labels, badges, or validation status.
+
+SLIDE ROLE: validation_traction
+GOVERNING CLAIM: Early testing clears the bar for a semester pilot.
+ACTION TITLE (exact text): Early testing clears the bar for a semester pilot
+SUBTITLE (exact text): Technical accuracy and user intent are promising; retention and paid adoption remain unproven.
+WHY IT MATTERS: The prototype has measurable technical performance and an initial demand signal, while retention and paid adoption remain unproven.
+
+PROOF OBJECT: validation_stack
+PROOF LOGIC: Separate measured technical performance from early user-demand evidence, then terminate in an explicitly unproven pilot gate.
+
+EXACT SEMANTIC TEXT / METRICS:
+- title (title): Early testing clears the bar for a semester pilot
+- subtitle (subtitle): Technical accuracy and user intent are promising; retention and paid adoption remain unproven.
+- metric_mae (metric): 3.8 min — prediction MAE
+- metric_weekly_intent (metric): 76% — would use weekly
+- metric_students (metric): 42 — students tested
+- metric_cafeterias (metric): 3 — cafeterias
+- pilot_gate (annotation): Next proof: one-university semester pilot
+- source_note (source_note): Source: QueueZero controlled benchmark brief
+
+EVIDENCE BOUNDARY:
+- [confirmed] QueueZero achieved a mean absolute error of 3.8 min in the benchmark scenario.
+  Boundary: does not prove production reliability.
+  Boundary: does not prove commercial viability.
+- [confirmed] 42 students were included in the initial test.
+  Boundary: does not prove campus-wide adoption.
+  Boundary: does not prove retention.
+- [confirmed] 76% of tested students reported weekly-use intent.
+  Boundary: does not prove actual weekly retention.
+  Boundary: does not prove paid conversion.
+  Boundary: does not prove market fit.
+- [confirmed] The prototype was tested across 3 cafeterias.
+  Boundary: does not prove cross-campus scalability.
+- [uncertainty] A semester-long university pilot has not yet been completed.
+
+VISUAL SEMANTIC GUARDRAILS:
+- Do NOT imply: weekly-use intent proves actual retention
+- Do NOT depict: validated retention badge
+- Do NOT imply: the initial test proves market fit
+- Do NOT depict: market fit achieved
+
+HIERARCHY: action title is the single highest-priority conclusion; the proof object is the visual protagonist; source notes are low-weight. Do not create a second title-like conclusion or detached KPI rail.
+STYLE: polished modern hackathon pitch deck, strong information hierarchy, premium editorial composition, selective depth, not a generic dashboard/card grid.
+PALETTE TOKENS: accent.primary=#2563EB, accent.on=#FFFFFF, surface=#F7F8FA, surface.raised=#FFFFFF, text.primary=#111827, text.secondary=#4B5563, line.subtle=#D1D5DB, status.pending=#D97706
+OUTPUT: full-bleed 16:9 slide image only. All visible slide text must use the exact supplied wording.

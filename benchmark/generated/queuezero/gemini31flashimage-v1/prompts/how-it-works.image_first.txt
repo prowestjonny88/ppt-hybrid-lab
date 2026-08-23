@@ -1,0 +1,37 @@
+Create ONE complete 16:9 hackathon pitch slide as a full-slide image baseline.
+This is a controlled architecture benchmark. Preserve all supplied semantics exactly; do not add facts, metrics, claims, labels, badges, or validation status.
+
+SLIDE ROLE: how_it_works
+GOVERNING CLAIM: QueueZero turns a live camera feed into a simple wait-time decision.
+ACTION TITLE (exact text): From camera feed to a wait-time decision in three steps
+SUBTITLE (exact text): Observe the queue → estimate the wait → tell students whether to go now.
+WHY IT MATTERS: The system is useful only if the technical pipeline resolves into an understandable, actionable product experience.
+
+PROOF OBJECT: workflow_runtime_map
+PROOF LOGIC: Show the technical chain as a directional pipeline and pair it with an independently replaceable product screenshot.
+
+EXACT SEMANTIC TEXT / METRICS:
+- title (title): From camera feed to a wait-time decision in three steps
+- subtitle (subtitle): Observe the queue → estimate the wait → tell students whether to go now.
+- node_camera (diagram_node): Camera feed
+- node_queue_estimator (diagram_node): Queue length
+- node_wait_predictor (diagram_node): Wait prediction
+- node_decision (diagram_node): Go now / choose another cafeteria
+- source_note (source_note): Source: QueueZero controlled benchmark brief
+
+EVIDENCE BOUNDARY:
+- [confirmed] QueueZero uses computer vision to observe queue length.
+  Boundary: does not prove perfect object detection.
+  Boundary: does not prove privacy compliance.
+- [confirmed] The system predicts cafeteria wait time from the observed queue state.
+  Boundary: does not prove production-grade accuracy in every environment.
+
+VISUAL SEMANTIC GUARDRAILS:
+- Do NOT imply: the architecture diagram proves production accuracy or privacy compliance
+- Do NOT depict: privacy certified
+- Do NOT depict: 100% accurate
+
+HIERARCHY: action title is the single highest-priority conclusion; the proof object is the visual protagonist; source notes are low-weight. Do not create a second title-like conclusion or detached KPI rail.
+STYLE: polished modern hackathon pitch deck, strong information hierarchy, premium editorial composition, selective depth, not a generic dashboard/card grid.
+PALETTE TOKENS: accent.primary=#2563EB, accent.on=#FFFFFF, surface=#F7F8FA, surface.raised=#FFFFFF, text.primary=#111827, text.secondary=#4B5563, line.subtle=#D1D5DB, status.pending=#D97706
+OUTPUT: full-bleed 16:9 slide image only. All visible slide text must use the exact supplied wording.

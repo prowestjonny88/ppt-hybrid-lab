@@ -1,0 +1,16 @@
+Create ONE bounded visual asset for a hybrid PowerPoint slide, NOT a complete slide.
+Slide role: problem_hook
+Asset slot: problem_hero
+Target aspect ratio: 1.333
+Target normalized region: {"h": 0.64, "w": 0.455, "x": 0.49, "y": 0.22}
+Composition anchor: queue scene concentrated lower-right; keep upper-left visually quiet
+The asset MUST contain NO slide typography, labels, metrics, captions, UI copy, logos, or readable signage.
+The native PowerPoint layer will supply all information-bearing text and numbers.
+Visual style: premium hackathon presentation visual, coherent with a clean modern product pitch, realistic enough to carry first-impression quality without looking like stock art.
+Palette references: accent.primary, surface
+Do NOT depict: legible signage with invented claims
+Do NOT depict: embedded slide typography
+Do NOT depict: numeric wait labels
+- Do NOT imply: every student always waits 30 minutes
+- Do NOT depict: embedded numeric wait times other than the supplied range
+- Do NOT depict: text baked into generated hero art
