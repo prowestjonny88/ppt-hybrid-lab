@@ -192,7 +192,7 @@ def compile_how_it_works(root, ppt_master_root, workspace):
     validation.mkdir(parents=True, exist_ok=True)
 
     checker = ppt_master_root / "skills/ppt-master/scripts/svg_quality_checker.py"
-    cli = ppt_master_root / "skills/ppt-master/scripts/svg_to_pptx/pptx_package/cli.py"
+    cli = ppt_master_root / "skills/ppt-master/scripts/svg_to_pptx.py"
     if not checker.exists() or not cli.exists():
         raise RuntimeError("pinned PPT Master checkout is incomplete")
 
