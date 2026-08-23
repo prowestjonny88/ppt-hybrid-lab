@@ -1,0 +1,1 @@
+reproduce image-first package failure without any Gemini API calls
