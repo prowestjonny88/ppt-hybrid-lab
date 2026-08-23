@@ -1,7 +1,7 @@
 {
   "id": "task-004",
   "type": "layout_engine_analysis",
-  "status": "PENDING",
+  "status": "COMPLETE",
   "repository": "likaku/Mck-ppt-design-skill",
   "objective": "Forensically identify the native PowerPoint composition primitives, reusable layouts/components, object-generation patterns, and QA mechanisms in Mck-ppt-design-skill that are most useful for the Stage 3 QueueZero native-vector and hybrid benchmark. Focus on actual implementation and generated-object mechanics, not McKinsey styling claims. Determine what can be reused as engineering principles without turning our system into a rigid template library.",
   "questions": [
@@ -72,5 +72,41 @@
     "Gaps requiring SVG/vector or new components",
     "Unknowns and exact follow-up requests"
   ],
-  "output": ".ox/reports/task-004-mck-native-components.md"
+  "output": ".ox/reports/task-004-mck-native-components.md",
+  "inspected_repository": {
+    "repository": "likaku/Mck-ppt-design-skill",
+    "ref": "e190e083b715b63172e1c4fea01bc5f9bb21a021",
+    "source": "https://github.com/likaku/Mck-ppt-design-skill.git"
+  },
+  "context_package": {
+    "tracked_file_count": 53,
+    "eligible_text_file_count": 29,
+    "focus_match_count": 26,
+    "included_file_count": 19,
+    "included_files": [
+      "run_qa_tests.py",
+      "mck_ppt/cover_image.py",
+      "mck_ppt/qa.py",
+      "references/layout-catalog.md",
+      "references/layout-matrix.yaml",
+      "SKILL.md",
+      "examples/minimal_example.py",
+      "examples/staircase_civilization.py",
+      "mck_ppt/__init__.py",
+      "mck_ppt/constants.py",
+      "mck_ppt/core.py",
+      "mck_ppt/deck_builder.py",
+      "mck_ppt/engine.py",
+      "mck_ppt/review.py",
+      "references/INDEX.md",
+      "references/color-palette.md",
+      "scripts/generate_icons.py",
+      "scripts/minimal_example.py",
+      "mck_ppt/storylines/ai_enterprise.py"
+    ],
+    "context_chars": 280000,
+    "max_files": 45,
+    "max_file_bytes": 90000,
+    "max_context_chars": 280000
+  }
 }
