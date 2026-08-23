@@ -71,17 +71,27 @@ def _svg_realization(slide, semantics):
     return records
 
 
-def _render_hybrid_problem(em, root):
+def _render_hybrid_problem(em, root, hero_asset=None):
     s = em.semantics
     em.text("title", _text(s, "title"), "title_band", (0, 0, 1, 0.52), role="title", part="title")
     em.text("subtitle", _text(s, "subtitle"), "title_band", (0, 0.58, 1, 0.32), role="subtitle", part="subtitle")
     em.metric_card("metric_wait", _text(s, "metric_wait"), _label(s, "metric_wait"), "problem_copy", (0.00, 0.04, 0.65, 0.36))
     em.text("pain_annotation", _text(s, "pain_annotation"), "problem_copy", (0.00, 0.50, 0.92, 0.38), role="annotation", part="annotation")
-    hero = root / "experiment/queuezero/assets/problem_hero_structural_v1.png"
+
+    if hero_asset is None:
+        hero = root / "experiment/queuezero/assets/problem_hero_structural_v1.png"
+        visual_quality_status = "structural_fixture_only_not_scored"
+    else:
+        hero = Path(hero_asset)
+        if not hero.is_absolute():
+            hero = root / hero
+        visual_quality_status = "real_generated_bounded_asset"
     if not hero.exists():
-        raise RuntimeError("structural hero fixture missing; run scripts/create_queuezero_mock_assets.py")
+        raise RuntimeError(f"hybrid Problem hero missing: {hero}")
+
     em.picture("hero_visual_slot", hero, "hero_frame", lane="image")
     em.text("source_note", _text(s, "source_note"), "footer_region", role="source_note", part="source")
+    return visual_quality_status, hero
 
 
 def _decorate_how_it_works(em, root):
@@ -103,7 +113,7 @@ def _move_second_slide_to_front(prs):
     sld_id_lst.insert(0, ids[1])
 
 
-def build_hybrid(root, ppt_master_root, output_pptx, realization_dir, adapter_workspace=None):
+def build_hybrid(root, ppt_master_root, output_pptx, realization_dir, adapter_workspace=None, hero_asset=None):
     root = Path(root)
     deck_system = load_json(root / "experiment/queuezero/deck_system.stage3.json")
     semantics_dir = root / "experiment/queuezero/slide_semantics"
@@ -127,7 +137,6 @@ def build_hybrid(root, ppt_master_root, output_pptx, realization_dir, adapter_wo
         raise RuntimeError("PPT Master flat package exposes no reusable slide layout")
     blank = prs.slide_layouts[0]
 
-    # Slide 1 currently holds the SVG-compiled How-It-Works diagram.
     how_slide = prs.slides[0]
     svg_records = _svg_realization(how_slide, how)
     how_em = Stage3Emitter(how, deck_system, how_slide, variant="hybrid")
@@ -149,11 +158,12 @@ def build_hybrid(root, ppt_master_root, output_pptx, realization_dir, adapter_wo
 
     problem_slide = prs.slides.add_slide(blank)
     problem_em = Stage3Emitter(problem, deck_system, problem_slide, variant="hybrid")
-    _render_hybrid_problem(problem_em, root)
+    visual_quality_status, hero = _render_hybrid_problem(problem_em, root, hero_asset=hero_asset)
     problem_realization = problem_em.realization()
     problem_realization["semantic_hash"] = canonical_hash(problem)
     problem_realization["render_plan"] = "experiment/queuezero/render_plans/problem_hook.hybrid.json"
-    problem_realization["visual_quality_status"] = "structural_fixture_only_not_scored"
+    problem_realization["visual_quality_status"] = visual_quality_status
+    problem_realization["hero_asset"] = str(hero)
 
     validation_slide = prs.slides.add_slide(blank)
     validation_em = Stage3Emitter(validation, deck_system, validation_slide, variant="hybrid")
@@ -162,7 +172,6 @@ def build_hybrid(root, ppt_master_root, output_pptx, realization_dir, adapter_wo
     validation_realization["semantic_hash"] = canonical_hash(validation)
     validation_realization["render_plan"] = "experiment/queuezero/render_plans/validation_traction.hybrid.json"
 
-    # Current order is How-It-Works, Problem, Validation. Benchmark order is Problem, How, Validation.
     _move_second_slide_to_front(prs)
 
     output_pptx = Path(output_pptx)
@@ -181,7 +190,8 @@ def build_hybrid(root, ppt_master_root, output_pptx, realization_dir, adapter_wo
         "ppt_master_commit": adapter["ppt_master_commit"],
         "svg_sha256": adapter["svg_sha256"],
         "mapped": adapter["mapped"],
-        "visual_quality_status": "problem hero uses structural fixture until real image-generation asset is supplied",
+        "visual_quality_status": visual_quality_status,
+        "problem_hero_asset": str(hero),
     }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
     if temp is not None:
