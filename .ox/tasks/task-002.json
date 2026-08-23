@@ -1,5 +1,6 @@
 {
   "id": "task-002",
+  "attempt": 2,
   "type": "rendering_pipeline_analysis",
   "status": "PENDING",
   "repository": "hugohe3/ppt-master",
@@ -33,22 +34,20 @@
     "**/*.pdf"
   ],
   "focus_terms": [
-    "svg",
     "drawingml",
     "converter",
-    "convert",
-    "text",
-    "path",
-    "gradient",
-    "clip",
+    "unsupported",
+    "foreignObject",
+    "clipPath",
     "mask",
-    "image",
-    "shape",
-    "pptx"
+    "gradient",
+    "marker",
+    "text",
+    "transform"
   ],
-  "max_files": 55,
-  "max_file_bytes": 90000,
-  "max_context_chars": 400000,
+  "max_files": 42,
+  "max_file_bytes": 80000,
+  "max_context_chars": 300000,
   "evidence_required": true,
   "expected_output": [
     "Executive finding",
