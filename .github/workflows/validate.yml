@@ -7,6 +7,7 @@ on:
       - "experiment/queuezero/**"
       - "tests/**"
       - "src/**"
+      - "scripts/**"
       - ".github/workflows/validate.yml"
   pull_request:
     paths:
@@ -14,6 +15,7 @@ on:
       - "experiment/queuezero/**"
       - "tests/**"
       - "src/**"
+      - "scripts/**"
   workflow_dispatch:
 
 permissions:
@@ -44,3 +46,17 @@ jobs:
 
       - name: Probe V2 native single-object patch
         run: python tests/probes/native_patch_probe.py
+
+      - name: Build native-vector QueueZero benchmark deck
+        run: python scripts/build_stage3_native.py
+
+      - name: Audit native-vector PPTX objects and realization mapping
+        run: python tests/audit_native_output.py
+
+      - name: Upload native-vector benchmark artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: queuezero-native-vector-stage3
+          path: |
+            dist/queuezero_native_vector.pptx
+            dist/realizations/native_vector/*.json
