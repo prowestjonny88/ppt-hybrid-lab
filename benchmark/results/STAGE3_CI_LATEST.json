@@ -1,9 +1,9 @@
 {
   "schema_version": "stage3-ci-receipt-v1",
-  "generated_at": "2026-08-23T07:36:32.350368+00:00",
+  "generated_at": "2026-08-23T07:38:17.534329+00:00",
   "workflow_status": "failure",
-  "commit": "f8043a79e9906dba65321a527069855742455664",
-  "run_id": "32625988156",
+  "commit": "4cd7eb0b08041baa3b67c0d657c07a220948a74d",
+  "run_id": "32626066432",
   "run_attempt": "1",
   "steps": {
     "validate_semantics": "success",
@@ -13,18 +13,298 @@
     "variant_inputs": "success",
     "build_native": "success",
     "audit_native": "success",
-    "build_hybrid": "failure",
-    "audit_hybrid": "skipped",
-    "panic_native": "skipped",
+    "build_hybrid": "success",
+    "audit_hybrid": "success",
+    "panic_native": "failure",
     "panic_hybrid": "skipped"
   },
   "artifacts_present": {
     "native_vector_pptx": true,
-    "hybrid_pptx": false,
+    "hybrid_pptx": true,
     "ppt_master_trace": true
   },
   "panic": {
-    "native_vector": null,
+    "native_vector": {
+      "variant": "native_vector",
+      "results": [
+        {
+          "edit_id": "P1",
+          "variant": "native_vector",
+          "applicable": true,
+          "outcome": "DIRECT_PPT_EDIT",
+          "score": 5,
+          "pre_edit_addressable_objects": 50,
+          "changed_objects": [
+            "oxq:validation-traction:metric_weekly_intent:value"
+          ],
+          "expected_changed_objects": [
+            "oxq:validation-traction:metric_weekly_intent:value"
+          ],
+          "unexpected_changed_objects": [],
+          "collateral_damage_ratio": 0.0,
+          "ai_call_count": 0,
+          "notes": []
+        },
+        {
+          "edit_id": "P2",
+          "variant": "native_vector",
+          "applicable": true,
+          "outcome": "DIRECT_PPT_EDIT",
+          "score": 5,
+          "pre_edit_addressable_objects": 50,
+          "changed_objects": [
+            "oxq:problem-hook:title:title"
+          ],
+          "expected_changed_objects": [
+            "oxq:problem-hook:title:title"
+          ],
+          "unexpected_changed_objects": [],
+          "collateral_damage_ratio": 0.0,
+          "ai_call_count": 0,
+          "notes": []
+        },
+        {
+          "edit_id": "P3",
+          "variant": "native_vector",
+          "applicable": true,
+          "outcome": "DIRECT_PPT_EDIT",
+          "score": 5,
+          "pre_edit_addressable_objects": 50,
+          "changed_objects": [
+            "oxq:how-it-works:screenshot_main:picture"
+          ],
+          "expected_changed_objects": [
+            "oxq:how-it-works:screenshot_main:picture"
+          ],
+          "unexpected_changed_objects": [],
+          "collateral_damage_ratio": 0.0,
+          "ai_call_count": 0,
+          "notes": []
+        },
+        {
+          "edit_id": "P4",
+          "variant": "native_vector",
+          "applicable": true,
+          "outcome": "DIRECT_PPT_EDIT",
+          "score": 5,
+          "pre_edit_addressable_objects": 50,
+          "changed_objects": [
+            "oxq:validation-traction:metric_weekly_intent:card",
+            "oxq:validation-traction:metric_weekly_intent:label",
+            "oxq:validation-traction:metric_weekly_intent:value"
+          ],
+          "expected_changed_objects": [
+            "oxq:validation-traction:metric_weekly_intent:card",
+            "oxq:validation-traction:metric_weekly_intent:label",
+            "oxq:validation-traction:metric_weekly_intent:value"
+          ],
+          "unexpected_changed_objects": [],
+          "collateral_damage_ratio": 0.0,
+          "ai_call_count": 0,
+          "notes": []
+        },
+        {
+          "edit_id": "P5",
+          "variant": "native_vector",
+          "applicable": true,
+          "outcome": "DIRECT_PPT_EDIT",
+          "score": 5,
+          "pre_edit_addressable_objects": 50,
+          "changed_objects": [
+            "oxq:problem-hook:title:title"
+          ],
+          "expected_changed_objects": [
+            "oxq:problem-hook:title:title"
+          ],
+          "unexpected_changed_objects": [],
+          "collateral_damage_ratio": 0.0,
+          "ai_call_count": 0,
+          "notes": []
+        },
+        {
+          "edit_id": "P6",
+          "variant": "native_vector",
+          "applicable": true,
+          "outcome": "DIRECT_PPT_EDIT",
+          "score": 3,
+          "pre_edit_addressable_objects": 50,
+          "changed_objects": [
+            "oxq:how-it-works:connector_camera_queue:arrow",
+            "oxq:how-it-works:connector_camera_queue:line",
+            "oxq:how-it-works:connector_prediction_decision:arrow",
+            "oxq:how-it-works:connector_prediction_decision:line",
+            "oxq:how-it-works:connector_queue_prediction:arrow",
+            "oxq:how-it-works:connector_queue_prediction:line",
+            "oxq:how-it-works:node_camera:label",
+            "oxq:how-it-works:node_decision:label",
+            "oxq:how-it-works:node_queue_estimator:label",
+            "oxq:how-it-works:node_wait_predictor:label",
+            "oxq:how-it-works:node_wait_predictor:node",
+            "oxq:how-it-works:screenshot_main:picture",
+            "oxq:how-it-works:source_note:source",
+            "oxq:how-it-works:subtitle:subtitle",
+            "oxq:how-it-works:title:title",
+            "oxq:problem-hook:hero_visual_slot:caption",
+            "oxq:problem-hook:hero_visual_slot:counter",
+            "oxq:problem-hook:hero_visual_slot:counter_label",
+            "oxq:problem-hook:hero_visual_slot:person1",
+            "oxq:problem-hook:hero_visual_slot:person2",
+            "oxq:problem-hook:hero_visual_slot:person3",
+            "oxq:problem-hook:hero_visual_slot:person4",
+            "oxq:problem-hook:metric_wait:label",
+            "oxq:problem-hook:metric_wait:value",
+            "oxq:problem-hook:pain_annotation:annotation",
+            "oxq:problem-hook:source_note:source",
+            "oxq:problem-hook:subtitle:subtitle",
+            "oxq:problem-hook:title:title",
+            "oxq:validation-traction:metric_cafeterias:label",
+            "oxq:validation-traction:metric_cafeterias:value",
+            "oxq:validation-traction:metric_mae:label",
+            "oxq:validation-traction:metric_mae:value",
+            "oxq:validation-traction:metric_students:label",
+            "oxq:validation-traction:metric_students:value",
+            "oxq:validation-traction:metric_weekly_intent:label",
+            "oxq:validation-traction:metric_weekly_intent:value",
+            "oxq:validation-traction:pilot_gate:label",
+            "oxq:validation-traction:source_note:source",
+            "oxq:validation-traction:subtitle:subtitle",
+            "oxq:validation-traction:title:title"
+          ],
+          "expected_changed_objects": [
+            "oxq:how-it-works:connector_camera_queue:arrow",
+            "oxq:how-it-works:connector_camera_queue:line",
+            "oxq:how-it-works:connector_prediction_decision:arrow",
+            "oxq:how-it-works:connector_prediction_decision:line",
+            "oxq:how-it-works:connector_queue_prediction:arrow",
+            "oxq:how-it-works:connector_queue_prediction:line",
+            "oxq:how-it-works:node_wait_predictor:node",
+            "oxq:problem-hook:hero_visual_slot:counter",
+            "oxq:problem-hook:hero_visual_slot:person1",
+            "oxq:problem-hook:metric_wait:value",
+            "oxq:validation-traction:metric_cafeterias:value",
+            "oxq:validation-traction:metric_mae:value",
+            "oxq:validation-traction:metric_students:value",
+            "oxq:validation-traction:metric_weekly_intent:value"
+          ],
+          "unexpected_changed_objects": [
+            "oxq:how-it-works:node_camera:label",
+            "oxq:how-it-works:node_decision:label",
+            "oxq:how-it-works:node_queue_estimator:label",
+            "oxq:how-it-works:node_wait_predictor:label",
+            "oxq:how-it-works:screenshot_main:picture",
+            "oxq:how-it-works:source_note:source",
+            "oxq:how-it-works:subtitle:subtitle",
+            "oxq:how-it-works:title:title",
+            "oxq:problem-hook:hero_visual_slot:caption",
+            "oxq:problem-hook:hero_visual_slot:counter_label",
+            "oxq:problem-hook:hero_visual_slot:person2",
+            "oxq:problem-hook:hero_visual_slot:person3",
+            "oxq:problem-hook:hero_visual_slot:person4",
+            "oxq:problem-hook:metric_wait:label",
+            "oxq:problem-hook:pain_annotation:annotation",
+            "oxq:problem-hook:source_note:source",
+            "oxq:problem-hook:subtitle:subtitle",
+            "oxq:problem-hook:title:title",
+            "oxq:validation-traction:metric_cafeterias:label",
+            "oxq:validation-traction:metric_mae:label",
+            "oxq:validation-traction:metric_students:label",
+            "oxq:validation-traction:metric_weekly_intent:label",
+            "oxq:validation-traction:pilot_gate:label",
+            "oxq:validation-traction:source_note:source",
+            "oxq:validation-traction:subtitle:subtitle",
+            "oxq:validation-traction:title:title"
+          ],
+          "collateral_damage_ratio": 0.52,
+          "ai_call_count": 0,
+          "notes": [
+            "unexpected changed objects: ['oxq:how-it-works:node_camera:label', 'oxq:how-it-works:node_decision:label', 'oxq:how-it-works:node_queue_estimator:label', 'oxq:how-it-works:node_wait_predictor:label', 'oxq:how-it-works:screenshot_main:picture', 'oxq:how-it-works:source_note:source', 'oxq:how-it-works:subtitle:subtitle', 'oxq:how-it-works:title:title', 'oxq:problem-hook:hero_visual_slot:caption', 'oxq:problem-hook:hero_visual_slot:counter_label', 'oxq:problem-hook:hero_visual_slot:person2', 'oxq:problem-hook:hero_visual_slot:person3', 'oxq:problem-hook:hero_visual_slot:person4', 'oxq:problem-hook:metric_wait:label', 'oxq:problem-hook:pain_annotation:annotation', 'oxq:problem-hook:source_note:source', 'oxq:problem-hook:subtitle:subtitle', 'oxq:problem-hook:title:title', 'oxq:validation-traction:metric_cafeterias:label', 'oxq:validation-traction:metric_mae:label', 'oxq:validation-traction:metric_students:label', 'oxq:validation-traction:metric_weekly_intent:label', 'oxq:validation-traction:pilot_gate:label', 'oxq:validation-traction:source_note:source', 'oxq:validation-traction:subtitle:subtitle', 'oxq:validation-traction:title:title']"
+          ]
+        },
+        {
+          "edit_id": "P7",
+          "variant": "native_vector",
+          "applicable": true,
+          "outcome": "DIRECT_PPT_EDIT",
+          "score": 5,
+          "pre_edit_addressable_objects": 50,
+          "changed_objects": [
+            "oxq:validation-traction:metric_cafeterias:card",
+            "oxq:validation-traction:metric_cafeterias:label",
+            "oxq:validation-traction:metric_cafeterias:value"
+          ],
+          "expected_changed_objects": [
+            "oxq:validation-traction:metric_cafeterias:card",
+            "oxq:validation-traction:metric_cafeterias:label",
+            "oxq:validation-traction:metric_cafeterias:value"
+          ],
+          "unexpected_changed_objects": [],
+          "collateral_damage_ratio": 0.0,
+          "ai_call_count": 0,
+          "notes": [
+            "deletion intentionally leaves layout hole; reflow quality is scored separately"
+          ]
+        },
+        {
+          "edit_id": "P8",
+          "variant": "native_vector",
+          "applicable": true,
+          "outcome": "DIRECT_PPT_EDIT",
+          "score": 5,
+          "pre_edit_addressable_objects": 50,
+          "changed_objects": [
+            "oxq:problem-hook:sponsor_logo:user_added"
+          ],
+          "expected_changed_objects": [
+            "oxq:problem-hook:sponsor_logo:user_added"
+          ],
+          "unexpected_changed_objects": [],
+          "collateral_damage_ratio": 0.0,
+          "ai_call_count": 0,
+          "notes": []
+        },
+        {
+          "edit_id": "P9",
+          "variant": "native_vector",
+          "applicable": true,
+          "outcome": "DIRECT_PPT_EDIT",
+          "score": 5,
+          "pre_edit_addressable_objects": 50,
+          "changed_objects": [
+            "oxq:how-it-works:node_wait_predictor:label"
+          ],
+          "expected_changed_objects": [
+            "oxq:how-it-works:node_wait_predictor:label"
+          ],
+          "unexpected_changed_objects": [],
+          "collateral_damage_ratio": 0.0,
+          "ai_call_count": 0,
+          "notes": []
+        },
+        {
+          "edit_id": "P10",
+          "variant": "native_vector",
+          "applicable": false,
+          "outcome": "NOT_APPLICABLE",
+          "score": null,
+          "notes": [
+            "native-vector baseline has no bounded generated hero asset"
+          ]
+        }
+      ],
+      "sequence_interaction": {
+        "sequence": "P8_then_P1",
+        "variant": "native_vector",
+        "sponsor_survives_reopen_and_later_edit": true,
+        "changed_during_P1": [
+          "oxq:validation-traction:metric_weekly_intent:value"
+        ],
+        "unexpected_changed_objects": [],
+        "passed": true
+      },
+      "editability_score_sum": 43,
+      "editability_score_max": 45,
+      "normalized_editability": 0.9555555555555556
+    },
     "hybrid": null
   },
   "notes": [
