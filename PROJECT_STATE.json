@@ -15,8 +15,8 @@
     "stage1_broad_architecture_scan": "complete",
     "stage2_forensics": "complete",
     "stage3_ppt_master_svg_forensics": "complete_and_adjudicated",
-    "stage3_rw_reasoning_extraction": "next",
-    "stage3_mck_native_component_analysis": "queued_after_rw",
+    "stage3_rw_reasoning_extraction": "complete_and_adjudicated",
+    "stage3_mck_native_component_analysis": "next",
     "stage3_slide_ir_red_team": "queued_after_mck"
   },
   "architecture_hypotheses": {
@@ -28,7 +28,12 @@
     "ppt_master_fail_closed_svg_compiler": true,
     "ppt_master_basic_native_geometry_lane_viable": true,
     "ppt_master_closed_native_text_grammar": true,
-    "ppt_master_visual_quality_parity_with_image_generation": "unknown"
+    "ppt_master_visual_quality_parity_with_image_generation": "unknown",
+    "rw_claim_first_reasoning_portable": true,
+    "rw_typed_evidence_boundary_portable": true,
+    "rw_proof_object_routing_portable": true,
+    "rw_deck_system_vs_page_local_separation_portable": true,
+    "rw_image_only_rendering_requirement_rejected": true
   },
   "benchmark": {
     "project": "QueueZero",
@@ -45,8 +50,8 @@
     "status": "specification"
   },
   "next_priorities": [
-    "delegate RW reasoning/proof-object extraction for the three benchmark slides",
     "delegate Mck native component analysis",
+    "draft semantic Slide IR from adjudicated RW + PPT Master evidence",
     "red-team the semantic Slide IR",
     "freeze Stage 3 experimental Slide IR",
     "build controlled 3x3 architecture experiment"
