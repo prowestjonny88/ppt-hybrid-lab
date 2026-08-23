@@ -1,0 +1,145 @@
+{
+  "schema_version": "stage3-slide-semantics-v1",
+  "deck_id": "queuezero-stage3",
+  "slide_id": "problem-hook",
+  "page_role": "problem_hook",
+  "deck_system_ref": "experiment/queuezero/deck_system.stage3.json",
+  "governing_claim": "Peak-meal queues turn a basic campus need into a predictable daily time tax.",
+  "subtitle_support": "Students can lose {peak_wait_range.display_value} waiting at university cafeterias during peak meal periods.",
+  "why_it_matters": "A visible, repeated pain point creates a clear wedge for a real-time wait prediction product.",
+  "evidence": [
+    {
+      "evidence_id": "peak_wait_range",
+      "statement_template": "Peak cafeteria waits are {peak_wait_range.display_value}.",
+      "value": {"min": 15, "max": 30},
+      "display_value": "15–30 min",
+      "unit": "minutes",
+      "status": "confirmed",
+      "source_ref": "queuezero_benchmark_brief",
+      "source_span": {"locator": "Problem/Hook", "quote": "15–30 min waits"},
+      "supports_claims": ["peak cafeteria congestion creates meaningful waiting time"],
+      "does_not_prove": ["every student waits this long", "all cafeterias are congested all day"]
+    }
+  ],
+  "regions": [
+    {"region_id": "title_band", "purpose": "content", "rect": {"x": 0.055, "y": 0.055, "w": 0.89, "h": 0.18}},
+    {"region_id": "problem_copy", "purpose": "content", "rect": {"x": 0.055, "y": 0.28, "w": 0.38, "h": 0.48}},
+    {"region_id": "hero_frame", "purpose": "hero_frame", "rect": {"x": 0.49, "y": 0.22, "w": 0.455, "h": 0.64}},
+    {"region_id": "sponsor_insertion", "purpose": "insertion_zone", "rect": {"x": 0.82, "y": 0.89, "w": 0.13, "h": 0.055}},
+    {"region_id": "footer_region", "purpose": "footer", "rect": {"x": 0.055, "y": 0.91, "w": 0.72, "h": 0.035}}
+  ],
+  "semantic_objects": [
+    {
+      "object_id": "title",
+      "role": "title",
+      "content": "Lunch queues are stealing up to half an hour",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "title_band",
+      "token_refs": ["text.primary"],
+      "fit_policy": "shrink_to_floor"
+    },
+    {
+      "object_id": "subtitle",
+      "role": "subtitle",
+      "content_template": "Peak-meal waits reach {peak_wait_range.display_value} — a repeated pain students cannot plan around.",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "title_band",
+      "token_refs": ["text.secondary"]
+    },
+    {
+      "object_id": "metric_wait",
+      "role": "metric",
+      "content_ref": "peak_wait_range",
+      "label": "peak wait",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "problem_copy",
+      "token_refs": ["accent.primary"]
+    },
+    {
+      "object_id": "pain_annotation",
+      "role": "annotation",
+      "content": "The problem is not just queue length; it is uncertainty about whether a cafeteria is worth walking to right now.",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "problem_copy",
+      "token_refs": ["text.primary"]
+    },
+    {
+      "object_id": "hero_visual_slot",
+      "role": "hero_visual_slot",
+      "importance": "primary",
+      "editability_priority": "replaceable_asset",
+      "region_ref": "hero_frame"
+    },
+    {
+      "object_id": "source_note",
+      "role": "source_note",
+      "content": "Source: QueueZero controlled benchmark brief",
+      "importance": "tertiary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "footer_region",
+      "token_refs": ["text.secondary"]
+    }
+  ],
+  "groups": [
+    {"group_id": "problem_evidence", "member_ids": ["metric_wait", "pain_annotation"], "layout_hint": "metric_plus_annotation", "reflow_policy": "local"}
+  ],
+  "relationships": [],
+  "proof_object": {
+    "proof_object_id": "problem_time_tax",
+    "type": "pain_evidence_plus_scene",
+    "logic": "Pair the exact peak-wait range with a bounded cafeteria-congestion scene without allowing the image to invent additional numeric claims.",
+    "primary_refs": [
+      {"ref_type": "group", "id": "problem_evidence"},
+      {"ref_type": "object", "id": "hero_visual_slot"}
+    ],
+    "required_relationships": []
+  },
+  "forbidden_implications": [
+    {
+      "guardrail_id": "range_not_universal",
+      "applies_to": [{"ref_type": "object", "id": "metric_wait"}, {"ref_type": "object", "id": "hero_visual_slot"}],
+      "forbidden_claim": "every student always waits 30 minutes",
+      "forbidden_visual_forms": ["universal_badge", "100_percent_label"],
+      "forbidden_depictions": ["embedded numeric wait times other than the supplied range", "text baked into generated hero art"]
+    }
+  ],
+  "must_keep_refs": [
+    {"ref_type": "evidence", "id": "peak_wait_range"},
+    {"ref_type": "object", "id": "title"}
+  ],
+  "hierarchy": {
+    "highest_priority": {"ref_type": "object", "id": "title"},
+    "visual_protagonist": {"ref_type": "object", "id": "hero_visual_slot"},
+    "primary_numbers": [{"ref_type": "object", "id": "metric_wait"}],
+    "secondary_numbers": [],
+    "bottom_synthesis": null
+  },
+  "assets": [
+    {
+      "asset_id": "problem_hero",
+      "kind": "generated_visual",
+      "semantic_object_id": "hero_visual_slot",
+      "region_ref": "hero_frame",
+      "aspect_ratio": 1.333,
+      "text_free": true,
+      "exclusion_zones": [],
+      "safe_crop": {"x": 0.02, "y": 0.02, "w": 0.96, "h": 0.96},
+      "composition_anchor": "queue scene concentrated lower-right; keep upper-left visually quiet",
+      "forbidden_depictions": ["legible signage with invented claims", "embedded slide typography", "numeric wait labels"],
+      "palette_token_refs": ["accent.primary", "surface"],
+      "regeneration_trigger": "token_change",
+      "current_instance": {"instance_id": "problem_hero_v1", "version": 1, "source": null}
+    }
+  ],
+  "qa_expectations": [
+    {"type": "exact_evidence_refs", "refs": ["peak_wait_range"]},
+    {"type": "must_remain_editable", "object_ids": ["title", "subtitle", "metric_wait", "pain_annotation", "source_note"]},
+    {"type": "replaceable_asset", "object_ids": ["hero_visual_slot"]},
+    {"type": "forbid_full_slide_picture", "variants": ["native_vector", "hybrid"]}
+  ],
+  "deletion_policy": "tombstone_with_recorded_cascade"
+}
