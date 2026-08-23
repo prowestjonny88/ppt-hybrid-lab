@@ -7,6 +7,7 @@
   "infrastructure": {
     "github_actions_ox_worker": "verified",
     "openrouter_ox_alpha": "verified",
+    "gemini_ai_studio_image_lane": "workflow_configured_secret_presence_to_be_proven_at_runtime",
     "bounded_source_packager": "implemented",
     "concurrent_run_hardening": "implemented",
     "stage3_validation_workflow": "green"
@@ -54,7 +55,11 @@
     "hybrid_panic_suite_passed": true,
     "native_vector_normalized_editability": 1.0,
     "hybrid_normalized_editability": 0.96,
-    "panic_p8_then_p1_interaction_passed_both": true
+    "panic_p8_then_p1_interaction_passed_both": true,
+    "google_imagen4_shutdown_2026_08_17": true,
+    "gemini_3_1_flash_image_stable_no_shutdown_announced_at_verification": true,
+    "gemini_3_1_flash_image_supports_16_9_2k_4k": true,
+    "gemini_3_1_flash_lite_image_rejected_for_stage3_due_to_1k_only": true
   },
   "architecture_artifacts": {
     "slide_ir_v1": "architecture/SLIDE_IR_V1.md",
@@ -78,6 +83,11 @@
     "hybrid_build_cli": "scripts/build_stage3_hybrid.py",
     "image_first_packager": "src/image_first/package.py",
     "image_first_build_cli": "scripts/build_stage3_image_first.py",
+    "image_generation_workflow": ".github/workflows/stage3-image-baseline.yml",
+    "image_generation_tool": "tools/stage3_gemini_image_gen.py",
+    "image_model_pin": "gemini-3.1-flash-image",
+    "image_model_pin_status": "stable_exact_slug_no_fallback",
+    "image_resolution": "2K",
     "ppt_master_adapter": "src/svg_lane/ppt_master_adapter.py",
     "ppt_master_pin": "65bb2eca59a36270819caba377097910c4466c6e",
     "variant_manifest_builder": "scripts/build_stage3_variant_inputs.py",
@@ -100,8 +110,9 @@
     "ci_receipt_commit": "e9be01373138605073f71ba619ae7d1e13f4f825"
   },
   "next_priorities": [
-    "generate real image-first full-slide assets with a manually approved OpenRouter image workflow",
-    "generate a real bounded hybrid Problem hero asset",
+    "run manually approved Gemini image workflow and prove GEMINI_API_KEY plus stable model availability at runtime",
+    "generate three real image-first full-slide assets with gemini-3.1-flash-image at 2K",
+    "generate the real bounded hybrid Problem hero using the same model",
     "package the image-first baseline PPTX",
     "render native, hybrid and image-first outputs to comparable previews",
     "run blind visual scoring",
