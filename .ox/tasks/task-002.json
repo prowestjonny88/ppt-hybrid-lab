@@ -2,7 +2,7 @@
   "id": "task-002",
   "attempt": 2,
   "type": "rendering_pipeline_analysis",
-  "status": "PENDING",
+  "status": "COMPLETE",
   "repository": "hugohe3/ppt-master",
   "objective": "Forensically trace PPT Master's real SVG-to-DrawingML/PPTX implementation and identify the minimum safe native-vector subset needed for the Stage 3 QueueZero hybrid-slide experiment. Focus on implementation evidence, not README claims.",
   "questions": [
@@ -62,5 +62,33 @@
     "Risks and unknowns",
     "Exact follow-up source requests if required"
   ],
-  "output": ".ox/reports/task-002-ppt-master-svg-drawingml.md"
+  "output": ".ox/reports/task-002-ppt-master-svg-drawingml.md",
+  "inspected_repository": {
+    "repository": "hugohe3/ppt-master",
+    "ref": "65bb2eca59a36270819caba377097910c4466c6e",
+    "source": "https://github.com/hugohe3/ppt-master.git"
+  },
+  "context_package": {
+    "tracked_file_count": 13979,
+    "eligible_text_file_count": 54,
+    "focus_match_count": 53,
+    "included_file_count": 11,
+    "included_files": [
+      "skills/ppt-master/scripts/svg_to_pptx/drawingml/converter.py",
+      "skills/ppt-master/scripts/svg_to_pptx/drawingml/context.py",
+      "skills/ppt-master/scripts/svg_to_pptx/drawingml/text_properties.py",
+      "skills/ppt-master/scripts/svg_to_pptx/semantic_markers.py",
+      "skills/ppt-master/scripts/svg_to_pptx/text_outline.py",
+      "skills/ppt-master/scripts/svg_to_pptx/drawingml/__init__.py",
+      "skills/ppt-master/scripts/svg_to_pptx/drawingml/elements.py",
+      "skills/ppt-master/scripts/svg_to_pptx/drawingml/hyperlinks.py",
+      "skills/ppt-master/scripts/svg_to_pptx/drawingml/paths.py",
+      "skills/ppt-master/scripts/svg_to_pptx/drawingml/styles.py",
+      "skills/ppt-master/scripts/svg_to_pptx/drawingml/theme_colors.py"
+    ],
+    "context_chars": 300000,
+    "max_files": 42,
+    "max_file_bytes": 80000,
+    "max_context_chars": 300000
+  }
 }
