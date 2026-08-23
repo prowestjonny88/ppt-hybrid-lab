@@ -1,0 +1,67 @@
+{
+  "id": "task-002",
+  "type": "rendering_pipeline_analysis",
+  "status": "PENDING",
+  "repository": "hugohe3/ppt-master",
+  "objective": "Forensically trace PPT Master's real SVG-to-DrawingML/PPTX implementation and identify the minimum safe native-vector subset needed for the Stage 3 QueueZero hybrid-slide experiment. Focus on implementation evidence, not README claims.",
+  "questions": [
+    "What is the actual entry point and call chain from authored SVG to generated PowerPoint/DrawingML objects? Name concrete files, functions/classes, and intermediate structures.",
+    "Which SVG primitives and style features are converted into native editable PowerPoint objects, and which are partial, rejected, rasterized, or otherwise lossy?",
+    "How are text, text runs, wrapping/alignment, fonts, font sizes, transforms, groups, paths, fills, gradients, opacity, images, clipping/masks, shadows, connectors/arrows, and z-order handled?",
+    "Are charts and tables represented through this converter path, a separate native path, or not supported by the supplied implementation?",
+    "What happens on unsupported SVG constructs? Does the implementation fail explicitly, silently omit content, or rasterize/fallback? Cite the relevant code.",
+    "How does the converter preserve editability and object identity in the resulting PPTX? What semantic information is retained versus lost?",
+    "What validation or QA runs before/after conversion, and what can it actually detect?",
+    "For our controlled QueueZero experiment, what minimum SVG feature subset is safest if we need native text, KPI cards, arrows/connectors, simple process diagrams, icons, and one embedded image?",
+    "Which implementation mechanisms are reusable engineering principles versus repo-specific code we should avoid blindly copying?",
+    "If the bounded source package is insufficient, list the exact additional file paths/symbols needed for a follow-up instead of guessing."
+  ],
+  "include_paths": [
+    "skills/ppt-master/scripts/svg_to_pptx/**",
+    "skills/ppt-master/scripts/docs/svg-pipeline.md",
+    "skills/ppt-master/references/svg-image-embedding.md",
+    "skills/ppt-master/workflows/generate-pptx.md",
+    "docs/technical-design.md"
+  ],
+  "exclude_paths": [
+    "**/__pycache__/**",
+    "**/*.png",
+    "**/*.jpg",
+    "**/*.jpeg",
+    "**/*.gif",
+    "**/*.pptx",
+    "**/*.pdf"
+  ],
+  "focus_terms": [
+    "svg",
+    "drawingml",
+    "converter",
+    "convert",
+    "text",
+    "path",
+    "gradient",
+    "clip",
+    "mask",
+    "image",
+    "shape",
+    "pptx"
+  ],
+  "max_files": 55,
+  "max_file_bytes": 90000,
+  "max_context_chars": 400000,
+  "evidence_required": true,
+  "expected_output": [
+    "Executive finding",
+    "Exact end-to-end execution trace",
+    "Critical file and symbol evidence",
+    "SVG feature support matrix: NATIVE / PARTIAL / RASTERIZED / UNSUPPORTED / UNKNOWN",
+    "Text and editability analysis",
+    "Unsupported-feature and fallback behavior",
+    "Validation and QA analysis",
+    "Minimum safe SVG subset for QueueZero Stage 3",
+    "Reusable engineering principles",
+    "Risks and unknowns",
+    "Exact follow-up source requests if required"
+  ],
+  "output": ".ox/reports/task-002-ppt-master-svg-drawingml.md"
+}
