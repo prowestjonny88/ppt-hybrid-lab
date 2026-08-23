@@ -1,5 +1,6 @@
 import hashlib
 import json
+import os
 import subprocess
 import sys
 from html import escape
@@ -66,7 +67,6 @@ def write_how_it_works_svg(root, svg_path):
             f'stroke="{accent if is_accent else line}" stroke-width="1.5"/>'
         )
         label = objects[object_id]["content"]
-        # Keep each label one native SVG <text>; long final node uses two authored lines.
         if object_id == "node_decision":
             parts = ["Go now / choose", "another cafeteria"]
             for idx, part in enumerate(parts):
@@ -120,7 +120,12 @@ def write_how_it_works_svg(root, svg_path):
 
 
 def _run(cmd, cwd):
-    result = subprocess.run(cmd, cwd=str(cwd), text=True, capture_output=True)
+    cwd = Path(cwd)
+    env = os.environ.copy()
+    scripts_root = cwd / "skills/ppt-master/scripts"
+    existing = env.get("PYTHONPATH", "")
+    env["PYTHONPATH"] = str(scripts_root) + (os.pathsep + existing if existing else "")
+    result = subprocess.run(cmd, cwd=str(cwd), text=True, capture_output=True, env=env)
     if result.returncode != 0:
         raise RuntimeError(
             "PPT Master command failed:\n"
@@ -191,6 +196,10 @@ def compile_how_it_works(root, ppt_master_root, workspace):
     if not checker.exists() or not cli.exists():
         raise RuntimeError("pinned PPT Master checkout is incomplete")
 
+    actual_commit = _run(["git", "rev-parse", "HEAD"], ppt_master_root).stdout.strip()
+    if actual_commit != PPT_MASTER_COMMIT:
+        raise RuntimeError(f"PPT Master commit mismatch: expected {PPT_MASTER_COMMIT}, got {actual_commit}")
+
     _run([
         sys.executable, str(checker), str(workspace),
         "--quick-generate", "--stage", "final", "--json",
@@ -216,5 +225,5 @@ def compile_how_it_works(root, ppt_master_root, workspace):
         "postflight": report,
         "mapped": mapped,
         "svg_sha256": hashlib.sha256(svg_path.read_bytes()).hexdigest(),
-        "ppt_master_commit": PPT_MASTER_COMMIT,
+        "ppt_master_commit": actual_commit,
     }
