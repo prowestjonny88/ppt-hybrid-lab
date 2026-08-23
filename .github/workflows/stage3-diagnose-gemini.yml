@@ -12,6 +12,7 @@ permissions:
 jobs:
   diagnose:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -28,26 +29,25 @@ jobs:
           : > "$LOG"
 
           echo "Querying latest Stage 3 Gemini one-time workflow run..." | tee -a "$LOG"
-          RAW=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/stage3-image-baseline-once.yml/runs?per_page=10" 2>>"$LOG")
+          RAW=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/stage3-image-baseline-once.yml/runs?per_page=20" 2>>"$LOG")
           API_RC=$?
           if [ $API_RC -ne 0 ]; then
             printf '{"status":"diagnostic_api_error","exit_code":%s}\n' "$API_RC" > "$META"
           else
-            echo "$RAW" | jq '[.workflow_runs[] | select(.head_sha != env.GITHUB_SHA)][0] | {id, status, conclusion, head_sha, html_url, created_at, updated_at}' > "$META" 2>>"$LOG"
+            echo "$RAW" | jq '[.workflow_runs[] | select(.name == "Stage 3 Gemini Image Baseline — One Time") | select(.conclusion == "failure")][0] | {id, status, conclusion, head_sha, html_url, created_at, updated_at}' > "$META" 2>>"$LOG"
             RUN_ID=$(jq -r '.id // empty' "$META")
             if [ -n "$RUN_ID" ]; then
-              echo "Resolved run ID: $RUN_ID" | tee -a "$LOG"
+              echo "Resolved failed run ID: $RUN_ID" | tee -a "$LOG"
               echo >> "$LOG"
               gh run view "$RUN_ID" --repo "$GITHUB_REPOSITORY" --log-failed >> "$LOG" 2>&1
               VIEW_RC=$?
               echo >> "$LOG"
               echo "gh run view exit code: $VIEW_RC" >> "$LOG"
             else
-              echo "No prior run resolved." >> "$LOG"
+              echo "No failed one-time run resolved." >> "$LOG"
             fi
           fi
 
-          # Keep the diagnostic bounded and safe for repository persistence.
           python - <<'PY'
           from pathlib import Path
           p = Path('benchmark/results/GEMINI_ONE_TIME_LATEST.log')
