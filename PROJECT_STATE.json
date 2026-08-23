@@ -16,7 +16,7 @@
     "stage2_forensics": "complete",
     "stage3_ppt_master_svg_forensics": "complete_and_adjudicated",
     "stage3_rw_reasoning_extraction": "complete_and_adjudicated",
-    "stage3_mck_native_component_analysis": "next",
+    "stage3_mck_native_component_analysis": "task-004_pending",
     "stage3_slide_ir_red_team": "queued_after_mck"
   },
   "architecture_hypotheses": {
@@ -35,6 +35,11 @@
     "rw_deck_system_vs_page_local_separation_portable": true,
     "rw_image_only_rendering_requirement_rejected": true
   },
+  "architecture_artifacts": {
+    "slide_ir_draft_v0": "architecture/SLIDE_IR_DRAFT_V0.md",
+    "validation_slide_ir_example_v0": "experiment/queuezero/slide_ir/validation_traction.v0.json",
+    "panic_test_protocol": "benchmark/STAGE3_PANIC_TEST_PROTOCOL.md"
+  },
   "benchmark": {
     "project": "QueueZero",
     "planned_slide_types": [
@@ -47,12 +52,12 @@
       "native_vector",
       "hybrid"
     ],
-    "status": "specification"
+    "status": "protocol_frozen_ir_draft_unfrozen"
   },
   "next_priorities": [
-    "delegate Mck native component analysis",
-    "draft semantic Slide IR from adjudicated RW + PPT Master evidence",
-    "red-team the semantic Slide IR",
+    "complete and adjudicate task-004 Mck native component analysis",
+    "refine minimum native component API using Mck evidence",
+    "red-team Slide IR draft v0 with Ox",
     "freeze Stage 3 experimental Slide IR",
     "build controlled 3x3 architecture experiment"
   ],
