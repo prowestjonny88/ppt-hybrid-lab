@@ -1,0 +1,5 @@
+resume approved Stage 3 Gemini visual benchmark after live MIME fix
+model=gemini-3.1-flash-image
+resolution=2K
+generation_id=gemini31flashimage-v1
+output_mime=image/jpeg
