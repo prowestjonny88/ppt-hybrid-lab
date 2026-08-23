@@ -1,7 +1,7 @@
 {
   "id": "task-003",
   "type": "prompt_system_analysis",
-  "status": "PENDING",
+  "status": "COMPLETE",
   "repository": "Pikapika260214/rw-consulting-ppt",
   "objective": "Extract and reconstruct only the reusable reasoning and visual-direction system from RW Consulting PPT that is relevant to the Stage 3 QueueZero benchmark. Focus on how it turns content into claims, evidence boundaries, proof objects, visual concepts, sample approval rules, and cross-slide consistency. Do not spend context on image-only PPTX packaging or OCR/editable reconstruction except where needed to understand the reasoning contract.",
   "questions": [
@@ -62,5 +62,32 @@
     "Brittleness/contradiction analysis",
     "Unknowns and exact follow-up requests"
   ],
-  "output": ".ox/reports/task-003-rw-reasoning-system.md"
+  "output": ".ox/reports/task-003-rw-reasoning-system.md",
+  "inspected_repository": {
+    "repository": "Pikapika260214/rw-consulting-ppt",
+    "ref": "1df28e81de04b3255451eb47fb641d3ec176b33d",
+    "source": "https://github.com/Pikapika260214/rw-consulting-ppt.git"
+  },
+  "context_package": {
+    "tracked_file_count": 95,
+    "eligible_text_file_count": 10,
+    "focus_match_count": 10,
+    "included_file_count": 10,
+    "included_files": [
+      "skills/rw-consulting-ppt/references/sample-rejection-rubric.md",
+      "skills/rw-consulting-ppt/SKILL.md",
+      "skills/rw-consulting-ppt/references/concept-image-director.md",
+      "skills/rw-consulting-ppt/references/consulting-image-context.md",
+      "skills/rw-consulting-ppt/references/deck-consistency-lock.md",
+      "skills/rw-consulting-ppt/references/example-lessons.md",
+      "skills/rw-consulting-ppt/references/image-only-output-contract.md",
+      "skills/rw-consulting-ppt/references/message-hierarchy-rules.md",
+      "skills/rw-consulting-ppt/references/message-proof-mapping.md",
+      "skills/rw-consulting-ppt/references/visual-style-master.md"
+    ],
+    "context_chars": 125996,
+    "max_files": 30,
+    "max_file_bytes": 90000,
+    "max_context_chars": 220000
+  }
 }
