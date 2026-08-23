@@ -86,7 +86,7 @@
       "annotation_lines": 3
     },
     "overflow_policy": ["compress_early_pipeline_nodes", "increase_decision_zone", "switch_to_staggered_path_variant", "fail"],
-    "forbidden_overflow_policy": ["shrink_all_nodes_equally", "stack_pipeline_into_unrelated_cards"]
+    "forbidden_overflow_policy": ["shrink_all_nodes_equally", "stack_pipeline_into_unrelated_cards", "shrink_all_text"]
   },
   "style": {
     "profile_id": "queuezero-hackathon-v0",
