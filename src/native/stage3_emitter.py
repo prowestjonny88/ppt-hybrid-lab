@@ -24,6 +24,19 @@ def _name_shape(shape, name):
     raise RuntimeError("shape has no cNvPr")
 
 
+def _center_crop_picture(shape, source_ratio, target_ratio):
+    if abs(source_ratio - target_ratio) < 1e-9:
+        return
+    if source_ratio > target_ratio:
+        crop = (1.0 - target_ratio / source_ratio) / 2.0
+        shape.crop_left = crop
+        shape.crop_right = crop
+    else:
+        crop = (1.0 - source_ratio / target_ratio) / 2.0
+        shape.crop_top = crop
+        shape.crop_bottom = crop
+
+
 def ensure_mock_ui(path):
     path = Path(path)
     if path.exists():
@@ -139,8 +152,6 @@ class Stage3Emitter:
         token = "accent.on" if accent else "text.primary"
         shape = self.text(object_id, text, region_id, (x+0.06*w,y+0.20*h,0.88*w,0.58*h), role="diagram_node", part="label", align="center", valign="middle", token=token, size=12, bold=accent)
         if lane != "native":
-            # The temporary structured benchmark emitter can visually realize the lane,
-            # but the canonical SVG adapter will replace this before hybrid scoring.
             self._parts[object_id]["render_lane"] = lane
         return shape
 
@@ -155,10 +166,17 @@ class Stage3Emitter:
         tri.fill.solid(); tri.fill.fore_color.rgb = self.color("accent.primary"); tri.line.fill.background()
         self._record(object_id, tri, "arrow", tokens=["accent.primary"], lane=lane)
 
-    def picture(self, object_id, source, region_id, lane="native"):
+    def picture(self, object_id, source, region_id, lane="native", fit="stretch"):
         x,y,w,h = self.box(region_id)
         source = ensure_mock_ui(source)
         shape = self.slide.shapes.add_picture(str(source), x,y,w,h)
+        if fit == "cover":
+            with Image.open(source) as image:
+                source_ratio = image.width / image.height
+            target_ratio = w / h
+            _center_crop_picture(shape, source_ratio, target_ratio)
+        elif fit != "stretch":
+            raise ValueError(f"unsupported picture fit policy: {fit}")
         return self._record(object_id, shape, "picture", fidelity="editable_picture_slot", lane=lane)
 
     def queue_scene(self, object_id, region_id):
