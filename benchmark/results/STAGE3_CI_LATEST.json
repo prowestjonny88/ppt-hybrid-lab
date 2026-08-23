@@ -1,9 +1,9 @@
 {
   "schema_version": "stage3-ci-receipt-v1",
-  "generated_at": "2026-08-23T07:30:27.072698+00:00",
+  "generated_at": "2026-08-23T07:31:11.653499+00:00",
   "workflow_status": "failure",
-  "commit": "78f4153d43230452bdbd9b8b4e7b3ad39ea7bab7",
-  "run_id": "32625718664",
+  "commit": "5f8a50b9b24f423b80b675beeba21ec623100913",
+  "run_id": "32625758702",
   "run_attempt": "1",
   "steps": {
     "validate_semantics": "success",
