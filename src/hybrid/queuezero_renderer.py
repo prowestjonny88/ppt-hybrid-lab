@@ -123,7 +123,9 @@ def build_hybrid(root, ppt_master_root, output_pptx, realization_dir, adapter_wo
     prs = Presentation(adapter["pptx"])
     if len(prs.slides) != 1:
         raise RuntimeError("hybrid base must contain one PPT Master slide")
-    blank = prs.slide_layouts[6]
+    if len(prs.slide_layouts) < 1:
+        raise RuntimeError("PPT Master flat package exposes no reusable slide layout")
+    blank = prs.slide_layouts[0]
 
     # Slide 1 currently holds the SVG-compiled How-It-Works diagram.
     how_slide = prs.slides[0]
