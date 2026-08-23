@@ -86,11 +86,29 @@ jobs:
 
       - name: Run native-vector panic edits
         id: panic_native
+        if: always() && steps.audit_native.outcome == 'success'
+        continue-on-error: true
         run: python tests/run_panic_edits_safe.py --variant native_vector --pptx dist/queuezero_native_vector.pptx --out-dir dist/panic/native_vector
 
       - name: Run hybrid panic edits
         id: panic_hybrid
+        if: always() && steps.audit_hybrid.outcome == 'success'
+        continue-on-error: true
         run: python tests/run_panic_edits_safe.py --variant hybrid --pptx dist/queuezero_hybrid.pptx --out-dir dist/panic/hybrid
+
+      - name: Final Stage 3 panic gate
+        id: panic_gate
+        if: always()
+        env:
+          PANIC_NATIVE: ${{ steps.panic_native.outcome }}
+          PANIC_HYBRID: ${{ steps.panic_hybrid.outcome }}
+        run: |
+          echo "native panic outcome: ${PANIC_NATIVE}"
+          echo "hybrid panic outcome: ${PANIC_HYBRID}"
+          if [ "${PANIC_NATIVE}" != "success" ] || [ "${PANIC_HYBRID}" != "success" ]; then
+            echo "At least one Stage 3 panic suite failed or was skipped."
+            exit 1
+          fi
 
       - name: Upload Stage 3 current artifacts
         if: always()
