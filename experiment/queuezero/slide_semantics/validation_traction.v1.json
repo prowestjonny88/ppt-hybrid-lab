@@ -1,0 +1,259 @@
+{
+  "schema_version": "stage3-slide-semantics-v1",
+  "deck_id": "queuezero-stage3",
+  "slide_id": "validation-traction",
+  "page_role": "validation_traction",
+  "deck_system_ref": "experiment/queuezero/deck_system.stage3.json",
+  "governing_claim": "Early testing clears the bar for a semester pilot.",
+  "subtitle_support": "{student_test_count.display_value} students across {cafeteria_count.display_value} cafeterias produced a {mae_result.display_value} prediction MAE and {weekly_use_intent.display_value} weekly-use intent.",
+  "why_it_matters": "The prototype has measurable technical performance and an initial demand signal, while retention and paid adoption remain unproven.",
+  "evidence": [
+    {
+      "evidence_id": "mae_result",
+      "statement_template": "QueueZero achieved a mean absolute error of {mae_result.display_value} in the benchmark scenario.",
+      "value": 3.8,
+      "display_value": "3.8 min",
+      "unit": "minutes",
+      "status": "confirmed",
+      "source_ref": "queuezero_benchmark_brief",
+      "source_span": {"locator": "Validation/Traction", "quote": "MAE 3.8 min"},
+      "supports_claims": ["prototype wait prediction has measurable accuracy"],
+      "does_not_prove": ["production reliability", "commercial viability"]
+    },
+    {
+      "evidence_id": "student_test_count",
+      "statement_template": "{student_test_count.display_value} students were included in the initial test.",
+      "value": 42,
+      "display_value": "42",
+      "unit": "students",
+      "status": "confirmed",
+      "source_ref": "queuezero_benchmark_brief",
+      "source_span": {"locator": "Validation/Traction", "quote": "tested with 42 students"},
+      "supports_claims": ["initial user testing occurred"],
+      "does_not_prove": ["campus-wide adoption", "retention"]
+    },
+    {
+      "evidence_id": "weekly_use_intent",
+      "statement_template": "{weekly_use_intent.display_value} of tested students reported weekly-use intent.",
+      "value": 76,
+      "display_value": "76%",
+      "unit": "%",
+      "status": "confirmed",
+      "source_ref": "queuezero_benchmark_brief",
+      "source_span": {"locator": "Validation/Traction", "quote": "76% weekly-use intent"},
+      "supports_claims": ["initial demand signal exists"],
+      "does_not_prove": ["actual weekly retention", "paid conversion", "market fit"]
+    },
+    {
+      "evidence_id": "cafeteria_count",
+      "statement_template": "The prototype was tested across {cafeteria_count.display_value} cafeterias.",
+      "value": 3,
+      "display_value": "3",
+      "unit": "cafeterias",
+      "status": "confirmed",
+      "source_ref": "queuezero_benchmark_brief",
+      "source_span": {"locator": "Validation/Traction", "quote": "3 cafeterias"},
+      "supports_claims": ["testing covered more than one cafeteria context"],
+      "does_not_prove": ["cross-campus scalability"]
+    },
+    {
+      "evidence_id": "pilot_conversion",
+      "statement_template": "A semester-long university pilot has not yet been completed.",
+      "value": null,
+      "display_value": null,
+      "unit": null,
+      "status": "uncertainty",
+      "source_ref": "queuezero_benchmark_brief",
+      "source_span": {"locator": "Roadmap/Ask", "quote": "one-university semester pilot"},
+      "supports_claims": ["pilot is the next validation gate"],
+      "does_not_prove": []
+    }
+  ],
+  "regions": [
+    {"region_id": "title_band", "purpose": "content", "rect": {"x": 0.055, "y": 0.055, "w": 0.89, "h": 0.14}},
+    {"region_id": "proof_region", "purpose": "proof_object", "rect": {"x": 0.055, "y": 0.23, "w": 0.89, "h": 0.55}},
+    {"region_id": "pilot_region", "purpose": "content", "rect": {"x": 0.22, "y": 0.79, "w": 0.56, "h": 0.10}},
+    {"region_id": "sponsor_insertion", "purpose": "insertion_zone", "rect": {"x": 0.82, "y": 0.89, "w": 0.13, "h": 0.055}},
+    {"region_id": "footer_region", "purpose": "footer", "rect": {"x": 0.055, "y": 0.91, "w": 0.72, "h": 0.035}}
+  ],
+  "semantic_objects": [
+    {
+      "object_id": "title",
+      "role": "title",
+      "content": "Early testing clears the bar for a semester pilot",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "title_band",
+      "token_refs": ["text.primary"],
+      "fit_policy": "shrink_to_floor"
+    },
+    {
+      "object_id": "subtitle",
+      "role": "subtitle",
+      "content": "Technical accuracy and user intent are promising; retention and paid adoption remain unproven.",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "title_band",
+      "token_refs": ["text.secondary"]
+    },
+    {
+      "object_id": "metric_mae",
+      "role": "metric",
+      "content_ref": "mae_result",
+      "label": "prediction MAE",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "proof_region",
+      "token_refs": ["accent.primary"],
+      "visual_intent": {"emphasis": "high"}
+    },
+    {
+      "object_id": "metric_weekly_intent",
+      "role": "metric",
+      "content_ref": "weekly_use_intent",
+      "label": "would use weekly",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "proof_region",
+      "token_refs": ["accent.primary"],
+      "visual_intent": {"emphasis": "high"}
+    },
+    {
+      "object_id": "metric_students",
+      "role": "metric",
+      "content_ref": "student_test_count",
+      "label": "students tested",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "proof_region",
+      "token_refs": ["text.primary"]
+    },
+    {
+      "object_id": "metric_cafeterias",
+      "role": "metric",
+      "content_ref": "cafeteria_count",
+      "label": "cafeterias",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "proof_region",
+      "token_refs": ["text.primary"]
+    },
+    {
+      "object_id": "pilot_gate",
+      "role": "annotation",
+      "content": "Next proof: one-university semester pilot",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "pilot_region",
+      "token_refs": ["status.pending", "text.primary"]
+    },
+    {
+      "object_id": "source_note",
+      "role": "source_note",
+      "content": "Source: QueueZero controlled benchmark brief",
+      "importance": "tertiary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "footer_region",
+      "token_refs": ["text.secondary"]
+    }
+  ],
+  "groups": [
+    {"group_id": "technical_evidence", "member_ids": ["metric_mae"], "layout_hint": "metric_cluster", "reflow_policy": "local"},
+    {"group_id": "demand_evidence", "member_ids": ["metric_weekly_intent"], "layout_hint": "metric_cluster", "reflow_policy": "local"},
+    {"group_id": "test_scope", "member_ids": ["metric_students", "metric_cafeterias"], "layout_hint": "secondary_metric_row", "reflow_policy": "local"},
+    {"group_id": "validation_evidence_stack", "member_ids": ["metric_mae", "metric_weekly_intent", "metric_students", "metric_cafeterias"], "layout_hint": "evidence_stack", "reflow_policy": "local"}
+  ],
+  "relationships": [
+    {
+      "relationship_id": "technical_metrics_support_prototype_performance",
+      "type": "supports",
+      "from": {"ref_type": "group", "id": "technical_evidence"},
+      "to": {"ref_type": "object", "id": "pilot_gate"},
+      "directional": true,
+      "evidence_refs": ["mae_result"],
+      "semantic_strength": "explicit",
+      "allowed_visual_forms": ["grouping", "directed_connector"],
+      "forbidden_visual_forms": ["verified_checkmark"]
+    },
+    {
+      "relationship_id": "survey_metric_supports_initial_demand",
+      "type": "supports",
+      "from": {"ref_type": "group", "id": "demand_evidence"},
+      "to": {"ref_type": "object", "id": "pilot_gate"},
+      "directional": true,
+      "evidence_refs": ["weekly_use_intent"],
+      "semantic_strength": "explicit",
+      "allowed_visual_forms": ["grouping", "directed_connector"],
+      "forbidden_visual_forms": ["retention_loop", "flywheel"]
+    },
+    {
+      "relationship_id": "evidence_points_toward_pilot_not_market_validation",
+      "type": "must_pass_before",
+      "from": {"ref_type": "group", "id": "validation_evidence_stack"},
+      "to": {"ref_type": "object", "id": "pilot_gate"},
+      "directional": true,
+      "evidence_refs": ["pilot_conversion"],
+      "semantic_strength": "explicit",
+      "allowed_visual_forms": ["gate", "arrow"],
+      "forbidden_visual_forms": ["verified_checkmark", "market_fit_badge"]
+    }
+  ],
+  "proof_object": {
+    "proof_object_id": "validation_proof",
+    "type": "validation_stack",
+    "logic": "Separate measured technical performance from early user-demand evidence, then terminate in an explicitly unproven pilot gate.",
+    "primary_refs": [
+      {"ref_type": "group", "id": "validation_evidence_stack"},
+      {"ref_type": "object", "id": "pilot_gate"}
+    ],
+    "required_relationships": [
+      "technical_metrics_support_prototype_performance",
+      "survey_metric_supports_initial_demand",
+      "evidence_points_toward_pilot_not_market_validation"
+    ]
+  },
+  "forbidden_implications": [
+    {
+      "guardrail_id": "intent_not_retention",
+      "applies_to": [{"ref_type": "object", "id": "metric_weekly_intent"}],
+      "forbidden_claim": "weekly-use intent proves actual retention",
+      "forbidden_visual_forms": ["retention_loop", "verified_checkmark"],
+      "forbidden_depictions": ["validated retention badge"]
+    },
+    {
+      "guardrail_id": "test_not_market_fit",
+      "applies_to": [{"ref_type": "group", "id": "validation_evidence_stack"}],
+      "forbidden_claim": "the initial test proves market fit",
+      "forbidden_visual_forms": ["market_fit_badge", "victory_checkmark"],
+      "forbidden_depictions": ["market fit achieved"]
+    }
+  ],
+  "must_keep_refs": [
+    {"ref_type": "evidence", "id": "mae_result"},
+    {"ref_type": "evidence", "id": "weekly_use_intent"},
+    {"ref_type": "evidence", "id": "student_test_count"},
+    {"ref_type": "evidence", "id": "cafeteria_count"},
+    {"ref_type": "object", "id": "pilot_gate"}
+  ],
+  "hierarchy": {
+    "highest_priority": {"ref_type": "object", "id": "title"},
+    "visual_protagonist": {"ref_type": "group", "id": "validation_evidence_stack"},
+    "primary_numbers": [
+      {"ref_type": "object", "id": "metric_weekly_intent"},
+      {"ref_type": "object", "id": "metric_mae"}
+    ],
+    "secondary_numbers": [
+      {"ref_type": "object", "id": "metric_students"},
+      {"ref_type": "object", "id": "metric_cafeterias"}
+    ],
+    "bottom_synthesis": {"ref_type": "object", "id": "pilot_gate"}
+  },
+  "assets": [],
+  "qa_expectations": [
+    {"type": "exact_evidence_refs", "refs": ["mae_result", "weekly_use_intent", "student_test_count", "cafeteria_count"]},
+    {"type": "must_remain_editable", "object_ids": ["title", "subtitle", "metric_mae", "metric_weekly_intent", "metric_students", "metric_cafeterias", "pilot_gate", "source_note"]},
+    {"type": "forbid_full_slide_picture", "variants": ["native_vector", "hybrid"]},
+    {"type": "guardrails_must_hold", "guardrail_ids": ["intent_not_retention", "test_not_market_fit"]}
+  ],
+  "deletion_policy": "tombstone_with_recorded_cascade"
+}
