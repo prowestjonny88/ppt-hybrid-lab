@@ -1,0 +1,24 @@
+{
+  "plan_version": "stage3-render-plan-v1",
+  "slide_id": "problem-hook",
+  "variant": "native_vector",
+  "semantic_file": "experiment/queuezero/slide_semantics/problem_hook.v1.json",
+  "semantic_hash": null,
+  "mode": "structured",
+  "routing": {
+    "role_defaults": {
+      "title": "native",
+      "subtitle": "native",
+      "metric": "native",
+      "annotation": "native",
+      "source_note": "native",
+      "hero_visual_slot": "native"
+    },
+    "object_overrides": {
+      "hero_visual_slot": {"lane": "native", "reason": "native-vector baseline represents the congestion scene with editable vector geometry rather than generated raster art"}
+    },
+    "decisions": []
+  },
+  "fallback_policy": "fail_closed",
+  "full_slide_rasterization_allowed": false
+}
