@@ -1,0 +1,136 @@
+{
+  "schema_version": "visual-ir-v0",
+  "status": "draft_not_frozen",
+  "slide_id": "validation-traction",
+  "semantic_file": "experiment/queuezero/slide_semantics/validation_traction.v1.json",
+  "semantic_hash": null,
+  "communication": {
+    "moment": "prove",
+    "belief_shift": "The prototype has enough technical and user-demand evidence to justify a semester pilot, while retention and market fit remain unproven.",
+    "emotional_register": ["confidence", "measured_optimism", "credibility"],
+    "reading_order": ["metric_weekly_intent", "metric_mae", "metric_students", "metric_cafeterias", "pilot_gate", "title", "subtitle", "source_note"]
+  },
+  "hierarchy": {
+    "protagonist": "metric_weekly_intent",
+    "roles": {
+      "metric_weekly_intent": "hero",
+      "metric_mae": "primary_support",
+      "pilot_gate": "primary_support",
+      "metric_students": "secondary_support",
+      "metric_cafeterias": "secondary_support",
+      "title": "primary_support",
+      "subtitle": "annotation",
+      "source_note": "source"
+    },
+    "contrast_ratio_targets": {
+      "hero_to_primary_support": 2.35,
+      "primary_to_secondary": 1.45
+    }
+  },
+  "composition": {
+    "archetype_id": "dominant_metric",
+    "variant": "hero_left_technical_proof_right_terminal_band",
+    "selection_reason": "76% weekly-use intent is the strongest audience-facing demand signal. 3.8 min MAE establishes technical credibility; 42 students and 3 cafeterias define test scope; all evidence should terminate in the still-unproven semester pilot gate.",
+    "content_capacity": {
+      "density": "medium",
+      "max_primary_items": 2,
+      "max_secondary_items": 3
+    }
+  },
+  "spatial_grammar": {
+    "primary_axis": "horizontal",
+    "flow": "hero_left_to_proof_right_then_terminal_bottom",
+    "zones": [
+      {
+        "zone_id": "statement_zone",
+        "importance": 0.62,
+        "preferred_area": 0.16,
+        "edge_anchor": "top_left",
+        "contains": ["title", "subtitle"]
+      },
+      {
+        "zone_id": "demand_zone",
+        "importance": 1.0,
+        "preferred_area": 0.34,
+        "relation_to": "statement_zone",
+        "relation": "below",
+        "contains": ["metric_weekly_intent"]
+      },
+      {
+        "zone_id": "technical_zone",
+        "importance": 0.76,
+        "preferred_area": 0.32,
+        "relation_to": "demand_zone",
+        "relation": "right_of",
+        "contains": ["metric_mae", "metric_students", "metric_cafeterias"]
+      },
+      {
+        "zone_id": "pilot_destination",
+        "importance": 0.74,
+        "preferred_area": 0.12,
+        "relation_to": "demand_zone",
+        "relation": "below_span",
+        "contains": ["pilot_gate"]
+      }
+    ],
+    "whitespace": {
+      "minimum_fraction": 0.22,
+      "protected_between_zones": true
+    },
+    "overlap": {
+      "allowed": false
+    }
+  },
+  "density": {
+    "class": "medium",
+    "content_budget": {
+      "hero_items": 1,
+      "primary_support_items": 2,
+      "secondary_support_items": 2,
+      "annotation_lines": 3
+    },
+    "overflow_policy": ["compress_test_scope_into_single_support_line", "reduce_nonsemantic_decoration", "increase_proof_zone", "switch_to_evidence_constellation", "fail"],
+    "forbidden_overflow_policy": ["four_equal_metric_cards", "shrink_all_text"]
+  },
+  "style": {
+    "profile_id": "queuezero-hackathon-v0",
+    "identity_anchor_refs": ["open_evidence_number", "dark_proof_field", "edge_index"],
+    "decoration_budget": "very_low",
+    "shape_vocabulary": ["open_metric", "flat_field", "hairline_rule", "bounded_annotation"],
+    "image_treatment": "none_required",
+    "variation_tags": ["hero_left", "proof_right", "terminal_band", "large_type"]
+  },
+  "asset_treatments": [],
+  "groups": [
+    {
+      "group_id": "technical_proof_stage4",
+      "members": ["metric_mae", "metric_students", "metric_cafeterias"],
+      "visual_relation": "technical_metric_with_compact_scope_context",
+      "internal_hierarchy": ["metric_mae", "metric_students", "metric_cafeterias"]
+    },
+    {
+      "group_id": "pilot_argument_stage4",
+      "members": ["metric_weekly_intent", "metric_mae", "metric_students", "metric_cafeterias", "pilot_gate"],
+      "visual_relation": "demand_plus_technical_proof_flow_to_unproven_next_gate",
+      "internal_hierarchy": ["metric_weekly_intent", "metric_mae", "pilot_gate", "metric_students", "metric_cafeterias"]
+    }
+  ],
+  "deck_rhythm": {
+    "previous_archetype": "process_story",
+    "avoid_archetypes": ["process_story", "editorial_hero"],
+    "preferred_change": "move_from_directional_mechanism_to_large_quantified_proof",
+    "hero_anchor_preference": "left",
+    "rhythm_role": "proof_peak"
+  },
+  "visual_guardrails": [
+    {"id": "single_protagonist", "rule": "76% must clearly dominate; 3.8 min is the strongest supporting proof but must not visually equal the hero metric."},
+    {"id": "scope_is_context", "rule": "42 students and 3 cafeterias define scope and should be compact supporting context, not equal KPI cards."},
+    {"id": "pilot_is_destination", "rule": "The visual argument must terminate in the semester pilot as the next proof gate, not a victory badge."},
+    {"id": "intent_not_retention", "rule": "Never label or depict 76% weekly-use intent as retention, conversion, or market fit."},
+    {"id": "no_internal_labels", "rule": "Never render metric_weekly_intent, metric_mae, validation_stack, or other IR identifiers."}
+  ],
+  "qa_contract": {
+    "hard_fail": ["semantic_leakage", "title_collision", "unreadable_primary_text", "multiple_equal_protagonists", "invented_claim", "intent_rendered_as_retention", "equal_weight_card_soup"],
+    "visual_targets": {"first_impression_min": 4, "hierarchy_min": 4, "composition_min": 4, "presentability_min": 4, "overall_mean_min": 4.0}
+  }
+}
