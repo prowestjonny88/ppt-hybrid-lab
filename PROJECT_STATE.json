@@ -1,0 +1,46 @@
+{
+  "project": "ppt-hybrid-lab",
+  "phase": "stage3_architecture_experiment",
+  "status": "in_progress",
+  "canonical_brain": "ChatGPT Work",
+  "delegated_investigator": "Ox Alpha",
+  "infrastructure": {
+    "github_actions_ox_worker": "verified",
+    "openrouter_ox_alpha": "verified",
+    "inventory_smoke_test": "complete",
+    "bounded_source_packager": "implemented"
+  },
+  "research": {
+    "stage1_broad_architecture_scan": "complete",
+    "stage2_forensics": "complete",
+    "stage3_ppt_master_svg_forensics": "task-002_pending"
+  },
+  "architecture_hypotheses": {
+    "H1_image_first": "under_test",
+    "H2_native_vector_first": "under_test",
+    "H3_hybrid_native_vector_image": "under_test"
+  },
+  "benchmark": {
+    "project": "QueueZero",
+    "planned_slide_types": [
+      "problem_hook",
+      "how_it_works",
+      "validation_traction"
+    ],
+    "planned_variants_per_slide": [
+      "image_first",
+      "native_vector",
+      "hybrid"
+    ],
+    "status": "specification"
+  },
+  "next_priorities": [
+    "complete task-002 PPT Master SVG-to-DrawingML forensic trace",
+    "define minimum safe native/vector feature subset",
+    "delegate RW reasoning extraction",
+    "delegate Mck native component analysis",
+    "red-team the semantic Slide IR",
+    "build controlled 3x3 architecture experiment"
+  ],
+  "last_updated": "2026-08-23"
+}
