@@ -17,7 +17,7 @@
       "subtitle": "annotation",
       "node_camera": "primary_support",
       "node_queue_estimator": "primary_support",
-      "node_wait_predictor": "hero",
+      "node_wait_predictor": "primary_support",
       "node_decision": "hero",
       "connector_camera_queue": "annotation",
       "connector_queue_prediction": "annotation",
@@ -80,8 +80,8 @@
   "density": {
     "class": "medium",
     "content_budget": {
-      "hero_items": 2,
-      "primary_support_items": 4,
+      "hero_items": 1,
+      "primary_support_items": 5,
       "secondary_support_items": 0,
       "annotation_lines": 3
     },
@@ -131,7 +131,7 @@
   },
   "visual_guardrails": [
     {"id": "one_continuous_story", "rule": "Camera → queue → prediction → decision must read as one continuous direction, not four unrelated peer cards."},
-    {"id": "prediction_is_transform", "rule": "Wait prediction should be the visually emphasized transformation point before the product decision."},
+    {"id": "prediction_is_transform", "rule": "Wait prediction should be the visually emphasized transformation point before the product decision, but the final decision remains the single hero destination."},
     {"id": "product_is_destination", "rule": "The screenshot must feel like the terminal proof/output of the pipeline rather than a separate side illustration."},
     {"id": "no_accuracy_badge", "rule": "Do not add accuracy, privacy, compliance, or verified status marks to the pipeline."},
     {"id": "no_internal_labels", "rule": "Never render workflow_runtime_map, semantic object IDs, or relationship IDs."}
