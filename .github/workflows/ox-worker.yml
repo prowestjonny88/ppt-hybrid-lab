@@ -1,22 +1,51 @@
-name: OX Worker
+name: Ox Alpha Worker
 
 on:
+  push:
+    paths:
+      - ".ox/tasks/**"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  run-ox-worker:
+  ox-worker:
+    if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.12"
 
-      - name: Run OX runner
-        run: python .ox/runner/ox_runner.py
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests pyyaml
+
+      - name: Run Ox worker
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          python .ox/runner/ox_runner.py
+
+      - name: Commit Ox report
+        run: |
+          git config user.name "ox-alpha-worker"
+          git config user.email "ox-alpha-worker@users.noreply.github.com"
+
+          git add .ox/tasks .ox/reports
+
+          if git diff --cached --quiet; then
+            echo "No Ox report changes."
+          else
+            git commit -m "ox: complete delegated task"
+            git push
+          fi
