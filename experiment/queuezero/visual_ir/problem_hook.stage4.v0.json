@@ -1,0 +1,131 @@
+{
+  "schema_version": "visual-ir-v0",
+  "status": "draft_not_frozen",
+  "slide_id": "problem-hook",
+  "semantic_file": "experiment/queuezero/slide_semantics/problem_hook.v1.json",
+  "semantic_hash": null,
+  "communication": {
+    "moment": "hook",
+    "belief_shift": "Peak lunch queues are a large enough recurring time tax that uncertainty itself deserves a product solution.",
+    "emotional_register": ["urgency", "recognition", "clarity"],
+    "reading_order": ["metric_wait", "title", "hero_visual_slot", "pain_annotation", "subtitle", "source_note"]
+  },
+  "hierarchy": {
+    "protagonist": "metric_wait",
+    "roles": {
+      "metric_wait": "hero",
+      "title": "primary_support",
+      "hero_visual_slot": "primary_support",
+      "pain_annotation": "secondary_support",
+      "subtitle": "annotation",
+      "source_note": "source"
+    },
+    "contrast_ratio_targets": {
+      "hero_to_primary_support": 2.5,
+      "primary_to_secondary": 1.45
+    }
+  },
+  "composition": {
+    "archetype_id": "editorial_hero",
+    "variant": "open_metric_left_edge_crop_right",
+    "selection_reason": "The exact 15–30 minute range is the strongest hook; the cafeteria scene should make the cost human and immediate without becoming the semantic source of truth.",
+    "content_capacity": {
+      "density": "low",
+      "max_primary_items": 2,
+      "max_secondary_items": 2
+    }
+  },
+  "spatial_grammar": {
+    "primary_axis": "horizontal",
+    "flow": "top_left_to_metric_then_scene",
+    "zones": [
+      {
+        "zone_id": "statement_zone",
+        "importance": 0.78,
+        "preferred_area": 0.26,
+        "edge_anchor": "top_left",
+        "contains": ["title", "subtitle"]
+      },
+      {
+        "zone_id": "metric_zone",
+        "importance": 1.0,
+        "preferred_area": 0.27,
+        "relation_to": "statement_zone",
+        "relation": "below",
+        "contains": ["metric_wait", "pain_annotation"]
+      },
+      {
+        "zone_id": "scene_zone",
+        "importance": 0.78,
+        "preferred_area": 0.43,
+        "edge_anchor": "right",
+        "relation_to": "metric_zone",
+        "relation": "right_of",
+        "contains": ["hero_visual_slot"]
+      }
+    ],
+    "whitespace": {
+      "minimum_fraction": 0.27,
+      "protected_between_zones": true
+    },
+    "overlap": {
+      "allowed": true,
+      "policy": "scene_may_bleed_to_right_edge_but_information_may_not_overlap"
+    }
+  },
+  "density": {
+    "class": "low",
+    "content_budget": {
+      "hero_items": 1,
+      "primary_support_items": 2,
+      "secondary_support_items": 1,
+      "annotation_lines": 3
+    },
+    "overflow_policy": ["remove_nonsemantic_decoration", "shorten_display_annotation_with_semantic_trace", "switch_archetype", "fail"],
+    "forbidden_overflow_policy": ["shrink_all_text", "turn_support_into_equal_cards"]
+  },
+  "style": {
+    "profile_id": "queuezero-hackathon-v0",
+    "identity_anchor_refs": ["open_evidence_number", "edge_index"],
+    "decoration_budget": "very_low",
+    "shape_vocabulary": ["open_metric", "soft_image_crop", "hairline_rule"],
+    "image_treatment": "editorial_product_documentary",
+    "variation_tags": ["hero_right", "large_type", "edge_crop"]
+  },
+  "asset_treatments": [
+    {
+      "semantic_object_id": "hero_visual_slot",
+      "role": "bounded_generated_hero",
+      "visual_weight": 0.78,
+      "crop_intent": "queue_scene_concentrated_lower_right_with_clean_negative_space_toward_copy",
+      "background_behavior": "edge_bleed_right",
+      "edge_behavior": "soft_crop_no_container_card",
+      "text_policy": "forbidden",
+      "semantic_exclusions": ["numeric wait labels", "invented signage claims", "logos", "slide typography"]
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "problem_copy_stage4",
+      "members": ["metric_wait", "pain_annotation"],
+      "visual_relation": "hero_metric_with_explanatory_tail",
+      "internal_hierarchy": ["metric_wait", "pain_annotation"]
+    }
+  ],
+  "deck_rhythm": {
+    "avoid_archetypes": [],
+    "preferred_change": "start_with_large_open_visual_and_asymmetric_metric",
+    "hero_anchor_preference": "right_visual_left_metric",
+    "rhythm_role": "opening_hook"
+  },
+  "visual_guardrails": [
+    {"id": "range_is_hero_not_universal", "rule": "15–30 min may dominate but must remain a peak-wait range, never a universal per-student claim."},
+    {"id": "no_metric_card", "rule": "Do not place 15–30 min inside a generic KPI card; it should read as open editorial evidence."},
+    {"id": "scene_is_context", "rule": "The generated cafeteria scene may create emotion and context but may not contain audience-readable claims or numbers."},
+    {"id": "no_dashboard_hook", "rule": "Do not use dashboard chrome, multiple cards, or UI widgets on the opening problem slide."}
+  ],
+  "qa_contract": {
+    "hard_fail": ["semantic_leakage", "title_collision", "unreadable_primary_text", "invented_claim", "forbidden_generated_text", "equal_weight_card_soup"],
+    "visual_targets": {"first_impression_min": 4, "hierarchy_min": 4, "composition_min": 4, "presentability_min": 4, "overall_mean_min": 4.0}
+  }
+}
