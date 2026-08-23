@@ -3,3 +3,4 @@ model=gemini-3.1-flash-image
 resolution=2K
 generation_id=gemini31flashimage-v1
 output_mime=image/jpeg
+mode=postprocess_verified_assets_center_crop_v2
