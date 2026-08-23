@@ -18,6 +18,10 @@ on:
       - "scripts/**"
   workflow_dispatch:
 
+concurrency:
+  group: stage3-validate-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: write
 
