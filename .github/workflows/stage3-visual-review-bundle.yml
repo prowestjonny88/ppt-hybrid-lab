@@ -1,0 +1,142 @@
+name: Stage 3 Visual Review Bundle
+
+on:
+  push:
+    paths:
+      - "benchmark/visual-review-trigger.txt"
+  workflow_dispatch:
+
+concurrency:
+  group: stage3-visual-review-bundle
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install renderer dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install python-pptx pillow
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libreoffice-impress poppler-utils >/dev/null
+
+      - name: Rebuild native benchmark deck
+        run: |
+          PYTHONPATH=. python scripts/create_queuezero_mock_assets.py
+          PYTHONPATH=. python scripts/build_stage3_native.py --out benchmark/review/native/queuezero_native_vector.pptx --realizations benchmark/review/native/realizations
+
+      - name: Stage three source decks
+        run: |
+          mkdir -p benchmark/review/image_first benchmark/review/hybrid
+          cp benchmark/generated/queuezero/gemini31flashimage-v1/queuezero_image_first.pptx benchmark/review/image_first/queuezero_image_first.pptx
+          cp benchmark/generated/queuezero/gemini31flashimage-v1/queuezero_hybrid_visual.pptx benchmark/review/hybrid/queuezero_hybrid_visual.pptx
+
+      - name: Render every deck through identical LibreOffice and Poppler path
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p benchmark/review/rendered/{native,hybrid,image_first}
+          render_one() {
+            variant="$1"
+            deck="$2"
+            out="benchmark/review/rendered/${variant}"
+            libreoffice --headless --convert-to pdf --outdir "$out" "$deck" >/tmp/lo-${variant}.log 2>&1
+            pdf=$(find "$out" -maxdepth 1 -name '*.pdf' | head -n 1)
+            test -n "$pdf"
+            pdftoppm -png -r 144 "$pdf" "$out/slide" >/tmp/pdftoppm-${variant}.log 2>&1
+            test "$(find "$out" -maxdepth 1 -name 'slide-*.png' | wc -l)" -eq 3
+          }
+          render_one native benchmark/review/native/queuezero_native_vector.pptx
+          render_one hybrid benchmark/review/hybrid/queuezero_hybrid_visual.pptx
+          render_one image_first benchmark/review/image_first/queuezero_image_first.pptx
+
+      - name: Normalize preview filenames and build contact sheets
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from PIL import Image, ImageDraw
+
+          ROOT = Path('benchmark/review/rendered')
+          variants = ['native', 'hybrid', 'image_first']
+          for variant in variants:
+              d = ROOT / variant
+              slides = sorted(d.glob('slide-*.png'))
+              if len(slides) != 3:
+                  raise SystemExit(f'{variant}: expected 3 slides, got {len(slides)}')
+              loaded = [Image.open(p).convert('RGB') for p in slides]
+              target_w = 960
+              thumbs = []
+              for idx, im in enumerate(loaded, 1):
+                  h = round(im.height * target_w / im.width)
+                  thumb = im.resize((target_w, h), Image.Resampling.LANCZOS)
+                  out = d / f'slide_{idx}.jpg'
+                  thumb.save(out, 'JPEG', quality=90, optimize=True)
+                  thumbs.append(thumb)
+              gap = 28
+              label_h = 48
+              sheet_h = sum(im.height + label_h for im in thumbs) + gap * (len(thumbs)-1)
+              sheet = Image.new('RGB', (target_w, sheet_h), 'white')
+              draw = ImageDraw.Draw(sheet)
+              y = 0
+              for idx, im in enumerate(thumbs, 1):
+                  draw.text((12, y + 12), f'Slide {idx}', fill='black')
+                  y += label_h
+                  sheet.paste(im, (0, y))
+                  y += im.height + gap
+              sheet.save(d / f'{variant}_contact_sheet.jpg', 'JPEG', quality=88, optimize=True)
+          PY
+
+      - name: Write review run receipt
+        run: |
+          mkdir -p benchmark/results
+          cat > benchmark/results/VISUAL_REVIEW_RUN.json <<JSON
+          {
+            "schema_version": "stage3-visual-review-run-v1",
+            "run_id": "${GITHUB_RUN_ID}",
+            "head_sha": "${GITHUB_SHA}",
+            "artifact_name": "queuezero-stage3-visual-review",
+            "renderer": "LibreOffice headless -> PDF -> Poppler PNG @ 144dpi",
+            "variants": ["native", "hybrid", "image_first"],
+            "slides_per_variant": 3
+          }
+          JSON
+
+      - name: Upload visual review bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: queuezero-stage3-visual-review
+          retention-days: 30
+          if-no-files-found: error
+          path: |
+            benchmark/review/rendered/native/slide_*.jpg
+            benchmark/review/rendered/native/native_contact_sheet.jpg
+            benchmark/review/rendered/hybrid/slide_*.jpg
+            benchmark/review/rendered/hybrid/hybrid_contact_sheet.jpg
+            benchmark/review/rendered/image_first/slide_*.jpg
+            benchmark/review/rendered/image_first/image_first_contact_sheet.jpg
+            benchmark/review/native/queuezero_native_vector.pptx
+            benchmark/review/hybrid/queuezero_hybrid_visual.pptx
+            benchmark/review/image_first/queuezero_image_first.pptx
+            benchmark/results/VISUAL_REVIEW_RUN.json
+
+      - name: Persist review run locator
+        run: |
+          git config user.name "stage3-visual-review"
+          git config user.email "stage3-visual-review@users.noreply.github.com"
+          git add benchmark/results/VISUAL_REVIEW_RUN.json
+          git commit -m "benchmark: publish Stage 3 visual review run locator"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
