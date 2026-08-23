@@ -3,7 +3,8 @@ name: Stage 3 Diagnose Gemini Benchmark
 on:
   push:
     paths:
-      - ".github/workflows/stage3-diagnose-gemini.yml"
+      - "benchmark/diagnostic-trigger.txt"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,40 +18,41 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Capture latest one-time benchmark run and failed log
+      - name: Capture original paid Gemini benchmark run and failed log
         env:
           GH_TOKEN: ${{ github.token }}
+          PAID_RUN_HEAD_SHA: cb65460e205145e65497b6df7c784127a04ed8cb
         shell: bash
         run: |
           set +e
           mkdir -p benchmark/results
-          META=benchmark/results/GEMINI_ONE_TIME_LATEST.json
-          LOG=benchmark/results/GEMINI_ONE_TIME_LATEST.log
+          META=benchmark/results/GEMINI_ONE_TIME_PAID_RUN.json
+          LOG=benchmark/results/GEMINI_ONE_TIME_PAID_RUN.log
           : > "$LOG"
 
-          echo "Querying latest Stage 3 Gemini one-time workflow run..." | tee -a "$LOG"
-          RAW=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/stage3-image-baseline-once.yml/runs?per_page=20" 2>>"$LOG")
+          echo "Querying Stage 3 Gemini one-time workflow runs..." | tee -a "$LOG"
+          RAW=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/stage3-image-baseline-once.yml/runs?per_page=30" 2>>"$LOG")
           API_RC=$?
           if [ $API_RC -ne 0 ]; then
             printf '{"status":"diagnostic_api_error","exit_code":%s}\n' "$API_RC" > "$META"
           else
-            echo "$RAW" | jq '[.workflow_runs[] | select(.name == "Stage 3 Gemini Image Baseline — One Time") | select(.conclusion == "failure")][0] | {id, status, conclusion, head_sha, html_url, created_at, updated_at}' > "$META" 2>>"$LOG"
+            echo "$RAW" | jq --arg sha "$PAID_RUN_HEAD_SHA" '[.workflow_runs[] | select(.head_sha == $sha)][0] | {id,status,conclusion,head_sha,html_url,created_at,updated_at}' > "$META" 2>>"$LOG"
             RUN_ID=$(jq -r '.id // empty' "$META")
             if [ -n "$RUN_ID" ]; then
-              echo "Resolved failed run ID: $RUN_ID" | tee -a "$LOG"
+              echo "Resolved original paid run ID: $RUN_ID" | tee -a "$LOG"
               echo >> "$LOG"
               gh run view "$RUN_ID" --repo "$GITHUB_REPOSITORY" --log-failed >> "$LOG" 2>&1
               VIEW_RC=$?
               echo >> "$LOG"
               echo "gh run view exit code: $VIEW_RC" >> "$LOG"
             else
-              echo "No failed one-time run resolved." >> "$LOG"
+              echo "Original paid run not found." >> "$LOG"
             fi
           fi
 
           python - <<'PY'
           from pathlib import Path
-          p = Path('benchmark/results/GEMINI_ONE_TIME_LATEST.log')
+          p = Path('benchmark/results/GEMINI_ONE_TIME_PAID_RUN.log')
           text = p.read_text(errors='replace') if p.exists() else ''
           p.write_text(text[-120000:], encoding='utf-8')
           PY
@@ -60,11 +62,11 @@ jobs:
         run: |
           git config user.name "stage3-diagnostic"
           git config user.email "stage3-diagnostic@users.noreply.github.com"
-          git add benchmark/results/GEMINI_ONE_TIME_LATEST.json benchmark/results/GEMINI_ONE_TIME_LATEST.log
+          git add benchmark/results/GEMINI_ONE_TIME_PAID_RUN.json benchmark/results/GEMINI_ONE_TIME_PAID_RUN.log
           if git diff --cached --quiet; then
             echo "No diagnostic changes"
           else
-            git commit -m "diagnostic: persist latest Gemini benchmark failure"
+            git commit -m "diagnostic: persist original Gemini benchmark failure"
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
