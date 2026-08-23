@@ -1,0 +1,66 @@
+{
+  "id": "task-003",
+  "type": "prompt_system_analysis",
+  "status": "PENDING",
+  "repository": "Pikapika260214/rw-consulting-ppt",
+  "objective": "Extract and reconstruct only the reusable reasoning and visual-direction system from RW Consulting PPT that is relevant to the Stage 3 QueueZero benchmark. Focus on how it turns content into claims, evidence boundaries, proof objects, visual concepts, sample approval rules, and cross-slide consistency. Do not spend context on image-only PPTX packaging or OCR/editable reconstruction except where needed to understand the reasoning contract.",
+  "questions": [
+    "What is the actual reasoning sequence from raw brief/content to storyline, page claim, evidence boundary, proof object, and visual mother concept?",
+    "What explicit locks or contracts govern message hierarchy, claim-evidence-visual alignment, deck consistency, density, and must-keep text/numbers?",
+    "How does RW choose proof objects for different claim types, and what decision rules are implementation/prompt evidence versus descriptive examples?",
+    "How does the sample-slide approval/rejection loop work, and what becomes the Deck System Contract after approval?",
+    "Which constraints are intended to preserve visual quality and consulting density across batch slide generation?",
+    "For the three QueueZero benchmark slides (Problem/Hook, How It Works, Validation/Traction), what reasoning artifacts should we preserve upstream before any renderer is chosen?",
+    "Which RW mechanisms are reusable engineering principles for a renderer-agnostic Slide IR, and which are tightly coupled to full-slide image generation?",
+    "What exact fields would a minimal reasoning manifest need to preserve RW's strongest ideas without copying its image-first implementation?",
+    "Identify contradictions, ambiguity, or hidden assumptions in the prompt system that could make automated generation brittle.",
+    "If the bounded package is insufficient, list exact additional file paths/symbols needed rather than guessing."
+  ],
+  "include_paths": [
+    "skills/rw-consulting-ppt/SKILL.md",
+    "skills/rw-consulting-ppt/references/**",
+    "skills/rw-consulting-ppt/prompts/**",
+    "skills/rw-consulting-ppt/templates/**"
+  ],
+  "exclude_paths": [
+    "**/package_image_deck.py",
+    "**/ppt-to-editable/**",
+    "**/*.png",
+    "**/*.jpg",
+    "**/*.jpeg",
+    "**/*.pptx",
+    "**/*.pdf"
+  ],
+  "focus_terms": [
+    "proof object",
+    "page claim",
+    "evidence boundary",
+    "visual mother concept",
+    "Message Hierarchy Lock",
+    "Claim-Evidence-Visual Lock",
+    "Deck Consistency Lock",
+    "Density Preservation Lock",
+    "Deck System Contract",
+    "must-keep",
+    "sample",
+    "storyline"
+  ],
+  "max_files": 30,
+  "max_file_bytes": 90000,
+  "max_context_chars": 220000,
+  "evidence_required": true,
+  "expected_output": [
+    "Executive finding",
+    "Exact reasoning sequence",
+    "Reasoning artifact/contract inventory",
+    "Proof-object selection logic",
+    "Sample approval and Deck System Contract flow",
+    "Renderer-agnostic reusable principles",
+    "Image-first-coupled mechanisms to avoid carrying forward",
+    "Recommended minimal reasoning manifest for QueueZero Stage 3",
+    "Application to the three benchmark slide types",
+    "Brittleness/contradiction analysis",
+    "Unknowns and exact follow-up requests"
+  ],
+  "output": ".ox/reports/task-003-rw-reasoning-system.md"
+}
