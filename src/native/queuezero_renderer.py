@@ -34,8 +34,11 @@ def _render_problem(em):
 
 def _render_how(em, root):
     s = em.semantics
-    em.text("title", _text(s,"title"), "title_band", (0,0,1,0.52), role="title", part="title")
-    em.text("subtitle", _text(s,"subtitle"), "title_band", (0,0.58,1,0.32), role="subtitle", part="subtitle")
+    # This action title wraps to two lines at Stage 3's 16:9 width. Give it a
+    # deliberately taller box and lower the subtitle so LibreOffice/PowerPoint
+    # do not collide. The content and semantic identity remain unchanged.
+    em.text("title", _text(s,"title"), "title_band", (0,0,1,0.62), role="title", part="title", size=22)
+    em.text("subtitle", _text(s,"subtitle"), "title_band", (0,0.70,1,0.24), role="subtitle", part="subtitle", size=12)
     node_boxes = {
         "node_camera": (0.01,0.29,0.20,0.30),
         "node_queue_estimator": (0.27,0.29,0.20,0.30),
