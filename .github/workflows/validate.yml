@@ -47,6 +47,9 @@ jobs:
       - name: Probe V2 native single-object patch
         run: python tests/probes/native_patch_probe.py
 
+      - name: Create deterministic benchmark asset fixtures
+        run: python scripts/create_queuezero_mock_assets.py
+
       - name: Build native-vector QueueZero benchmark deck
         run: python scripts/build_stage3_native.py
 
