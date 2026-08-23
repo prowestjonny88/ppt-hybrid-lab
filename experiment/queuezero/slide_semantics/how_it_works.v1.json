@@ -1,0 +1,240 @@
+{
+  "schema_version": "stage3-slide-semantics-v1",
+  "deck_id": "queuezero-stage3",
+  "slide_id": "how-it-works",
+  "page_role": "how_it_works",
+  "deck_system_ref": "experiment/queuezero/deck_system.stage3.json",
+  "governing_claim": "QueueZero turns a live camera feed into a simple wait-time decision.",
+  "subtitle_support": "Computer vision estimates queue length, a prediction layer converts it into wait time, and the product surfaces a recommendation before students walk over.",
+  "why_it_matters": "The system is useful only if the technical pipeline resolves into an understandable, actionable product experience.",
+  "evidence": [
+    {
+      "evidence_id": "camera_input",
+      "statement_template": "QueueZero uses computer vision to observe queue length.",
+      "value": null,
+      "display_value": null,
+      "unit": null,
+      "status": "confirmed",
+      "source_ref": "queuezero_benchmark_brief",
+      "source_span": {"locator": "How It Works", "quote": "computer vision queue length + prediction"},
+      "supports_claims": ["camera observations are an input to the queue pipeline"],
+      "does_not_prove": ["perfect object detection", "privacy compliance"]
+    },
+    {
+      "evidence_id": "prediction_output",
+      "statement_template": "The system predicts cafeteria wait time from the observed queue state.",
+      "value": null,
+      "display_value": null,
+      "unit": null,
+      "status": "confirmed",
+      "source_ref": "queuezero_benchmark_brief",
+      "source_span": {"locator": "How It Works", "quote": "queue length + prediction"},
+      "supports_claims": ["the pipeline produces a wait-time estimate"],
+      "does_not_prove": ["production-grade accuracy in every environment"]
+    }
+  ],
+  "regions": [
+    {"region_id": "title_band", "purpose": "content", "rect": {"x": 0.055, "y": 0.055, "w": 0.89, "h": 0.16}},
+    {"region_id": "diagram_region", "purpose": "proof_object", "rect": {"x": 0.055, "y": 0.25, "w": 0.59, "h": 0.56}},
+    {"region_id": "screenshot_region", "purpose": "image_slot", "rect": {"x": 0.69, "y": 0.27, "w": 0.255, "h": 0.52}},
+    {"region_id": "sponsor_insertion", "purpose": "insertion_zone", "rect": {"x": 0.82, "y": 0.89, "w": 0.13, "h": 0.055}},
+    {"region_id": "footer_region", "purpose": "footer", "rect": {"x": 0.055, "y": 0.91, "w": 0.72, "h": 0.035}}
+  ],
+  "semantic_objects": [
+    {
+      "object_id": "title",
+      "role": "title",
+      "content": "From camera feed to a wait-time decision in three steps",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "title_band",
+      "token_refs": ["text.primary"],
+      "fit_policy": "shrink_to_floor"
+    },
+    {
+      "object_id": "subtitle",
+      "role": "subtitle",
+      "content": "Observe the queue → estimate the wait → tell students whether to go now.",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "title_band",
+      "token_refs": ["text.secondary"]
+    },
+    {
+      "object_id": "node_camera",
+      "role": "diagram_node",
+      "content": "Camera feed",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "diagram_region",
+      "token_refs": ["surface.raised", "text.primary"]
+    },
+    {
+      "object_id": "node_queue_estimator",
+      "role": "diagram_node",
+      "content": "Queue length",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "diagram_region",
+      "token_refs": ["surface.raised", "text.primary"]
+    },
+    {
+      "object_id": "node_wait_predictor",
+      "role": "diagram_node",
+      "content": "Wait prediction",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "diagram_region",
+      "token_refs": ["accent.primary", "accent.on"]
+    },
+    {
+      "object_id": "node_decision",
+      "role": "diagram_node",
+      "content": "Go now / choose another cafeteria",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "diagram_region",
+      "token_refs": ["surface.raised", "text.primary"]
+    },
+    {
+      "object_id": "connector_camera_queue",
+      "role": "connector",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "diagram_region",
+      "token_refs": ["line.subtle"]
+    },
+    {
+      "object_id": "connector_queue_prediction",
+      "role": "connector",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "diagram_region",
+      "token_refs": ["line.subtle"]
+    },
+    {
+      "object_id": "connector_prediction_decision",
+      "role": "connector",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "diagram_region",
+      "token_refs": ["accent.primary"]
+    },
+    {
+      "object_id": "screenshot_main",
+      "role": "image_slot",
+      "importance": "primary",
+      "editability_priority": "replaceable_asset",
+      "region_ref": "screenshot_region"
+    },
+    {
+      "object_id": "source_note",
+      "role": "source_note",
+      "content": "Source: QueueZero controlled benchmark brief",
+      "importance": "tertiary",
+      "editability_priority": "must_remain_editable",
+      "region_ref": "footer_region",
+      "token_refs": ["text.secondary"]
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "system_pipeline",
+      "member_ids": ["node_camera", "node_queue_estimator", "node_wait_predictor", "node_decision", "connector_camera_queue", "connector_queue_prediction", "connector_prediction_decision"],
+      "layout_hint": "left_to_right_process",
+      "reflow_policy": "local"
+    }
+  ],
+  "relationships": [
+    {
+      "relationship_id": "camera_to_queue",
+      "type": "data_flow",
+      "from": {"ref_type": "object", "id": "node_camera"},
+      "to": {"ref_type": "object", "id": "node_queue_estimator"},
+      "directional": true,
+      "label": "visual observation",
+      "evidence_refs": ["camera_input"],
+      "semantic_strength": "explicit",
+      "allowed_visual_forms": ["directed_connector", "arrow"],
+      "forbidden_visual_forms": ["verified_checkmark"]
+    },
+    {
+      "relationship_id": "queue_to_prediction",
+      "type": "data_flow",
+      "from": {"ref_type": "object", "id": "node_queue_estimator"},
+      "to": {"ref_type": "object", "id": "node_wait_predictor"},
+      "directional": true,
+      "label": "queue state",
+      "evidence_refs": ["prediction_output"],
+      "semantic_strength": "explicit",
+      "allowed_visual_forms": ["directed_connector", "arrow"],
+      "forbidden_visual_forms": ["causal_flywheel"]
+    },
+    {
+      "relationship_id": "prediction_to_decision",
+      "type": "sequence",
+      "from": {"ref_type": "object", "id": "node_wait_predictor"},
+      "to": {"ref_type": "object", "id": "node_decision"},
+      "directional": true,
+      "label": "wait estimate",
+      "evidence_refs": ["prediction_output"],
+      "semantic_strength": "explicit",
+      "allowed_visual_forms": ["directed_connector", "arrow"],
+      "forbidden_visual_forms": ["verified_checkmark"]
+    }
+  ],
+  "proof_object": {
+    "proof_object_id": "queuezero_pipeline",
+    "type": "workflow_runtime_map",
+    "logic": "Show the technical chain as a directional pipeline and pair it with an independently replaceable product screenshot.",
+    "primary_refs": [
+      {"ref_type": "group", "id": "system_pipeline"},
+      {"ref_type": "object", "id": "screenshot_main"}
+    ],
+    "required_relationships": ["camera_to_queue", "queue_to_prediction", "prediction_to_decision"]
+  },
+  "forbidden_implications": [
+    {
+      "guardrail_id": "pipeline_not_accuracy_proof",
+      "applies_to": [{"ref_type": "group", "id": "system_pipeline"}],
+      "forbidden_claim": "the architecture diagram proves production accuracy or privacy compliance",
+      "forbidden_visual_forms": ["verified_checkmark", "compliance_badge"],
+      "forbidden_depictions": ["privacy certified", "100% accurate"]
+    }
+  ],
+  "must_keep_refs": [
+    {"ref_type": "group", "id": "system_pipeline"},
+    {"ref_type": "object", "id": "screenshot_main"}
+  ],
+  "hierarchy": {
+    "highest_priority": {"ref_type": "object", "id": "title"},
+    "visual_protagonist": {"ref_type": "group", "id": "system_pipeline"},
+    "primary_numbers": [],
+    "secondary_numbers": [],
+    "bottom_synthesis": null
+  },
+  "assets": [
+    {
+      "asset_id": "product_screenshot_main",
+      "kind": "screenshot",
+      "semantic_object_id": "screenshot_main",
+      "region_ref": "screenshot_region",
+      "aspect_ratio": 0.5625,
+      "text_free": false,
+      "exclusion_zones": [],
+      "safe_crop": {"x": 0.0, "y": 0.0, "w": 1.0, "h": 1.0},
+      "composition_anchor": "center",
+      "forbidden_depictions": [],
+      "palette_token_refs": [],
+      "regeneration_trigger": "manual",
+      "current_instance": {"instance_id": "product_screenshot_v1", "version": 1, "source": "experiment/queuezero/assets/product_ui_v1.png"}
+    }
+  ],
+  "qa_expectations": [
+    {"type": "must_remain_editable", "object_ids": ["title", "subtitle", "node_camera", "node_queue_estimator", "node_wait_predictor", "node_decision", "connector_camera_queue", "connector_queue_prediction", "connector_prediction_decision", "source_note"]},
+    {"type": "replaceable_asset", "object_ids": ["screenshot_main"]},
+    {"type": "relationships_must_render", "relationship_ids": ["camera_to_queue", "queue_to_prediction", "prediction_to_decision"]},
+    {"type": "forbid_full_slide_picture", "variants": ["native_vector", "hybrid"]}
+  ],
+  "deletion_policy": "tombstone_with_recorded_cascade"
+}
