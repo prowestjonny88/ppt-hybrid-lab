@@ -8,9 +8,9 @@ from pptx.util import Inches
 from src.ir.runtime import canonical_hash, load_json
 
 SLIDES = [
-    ("problem-hook", "problem_hook.png", "problem_hook.v1.json"),
-    ("how-it-works", "how_it_works.png", "how_it_works.v1.json"),
-    ("validation-traction", "validation_traction.png", "validation_traction.v1.json"),
+    ("problem-hook", "problem_hook.jpg", "problem_hook.v1.json"),
+    ("how-it-works", "how_it_works.jpg", "how_it_works.v1.json"),
+    ("validation-traction", "validation_traction.jpg", "validation_traction.v1.json"),
 ]
 
 
@@ -25,6 +25,9 @@ def _name_shape(shape, name):
 def _validate_image(path):
     with Image.open(path) as image:
         width, height = image.size
+        image_format = image.format
+    if image_format not in {"JPEG", "JPG"}:
+        raise RuntimeError(f"image-first Gemini asset must be JPEG: {path} is {image_format}")
     ratio = width / height
     if abs(ratio - (16 / 9)) > 0.01:
         raise RuntimeError(f"image-first asset must be 16:9: {path} is {width}x{height}")
