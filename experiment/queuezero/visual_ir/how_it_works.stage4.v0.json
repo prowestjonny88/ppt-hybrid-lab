@@ -1,0 +1,143 @@
+{
+  "schema_version": "visual-ir-v0",
+  "status": "draft_not_frozen",
+  "slide_id": "how-it-works",
+  "semantic_file": "experiment/queuezero/slide_semantics/how_it_works.v1.json",
+  "semantic_hash": null,
+  "communication": {
+    "moment": "demonstrate",
+    "belief_shift": "QueueZero is not a vague AI concept: one understandable chain converts a live queue observation into a decision a student can act on.",
+    "emotional_register": ["clarity", "technical_confidence", "immediacy"],
+    "reading_order": ["title", "node_camera", "node_queue_estimator", "node_wait_predictor", "node_decision", "screenshot_main", "subtitle", "source_note"]
+  },
+  "hierarchy": {
+    "protagonist": "system_pipeline",
+    "roles": {
+      "title": "primary_support",
+      "subtitle": "annotation",
+      "node_camera": "primary_support",
+      "node_queue_estimator": "primary_support",
+      "node_wait_predictor": "hero",
+      "node_decision": "hero",
+      "connector_camera_queue": "annotation",
+      "connector_queue_prediction": "annotation",
+      "connector_prediction_decision": "primary_support",
+      "screenshot_main": "primary_support",
+      "source_note": "source"
+    },
+    "contrast_ratio_targets": {
+      "hero_to_primary_support": 1.65,
+      "primary_to_secondary": 1.30
+    }
+  },
+  "composition": {
+    "archetype_id": "process_story",
+    "variant": "signal_path_to_product_destination",
+    "selection_reason": "The slide's proof is directional. The technical chain should read as one continuous transformation and resolve into the actual product decision rather than separating four equal boxes from an unrelated screenshot.",
+    "content_capacity": {
+      "density": "medium",
+      "max_primary_items": 5,
+      "max_secondary_items": 2
+    }
+  },
+  "spatial_grammar": {
+    "primary_axis": "horizontal",
+    "flow": "left_to_right_with_terminal_product_stage",
+    "zones": [
+      {
+        "zone_id": "statement_zone",
+        "importance": 0.66,
+        "preferred_area": 0.17,
+        "edge_anchor": "top_left",
+        "contains": ["title", "subtitle"]
+      },
+      {
+        "zone_id": "pipeline_zone",
+        "importance": 1.0,
+        "preferred_area": 0.48,
+        "relation_to": "statement_zone",
+        "relation": "below",
+        "contains": ["node_camera", "node_queue_estimator", "node_wait_predictor", "connector_camera_queue", "connector_queue_prediction"]
+      },
+      {
+        "zone_id": "decision_zone",
+        "importance": 0.92,
+        "preferred_area": 0.29,
+        "relation_to": "pipeline_zone",
+        "relation": "right_of",
+        "contains": ["connector_prediction_decision", "node_decision", "screenshot_main"]
+      }
+    ],
+    "whitespace": {
+      "minimum_fraction": 0.18,
+      "protected_between_zones": true
+    },
+    "overlap": {
+      "allowed": true,
+      "policy": "decision_label_may_visually_attach_to_or_overlap_screenshot_frame_but_text_must_remain_native_and_clear"
+    }
+  },
+  "density": {
+    "class": "medium",
+    "content_budget": {
+      "hero_items": 2,
+      "primary_support_items": 4,
+      "secondary_support_items": 0,
+      "annotation_lines": 3
+    },
+    "overflow_policy": ["compress_early_pipeline_nodes", "increase_decision_zone", "switch_to_staggered_path_variant", "fail"],
+    "forbidden_overflow_policy": ["shrink_all_nodes_equally", "stack_pipeline_into_unrelated_cards"]
+  },
+  "style": {
+    "profile_id": "queuezero-hackathon-v0",
+    "identity_anchor_refs": ["signal_path", "dark_proof_field", "edge_index"],
+    "decoration_budget": "low",
+    "shape_vocabulary": ["signal_path", "flat_field", "soft_image_crop", "hairline_rule"],
+    "image_treatment": "editorial_product_documentary",
+    "variation_tags": ["left_to_right", "terminal_product_stage", "dark_destination"]
+  },
+  "asset_treatments": [
+    {
+      "semantic_object_id": "screenshot_main",
+      "role": "product_destination",
+      "visual_weight": 0.82,
+      "crop_intent": "preserve_full_ui_readability_and_key_wait_decision_area",
+      "background_behavior": "stage_on_dark_field_or_open_canvas",
+      "edge_behavior": "independent_replaceable_picture_no_fake_device_chrome_required",
+      "text_policy": "existing_product_ui_text_allowed",
+      "semantic_exclusions": ["invented product badges", "new unsupported metrics"]
+    }
+  ],
+  "groups": [
+    {
+      "group_id": "system_pipeline_stage4",
+      "members": ["node_camera", "connector_camera_queue", "node_queue_estimator", "connector_queue_prediction", "node_wait_predictor", "connector_prediction_decision", "node_decision"],
+      "visual_relation": "single_signal_path",
+      "internal_hierarchy": ["node_wait_predictor", "node_decision", "node_camera", "node_queue_estimator"]
+    },
+    {
+      "group_id": "product_destination_stage4",
+      "members": ["node_decision", "screenshot_main"],
+      "visual_relation": "semantic_output_plus_real_product_proof",
+      "internal_hierarchy": ["node_decision", "screenshot_main"]
+    }
+  ],
+  "deck_rhythm": {
+    "previous_archetype": "editorial_hero",
+    "avoid_archetypes": ["editorial_hero"],
+    "preferred_change": "move_from_open_emotional_hook_to_precise_directional_structure",
+    "hero_anchor_preference": "right_destination",
+    "rhythm_role": "mechanism_reveal"
+  },
+  "visual_guardrails": [
+    {"id": "one_continuous_story", "rule": "Camera → queue → prediction → decision must read as one continuous direction, not four unrelated peer cards."},
+    {"id": "prediction_is_transform", "rule": "Wait prediction should be the visually emphasized transformation point before the product decision."},
+    {"id": "product_is_destination", "rule": "The screenshot must feel like the terminal proof/output of the pipeline rather than a separate side illustration."},
+    {"id": "no_accuracy_badge", "rule": "Do not add accuracy, privacy, compliance, or verified status marks to the pipeline."},
+    {"id": "no_internal_labels", "rule": "Never render workflow_runtime_map, semantic object IDs, or relationship IDs."}
+  ],
+  "qa_contract": {
+    "hard_fail": ["semantic_leakage", "title_collision", "broken_connector_topology", "unreadable_primary_text", "invented_claim", "pipeline_not_directional", "screenshot_not_independently_replaceable"],
+    "visual_targets": {"first_impression_min": 4, "hierarchy_min": 4, "composition_min": 4, "presentability_min": 4, "overall_mean_min": 4.0}
+  }
+}
