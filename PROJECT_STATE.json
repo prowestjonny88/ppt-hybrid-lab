@@ -1,7 +1,7 @@
 {
   "project": "ppt-hybrid-lab",
   "phase": "stage3_architecture_experiment",
-  "status": "in_progress",
+  "status": "implementation_started",
   "canonical_brain": "ChatGPT Work",
   "delegated_investigator": "Ox Alpha",
   "infrastructure": {
@@ -9,7 +9,8 @@
     "openrouter_ox_alpha": "verified",
     "inventory_smoke_test": "complete",
     "bounded_source_packager": "implemented",
-    "concurrent_run_hardening": "implemented"
+    "concurrent_run_hardening": "implemented",
+    "stage3_validation_workflow": "implemented"
   },
   "research": {
     "stage1_broad_architecture_scan": "complete",
@@ -17,7 +18,7 @@
     "stage3_ppt_master_svg_forensics": "complete_and_adjudicated",
     "stage3_rw_reasoning_extraction": "complete_and_adjudicated",
     "stage3_mck_native_component_analysis": "complete_and_adjudicated",
-    "stage3_slide_ir_red_team": "task-005_pending"
+    "stage3_slide_ir_red_team": "complete_and_adjudicated"
   },
   "architecture_hypotheses": {
     "H1_image_first": "under_test",
@@ -37,33 +38,48 @@
     "mck_native_objects_support_local_edits": true,
     "mck_same_bbox_image_replacement_isolated": true,
     "mck_component_layer_too_flat_for_product_architecture": true,
-    "mck_geometry_only_qa_requires_semantic_roles": true
+    "mck_geometry_only_qa_requires_semantic_roles": true,
+    "slide_ir_layering_survived_red_team": true,
+    "slide_ir_v0_dangling_refs_fixed_in_v1": true,
+    "renderer_lane_leakage_removed_from_semantics": true,
+    "round_trip_identity_contract_defined": true,
+    "bounded_asset_region_contract_defined": true
   },
   "architecture_artifacts": {
     "slide_ir_draft_v0": "architecture/SLIDE_IR_DRAFT_V0.md",
-    "validation_slide_ir_example_v0": "experiment/queuezero/slide_ir/validation_traction.v0.json",
+    "slide_ir_v1": "architecture/SLIDE_IR_V1.md",
+    "slide_ir_redteam_adjudication": "architecture/SLIDE_IR_REDTEAM_ADJUDICATION.md",
+    "capability_registry": "architecture/CAPABILITY_REGISTRY.stage3.json",
+    "deck_system": "experiment/queuezero/deck_system.stage3.json",
     "panic_test_protocol": "benchmark/STAGE3_PANIC_TEST_PROTOCOL.md",
+    "panic_test_amendments": "benchmark/STAGE3_PROTOCOL_AMENDMENTS_V1.md",
     "mck_adjudication": "architecture/MCK_NATIVE_COMPONENT_ADJUDICATION.md"
   },
   "benchmark": {
     "project": "QueueZero",
-    "planned_slide_types": [
-      "problem_hook",
-      "how_it_works",
-      "validation_traction"
+    "slide_semantics": [
+      "experiment/queuezero/slide_semantics/problem_hook.v1.json",
+      "experiment/queuezero/slide_semantics/how_it_works.v1.json",
+      "experiment/queuezero/slide_semantics/validation_traction.v1.json"
     ],
-    "planned_variants_per_slide": [
-      "image_first",
-      "native_vector",
-      "hybrid"
-    ],
-    "status": "protocol_frozen_ir_red_team_in_progress"
+    "planned_slide_types": ["problem_hook", "how_it_works", "validation_traction"],
+    "planned_variants_per_slide": ["image_first", "native_vector", "hybrid"],
+    "render_plan_count": 9,
+    "status": "ir_v1_frozen_build_scaffold_next"
+  },
+  "validation": {
+    "referential_integrity_validator": "tests/validate_slide_semantics.py",
+    "render_plan_fairness_validator": "tests/validate_render_plans.py",
+    "probe_v1_svg_editable_text": "accepted_from_stage2_empirical_plus_source_evidence",
+    "probe_v2_native_single_object_patch": "tests/probes/native_patch_probe.py",
+    "ci_result": "pending_observation"
   },
   "next_priorities": [
-    "complete and adjudicate task-005 Slide IR red-team",
-    "patch and freeze Stage 3 experimental Slide IR",
-    "implement minimum native component API and constrained SVG lane adapter",
-    "build controlled 3x3 architecture experiment",
+    "implement minimal native component API with deterministic semantic identities",
+    "implement QueueZero native-vector renderer and realization map",
+    "implement constrained SVG adapter for the How-It-Works hybrid diagram",
+    "create bounded/mock assets required by the benchmark",
+    "build A/B/C variant input manifests and outputs",
     "run panic edits, structural audit, and blind visual scoring"
   ],
   "last_updated": "2026-08-23"
