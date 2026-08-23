@@ -1,0 +1,12 @@
+{
+  "plan_version": "stage3-render-plan-v1",
+  "slide_id": "how-it-works",
+  "variant": "image_first",
+  "semantic_file": "experiment/queuezero/slide_semantics/how_it_works.v1.json",
+  "semantic_hash": null,
+  "mode": "full_slide_image",
+  "routing": {"role_defaults": {"*": "image"}, "object_overrides": {}, "decisions": []},
+  "fallback_policy": "fail_closed",
+  "full_slide_rasterization_allowed": true,
+  "fairness_rule": "The image prompt must preserve all four nodes, three directional relationships, screenshot meaning and semantic guardrail."
+}
