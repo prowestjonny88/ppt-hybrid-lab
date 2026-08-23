@@ -1,0 +1,22 @@
+model: stealth/ox-alpha
+
+openrouter:
+  base_url: https://openrouter.ai/api/v1
+
+reasoning:
+  effort: max
+
+worker:
+  max_files: 60
+  max_file_bytes: 150000
+  max_context_chars: 600000
+
+output:
+  reports_dir: .ox/reports
+
+rules:
+  require_evidence: true
+  allow_target_repo_write: false
+  allow_reference_repo_write: false
+  distinguish_inference_from_evidence: true
+  allow_model_fallback: false
