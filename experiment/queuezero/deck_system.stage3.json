@@ -1,0 +1,41 @@
+{
+  "deck_system_id": "queuezero-stage3-v1",
+  "slide_size": {
+    "ratio": "16:9",
+    "width_in": 13.333333,
+    "height_in": 7.5,
+    "reference_canvas_px": {"width": 1280, "height": 720}
+  },
+  "safe_margins": {"left": 0.055, "right": 0.055, "top": 0.055, "bottom": 0.055},
+  "tokens": {
+    "accent.primary": "#2563EB",
+    "accent.on": "#FFFFFF",
+    "surface": "#F7F8FA",
+    "surface.raised": "#FFFFFF",
+    "text.primary": "#111827",
+    "text.secondary": "#4B5563",
+    "line.subtle": "#D1D5DB",
+    "status.pending": "#D97706"
+  },
+  "type_scale": {
+    "display": {"size_pt": 30, "weight": 700},
+    "h1": {"size_pt": 24, "weight": 700},
+    "h2": {"size_pt": 17, "weight": 600},
+    "body": {"size_pt": 13, "weight": 400},
+    "metric": {"size_pt": 28, "weight": 700},
+    "caption": {"size_pt": 9, "weight": 400}
+  },
+  "role_defaults": {
+    "title": {"type_token": "display", "token_refs": ["text.primary"], "fit_policy": "shrink_to_floor", "min_size_pt": 24},
+    "subtitle": {"type_token": "body", "token_refs": ["text.secondary"], "fit_policy": "fixed_box_wrap"},
+    "body_text": {"type_token": "body", "token_refs": ["text.primary"], "fit_policy": "fixed_box_wrap"},
+    "metric": {"type_token": "metric", "token_refs": ["accent.primary"], "fit_policy": "shrink_to_floor", "min_size_pt": 20},
+    "metric_label": {"type_token": "caption", "token_refs": ["text.secondary"], "fit_policy": "fixed_box_wrap"},
+    "annotation": {"type_token": "body", "token_refs": ["text.primary"], "fit_policy": "fixed_box_wrap"},
+    "source_note": {"type_token": "caption", "token_refs": ["text.secondary"], "fit_policy": "fixed_box_wrap"},
+    "diagram_node": {"type_token": "body", "token_refs": ["text.primary"], "fit_policy": "fixed_box_wrap"}
+  },
+  "page_marker_policy": "none",
+  "bottom_synthesis_policy": "judgment_slides_only",
+  "material_treatment": "flat_with_selective_depth"
+}
