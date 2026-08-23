@@ -1,0 +1,394 @@
+{
+  "schema_version": "stage3-realization-v1",
+  "slide_id": "how-it-works",
+  "variant": "hybrid",
+  "semantic_hash": "e210390e4bfde58698b29882ff0f5e931295c70e36cb24409febbc0a619cad98",
+  "render_plan": "experiment/queuezero/render_plans/how_it_works.hybrid.json",
+  "svg_adapter": {
+    "ppt_master_commit": "65bb2eca59a36270819caba377097910c4466c6e",
+    "svg_sha256": "eb4e6930fd7371da5286d4a3dec4f30aff6ba47b56e841991020e32a45de8531",
+    "trace": "trace.json"
+  },
+  "objects": [
+    {
+      "semantic_object_id": "connector_camera_queue",
+      "render_lane": "svg",
+      "parts": [
+        {
+          "ppt_object_id": "11",
+          "ppt_shape_name": "oxq:how-it-works:connector_camera_queue:line",
+          "bounds_emu": {
+            "x": 2181130,
+            "y": 3404330,
+            "w": 355378,
+            "h": 9525
+          },
+          "content_hash": "5337b87490ca73d35f7f7c09fed8d12a2dc4c71ca2ba7063a822eb61e05e2f4d",
+          "part": "line"
+        },
+        {
+          "ppt_object_id": "12",
+          "ppt_shape_name": "oxq:how-it-works:connector_camera_queue:arrow",
+          "bounds_emu": {
+            "x": 2526982,
+            "y": 3347180,
+            "w": 85725,
+            "h": 114300
+          },
+          "content_hash": "ce54c873878d8a1811a4df27976eb57c7444c8a074b031fc45aad280fbce4114",
+          "part": "arrow"
+        }
+      ],
+      "token_refs": [
+        "line.subtle"
+      ],
+      "fidelity": "editable_vector_structure",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "a47149828e414b396896e1fd08fd364b32a300239e205d3e71d4206b6c9cba24"
+    },
+    {
+      "semantic_object_id": "connector_prediction_decision",
+      "render_lane": "svg",
+      "parts": [
+        {
+          "ppt_object_id": "15",
+          "ppt_shape_name": "oxq:how-it-works:connector_prediction_decision:line",
+          "bounds_emu": {
+            "x": 5921692,
+            "y": 3404330,
+            "w": 355378,
+            "h": 9525
+          },
+          "content_hash": "59c68c4056e0c8a294e2dbf86b00a0afe0f87fff5c73644bc7ae81d90abfed9a",
+          "part": "line"
+        },
+        {
+          "ppt_object_id": "16",
+          "ppt_shape_name": "oxq:how-it-works:connector_prediction_decision:arrow",
+          "bounds_emu": {
+            "x": 6267545,
+            "y": 3347180,
+            "w": 85725,
+            "h": 114300
+          },
+          "content_hash": "394532ce101c471a1c5f936b8cfb57a731634369268b62383bdf30c6b23e506b",
+          "part": "arrow"
+        }
+      ],
+      "token_refs": [
+        "accent.primary"
+      ],
+      "fidelity": "editable_vector_structure",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "dba53713cc5f9716b9c8fa302fb13d1cb22418c8c4640da123623a6c1046728c"
+    },
+    {
+      "semantic_object_id": "connector_queue_prediction",
+      "render_lane": "svg",
+      "parts": [
+        {
+          "ppt_object_id": "13",
+          "ppt_shape_name": "oxq:how-it-works:connector_queue_prediction:line",
+          "bounds_emu": {
+            "x": 4051363,
+            "y": 3404330,
+            "w": 355473,
+            "h": 9525
+          },
+          "content_hash": "363b597acfd1a5d43333f4eabbf4207331f478e434ced7c9e6bb257bd667a08d",
+          "part": "line"
+        },
+        {
+          "ppt_object_id": "14",
+          "ppt_shape_name": "oxq:how-it-works:connector_queue_prediction:arrow",
+          "bounds_emu": {
+            "x": 4397312,
+            "y": 3347180,
+            "w": 85725,
+            "h": 114300
+          },
+          "content_hash": "f7d8424dda9893857760b810b2c242bf221f1b577e02cde0623a3dfec95e96d6",
+          "part": "arrow"
+        }
+      ],
+      "token_refs": [
+        "line.subtle"
+      ],
+      "fidelity": "editable_vector_structure",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "39f5bf4a4647c05c71101b182e1ddf535d19dcb0fd05208e6f9a19effc62b951"
+    },
+    {
+      "semantic_object_id": "node_camera",
+      "render_lane": "svg",
+      "parts": [
+        {
+          "ppt_object_id": "2",
+          "ppt_shape_name": "oxq:how-it-works:node_camera:shape",
+          "bounds_emu": {
+            "x": 742474,
+            "y": 2828258,
+            "w": 1438656,
+            "h": 1152144
+          },
+          "content_hash": "a427606f20c944b9bba3c71279eedd4006a913aa1d5023c3c70fd330cabf7cd3",
+          "part": "shape"
+        },
+        {
+          "ppt_object_id": "3",
+          "ppt_shape_name": "oxq:how-it-works:node_camera:label",
+          "bounds_emu": {
+            "x": 909798,
+            "y": 3371614,
+            "w": 863575,
+            "h": 205359
+          },
+          "content_hash": "bd4055d3c8e62635fd25b4423edb28250f6378f698c4c08145c66284517621b5",
+          "part": "label"
+        }
+      ],
+      "token_refs": [
+        "surface.raised",
+        "text.primary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "beb684374a79cf1ca0f36fcf0707acb773f47bcd4f904e74ea62625081c4f048"
+    },
+    {
+      "semantic_object_id": "node_decision",
+      "render_lane": "svg",
+      "parts": [
+        {
+          "ppt_object_id": "8",
+          "ppt_shape_name": "oxq:how-it-works:node_decision:shape",
+          "bounds_emu": {
+            "x": 6353270,
+            "y": 2636234,
+            "w": 1438656,
+            "h": 1536192
+          },
+          "content_hash": "b843db56d7624eac655fd5aecadabbd1b0582da50466d6b166da45aaf441ae8a",
+          "part": "shape"
+        },
+        {
+          "ppt_object_id": "9",
+          "ppt_shape_name": "oxq:how-it-works:node_decision:label1",
+          "bounds_emu": {
+            "x": 6492164,
+            "y": 3191527,
+            "w": 1030976,
+            "h": 190690
+          },
+          "content_hash": "cd2125e857a0efa4208c3cd34046d16bf9b25420ca27adc2c4920a37009a8dca",
+          "part": "label1"
+        },
+        {
+          "ppt_object_id": "10",
+          "ppt_shape_name": "oxq:how-it-works:node_decision:label2",
+          "bounds_emu": {
+            "x": 6492164,
+            "y": 3498765,
+            "w": 1177465,
+            "h": 190690
+          },
+          "content_hash": "6554918a60310a8a887bd32dc3de90ff297506f624193f0dfe64c2c100660412",
+          "part": "label2"
+        }
+      ],
+      "token_refs": [
+        "surface.raised",
+        "text.primary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "09ac7e61b8e2dd8e29bc1627fa8e51e0fa7096623ecb230aab4b61f55f0a8971"
+    },
+    {
+      "semantic_object_id": "node_queue_estimator",
+      "render_lane": "svg",
+      "parts": [
+        {
+          "ppt_object_id": "4",
+          "ppt_shape_name": "oxq:how-it-works:node_queue_estimator:shape",
+          "bounds_emu": {
+            "x": 2612708,
+            "y": 2828258,
+            "w": 1438656,
+            "h": 1152144
+          },
+          "content_hash": "8732be69ceaf88a3a94d21560f42788d74d80bff1a285be024ca1b5ab95ab28b",
+          "part": "shape"
+        },
+        {
+          "ppt_object_id": "5",
+          "ppt_shape_name": "oxq:how-it-works:node_queue_estimator:label",
+          "bounds_emu": {
+            "x": 2780050,
+            "y": 3371614,
+            "w": 905762,
+            "h": 205359
+          },
+          "content_hash": "5de29eb3db8a824606284b154703abdb4d166c10c80021c34ffa81fe68547497",
+          "part": "label"
+        }
+      ],
+      "token_refs": [
+        "surface.raised",
+        "text.primary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "6369563cecdde70141b3f656c41c7e85d9b011dc4f0ab6ed8ae790e580fec9d0"
+    },
+    {
+      "semantic_object_id": "node_wait_predictor",
+      "render_lane": "svg",
+      "parts": [
+        {
+          "ppt_object_id": "6",
+          "ppt_shape_name": "oxq:how-it-works:node_wait_predictor:shape",
+          "bounds_emu": {
+            "x": 4483036,
+            "y": 2828258,
+            "w": 1438656,
+            "h": 1152144
+          },
+          "content_hash": "9ba44be01cdd5184c1ae86574c2562a4d33200090dcf1893f82796ed534fa1fd",
+          "part": "shape"
+        },
+        {
+          "ppt_object_id": "7",
+          "ppt_shape_name": "oxq:how-it-works:node_wait_predictor:label",
+          "bounds_emu": {
+            "x": 4650303,
+            "y": 3371614,
+            "w": 1120857,
+            "h": 205359
+          },
+          "content_hash": "1fea0742fd29c0bea239ce49493f1293bdaba1d35474ccef9d6ddf29526549fd",
+          "part": "label"
+        }
+      ],
+      "token_refs": [
+        "accent.primary",
+        "accent.on"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "80f80a115794bfc94f88406f12f72ebfe89a3e426b9d3f0b0db827ba34925b45"
+    },
+    {
+      "semantic_object_id": "title",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "17",
+          "ppt_shape_name": "oxq:how-it-works:title:title",
+          "bounds_emu": {
+            "x": 670559,
+            "y": 377190,
+            "w": 10850879,
+            "h": 570585
+          },
+          "content_hash": "e2671066afaafdeb3e402a8c986ab6f9fc0aa7a8e63fc30afaa38cf7d821d0af"
+        }
+      ],
+      "token_refs": [
+        "text.primary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "da798dff1cae3a2d4c5d06adb29fe5968ff97fca130aa54fefdac9881521f8f9"
+    },
+    {
+      "semantic_object_id": "subtitle",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "18",
+          "ppt_shape_name": "oxq:how-it-works:subtitle:subtitle",
+          "bounds_emu": {
+            "x": 670559,
+            "y": 1013612,
+            "w": 10850879,
+            "h": 351129
+          },
+          "content_hash": "1dd0ed4070a32a6fb7325a2663331886b81ec85b76bae07453a7e0aab2af48df"
+        }
+      ],
+      "token_refs": [
+        "text.secondary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "1e1b8950332491b67e606fbb4d129e1cd84af39bbab269ab40adb9098ddbd669"
+    },
+    {
+      "semantic_object_id": "screenshot_main",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "19",
+          "ppt_shape_name": "oxq:how-it-works:screenshot_main:picture",
+          "bounds_emu": {
+            "x": 8412479,
+            "y": 1851660,
+            "w": 3108959,
+            "h": 3566160
+          },
+          "content_hash": "d81693f16e6fc3ef9ceead2acf8d3d428038b8d9cc852566faaab67af1ff11d9"
+        }
+      ],
+      "token_refs": [],
+      "fidelity": "editable_picture_slot",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "48309d92fe27fc4a26609a0f837ceeaa6fa26aa97b9e2201d00711bb6a2eb074"
+    },
+    {
+      "semantic_object_id": "source_note",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "20",
+          "ppt_shape_name": "oxq:how-it-works:source_note:source",
+          "bounds_emu": {
+            "x": 670559,
+            "y": 6240780,
+            "w": 8778239,
+            "h": 240030
+          },
+          "content_hash": "fa6a94d4b1d73261db19acff15f778d3fcee3844f54e1021db5e92b7e8d48431"
+        }
+      ],
+      "token_refs": [
+        "text.secondary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "4db482f6ce59dae097dc75d9f8ac30b22bdb11579c8a8133de3485fa56ade218"
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "schema": "ppt-master.svg-quality-report.v1",
+  "stage": "final",
+  "target": "/home/runner/work/ppt-hybrid-lab/ppt-hybrid-lab/benchmark/generated/queuezero/gemini31flashimage-v1/ppt_master_adapter_workspace",
+  "source_fingerprint": {
+    "algorithm": "sha256",
+    "digest": "7537409c28009a0a51b8cdc32630d95606510cc9580173eef8a4ab7ef5d0c396",
+    "file_count": 1,
+    "files": [
+      {
+        "file": "queuezero_hiw.svg",
+        "sha256": "eb4e6930fd7371da5286d4a3dec4f30aff6ba47b56e841991020e32a45de8531"
+      }
+    ]
+  },
+  "summary": {
+    "total": 1,
+    "passed": 0,
+    "warnings": 1,
+    "errors": 0
+  },
+  "issue_types": {},
+  "categories": {
+    "blocking": {
+      "count": 0,
+      "issues": []
+    },
+    "introduced": {
+      "count": 2,
+      "issues": [
+        {
+          "file": "queuezero_hiw.svg",
+          "message": "15 ungrouped top-level Slide-local element(s) in svg_output (<rect id=\"node_camera__shape\">, <text id=\"node_camera__label\">, <rect id=\"node_queue_estimator__shape\">, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\""
+        },
+        {
+          "file": "queuezero_hiw.svg",
+          "message": "page SVG is missing root data-pptx-page-role"
+        }
+      ]
+    },
+    "inherited": {
+      "count": 0,
+      "issues": []
+    },
+    "source-import": {
+      "count": 0,
+      "summary": {
+        "warning_count": 0,
+        "by_code": {}
+      }
+    }
+  },
+  "drift": {
+    "colors": {},
+    "fonts": {},
+    "sizes": {}
+  },
+  "carrier_receipt": {
+    "scope": "informational-not-a-quota",
+    "pages": 1,
+    "totals": {
+      "text_elements": 5,
+      "image_placements": 0,
+      "icons": 0,
+      "svg_geometry_elements": 10,
+      "preset_shapes": 0,
+      "page_frame_elements": 0,
+      "marker_uses": 0
+    },
+    "pages_with": {
+      "images": 0,
+      "icons": 0,
+      "presets": 0,
+      "charts": 0,
+      "tables": 0,
+      "formulas": 0
+    },
+    "geometry_elements": {
+      "circle": 0,
+      "ellipse": 0,
+      "line": 3,
+      "path": 0,
+      "polygon": 3,
+      "polyline": 0,
+      "rect": 4
+    },
+    "preset_names": {},
+    "native_objects": {
+      "chart": 0,
+      "formula_block": 0,
+      "formula_inline": 0,
+      "other": 0,
+      "table": 0
+    },
+    "image_page_max_frame_share_range": []
+  },
+  "project_issues": {
+    "template": [],
+    "animation": [],
+    "illustration": [],
+    "communication_trace": [],
+    "pptx_structure": []
+  },
+  "files": [
+    {
+      "file": "queuezero_hiw.svg",
+      "path": "/home/runner/work/ppt-hybrid-lab/ppt-hybrid-lab/benchmark/generated/queuezero/gemini31flashimage-v1/ppt_master_adapter_workspace/svg_output/queuezero_hiw.svg",
+      "exists": true,
+      "errors": [],
+      "warnings": [
+        "15 ungrouped top-level Slide-local element(s) in svg_output (<rect id=\"node_camera__shape\">, <text id=\"node_camera__label\">, <rect id=\"node_queue_estimator__shape\">, ...); group only logical content units in a top-level <g id=\"...\">. Keep genuine static page framing as a root primitive and declare a supported data-pptx-role such as \"background\" or \"decoration\"",
+        "page SVG is missing root data-pptx-page-role"
+      ],
+      "info": {
+        "viewbox": "0 0 1280 720",
+        "carrier_receipt": {
+          "text_elements": 5,
+          "images": {
+            "placements": 0,
+            "files": [],
+            "max_frame_share": 0.0
+          },
+          "icons": 0,
+          "geometry": {
+            "svg_elements": {
+              "rect": 4,
+              "circle": 0,
+              "ellipse": 0,
+              "line": 3,
+              "polyline": 0,
+              "polygon": 3,
+              "path": 0
+            },
+            "preset_shapes": 0,
+            "preset_names": {},
+            "page_frame_elements": 0,
+            "marker_uses": {
+              "start": 0,
+              "mid": 0,
+              "end": 0
+            }
+          },
+          "native_objects": {
+            "chart": 0,
+            "table": 0,
+            "formula_block": 0,
+            "formula_inline": 0,
+            "other": 0
+          }
+        },
+        "fonts": [
+          "Arial"
+        ],
+        "text_elements": 5,
+        "tspan_elements": 0
+      },
+      "passed": true,
+      "source_sha256": "eb4e6930fd7371da5286d4a3dec4f30aff6ba47b56e841991020e32a45de8531"
+    }
+  ]
+}

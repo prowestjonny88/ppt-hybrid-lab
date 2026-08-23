@@ -6,9 +6,9 @@
   "generation_id": "gemini31flashimage-v1",
   "steps": {
     "generate_assets": "success",
-    "package_image_first": "failure",
-    "audit_image_first": "skipped",
-    "build_hybrid_visual": "skipped",
-    "audit_visual_assets": "skipped"
+    "package_image_first": "success",
+    "audit_image_first": "success",
+    "build_hybrid_visual": "success",
+    "audit_visual_assets": "success"
   }
 }

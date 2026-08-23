@@ -1,0 +1,64 @@
+{
+  "schema_version": "stage3-image-first-package-v2",
+  "variant": "image_first",
+  "placement_policy": "center_crop_source_without_resampling",
+  "slides": [
+    {
+      "slide_id": "problem-hook",
+      "image": "/home/runner/work/ppt-hybrid-lab/ppt-hybrid-lab/benchmark/generated/queuezero/gemini31flashimage-v1/image_first/problem_hook.jpg",
+      "pixel_size": [
+        2752,
+        1536
+      ],
+      "source_ratio": 1.7916666666666667,
+      "target_ratio": 1.7777777777777777,
+      "crop_fractions": {
+        "left": 0.0038759689922481244,
+        "right": 0.0038759689922481244,
+        "top": 0.0,
+        "bottom": 0.0
+      },
+      "semantic_hash": "d7525024f432c50409a1b7083a73db9f32f05824df43d9fa89dce1e45f8e9d20",
+      "ppt_shape_name": "oxq:problem-hook:full_slide:image_first",
+      "editability_class": "full_slide_raster_baseline"
+    },
+    {
+      "slide_id": "how-it-works",
+      "image": "/home/runner/work/ppt-hybrid-lab/ppt-hybrid-lab/benchmark/generated/queuezero/gemini31flashimage-v1/image_first/how_it_works.jpg",
+      "pixel_size": [
+        2752,
+        1536
+      ],
+      "source_ratio": 1.7916666666666667,
+      "target_ratio": 1.7777777777777777,
+      "crop_fractions": {
+        "left": 0.0038759689922481244,
+        "right": 0.0038759689922481244,
+        "top": 0.0,
+        "bottom": 0.0
+      },
+      "semantic_hash": "e210390e4bfde58698b29882ff0f5e931295c70e36cb24409febbc0a619cad98",
+      "ppt_shape_name": "oxq:how-it-works:full_slide:image_first",
+      "editability_class": "full_slide_raster_baseline"
+    },
+    {
+      "slide_id": "validation-traction",
+      "image": "/home/runner/work/ppt-hybrid-lab/ppt-hybrid-lab/benchmark/generated/queuezero/gemini31flashimage-v1/image_first/validation_traction.jpg",
+      "pixel_size": [
+        2752,
+        1536
+      ],
+      "source_ratio": 1.7916666666666667,
+      "target_ratio": 1.7777777777777777,
+      "crop_fractions": {
+        "left": 0.0038759689922481244,
+        "right": 0.0038759689922481244,
+        "top": 0.0,
+        "bottom": 0.0
+      },
+      "semantic_hash": "6f6833a9a12f489bbbf5333c738c2217ae76a5bba1bb810332240900ee16e572",
+      "ppt_shape_name": "oxq:validation-traction:full_slide:image_first",
+      "editability_class": "full_slide_raster_baseline"
+    }
+  ]
+}

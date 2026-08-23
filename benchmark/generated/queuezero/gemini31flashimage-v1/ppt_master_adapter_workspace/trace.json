@@ -1,0 +1,273 @@
+{
+  "output": "/home/runner/work/ppt-hybrid-lab/ppt-hybrid-lab/benchmark/generated/queuezero/gemini31flashimage-v1/ppt_master_adapter_workspace/out.pptx",
+  "slide_count": 1,
+  "slides": [
+    {
+      "slide_num": 1,
+      "svg": "/home/runner/work/ppt-hybrid-lab/ppt-hybrid-lab/benchmark/generated/queuezero/gemini31flashimage-v1/ppt_master_adapter_workspace/svg_output/queuezero_hiw.svg",
+      "page_role": null,
+      "summary": {
+        "converted": 15,
+        "skipped": 0,
+        "promoted_backgrounds": 0,
+        "media_files": 0,
+        "package_files": 0,
+        "relationships": 0,
+        "animation_targets": 0
+      },
+      "preprocess": [],
+      "events": [
+        {
+          "tag": "rect",
+          "decision": "native",
+          "id": "node_camera__shape",
+          "shape_id": 2,
+          "bounds_emu": [
+            742474,
+            2828258,
+            2181130,
+            3980402
+          ],
+          "output_geometry": "preset",
+          "preset": "roundRect",
+          "fidelity": "native-normalized"
+        },
+        {
+          "tag": "text",
+          "decision": "native",
+          "id": "node_camera__label",
+          "shape_id": 3,
+          "bounds_emu": [
+            909798,
+            3371614,
+            1773373,
+            3576973
+          ],
+          "output_geometry": "preset",
+          "preset": "rect",
+          "fidelity": "native-normalized"
+        },
+        {
+          "tag": "rect",
+          "decision": "native",
+          "id": "node_queue_estimator__shape",
+          "shape_id": 4,
+          "bounds_emu": [
+            2612708,
+            2828258,
+            4051364,
+            3980402
+          ],
+          "output_geometry": "preset",
+          "preset": "roundRect",
+          "fidelity": "native-normalized"
+        },
+        {
+          "tag": "text",
+          "decision": "native",
+          "id": "node_queue_estimator__label",
+          "shape_id": 5,
+          "bounds_emu": [
+            2780050,
+            3371614,
+            3685812,
+            3576973
+          ],
+          "output_geometry": "preset",
+          "preset": "rect",
+          "fidelity": "native-normalized"
+        },
+        {
+          "tag": "rect",
+          "decision": "native",
+          "id": "node_wait_predictor__shape",
+          "shape_id": 6,
+          "bounds_emu": [
+            4483036,
+            2828258,
+            5921692,
+            3980402
+          ],
+          "output_geometry": "preset",
+          "preset": "roundRect",
+          "fidelity": "native-normalized"
+        },
+        {
+          "tag": "text",
+          "decision": "native",
+          "id": "node_wait_predictor__label",
+          "shape_id": 7,
+          "bounds_emu": [
+            4650303,
+            3371614,
+            5771160,
+            3576973
+          ],
+          "output_geometry": "preset",
+          "preset": "rect",
+          "fidelity": "native-normalized"
+        },
+        {
+          "tag": "rect",
+          "decision": "native",
+          "id": "node_decision__shape",
+          "shape_id": 8,
+          "bounds_emu": [
+            6353270,
+            2636234,
+            7791926,
+            4172426
+          ],
+          "output_geometry": "preset",
+          "preset": "roundRect",
+          "fidelity": "native-normalized"
+        },
+        {
+          "tag": "text",
+          "decision": "native",
+          "id": "node_decision__label1",
+          "shape_id": 9,
+          "bounds_emu": [
+            6492164,
+            3191527,
+            7523140,
+            3382217
+          ],
+          "output_geometry": "preset",
+          "preset": "rect",
+          "fidelity": "native-normalized"
+        },
+        {
+          "tag": "text",
+          "decision": "native",
+          "id": "node_decision__label2",
+          "shape_id": 10,
+          "bounds_emu": [
+            6492164,
+            3498765,
+            7669629,
+            3689455
+          ],
+          "output_geometry": "preset",
+          "preset": "rect",
+          "fidelity": "native-normalized"
+        },
+        {
+          "tag": "line",
+          "decision": "native",
+          "id": "connector_camera_queue__line",
+          "shape_id": 11,
+          "bounds_emu": [
+            2181130,
+            3404330,
+            2536508,
+            3413855
+          ],
+          "output_geometry": "custom",
+          "fidelity": "visual-only",
+          "geometry_source": "svg-authored"
+        },
+        {
+          "tag": "polygon",
+          "decision": "native",
+          "id": "connector_camera_queue__arrow",
+          "shape_id": 12,
+          "bounds_emu": [
+            2526982,
+            3347180,
+            2612707,
+            3461480
+          ],
+          "output_geometry": "custom",
+          "fidelity": "visual-only",
+          "geometry_source": "svg-authored"
+        },
+        {
+          "tag": "line",
+          "decision": "native",
+          "id": "connector_queue_prediction__line",
+          "shape_id": 13,
+          "bounds_emu": [
+            4051363,
+            3404330,
+            4406836,
+            3413855
+          ],
+          "output_geometry": "custom",
+          "fidelity": "visual-only",
+          "geometry_source": "svg-authored"
+        },
+        {
+          "tag": "polygon",
+          "decision": "native",
+          "id": "connector_queue_prediction__arrow",
+          "shape_id": 14,
+          "bounds_emu": [
+            4397312,
+            3347180,
+            4483037,
+            3461480
+          ],
+          "output_geometry": "custom",
+          "fidelity": "visual-only",
+          "geometry_source": "svg-authored"
+        },
+        {
+          "tag": "line",
+          "decision": "native",
+          "id": "connector_prediction_decision__line",
+          "shape_id": 15,
+          "bounds_emu": [
+            5921692,
+            3404330,
+            6277070,
+            3413855
+          ],
+          "output_geometry": "custom",
+          "fidelity": "visual-only",
+          "geometry_source": "svg-authored"
+        },
+        {
+          "tag": "polygon",
+          "decision": "native",
+          "id": "connector_prediction_decision__arrow",
+          "shape_id": 16,
+          "bounds_emu": [
+            6267545,
+            3347180,
+            6353270,
+            3461480
+          ],
+          "output_geometry": "custom",
+          "fidelity": "visual-only",
+          "geometry_source": "svg-authored"
+        }
+      ],
+      "motion": {
+        "carrier": "none",
+        "logical_count": 0,
+        "effect": null,
+        "effect_namespace": null,
+        "fallback_effect": null,
+        "fallback_effect_namespace": null,
+        "duration_ms": null,
+        "speed": null,
+        "advance_on_click": null,
+        "advance_after_ms": null,
+        "effect_attributes": {},
+        "canonical_effect": null,
+        "effect_options": {},
+        "sound_relationship_id": null,
+        "sound_name": null,
+        "fallback_sound_relationship_id": null,
+        "fallback_sound_name": null
+      },
+      "animation": {
+        "timing_count": 0,
+        "trigger": null,
+        "rows": [],
+        "audio_target_ids": []
+      }
+    }
+  ]
+}

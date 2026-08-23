@@ -1,0 +1,37 @@
+{
+  "ppt_master_commit": "65bb2eca59a36270819caba377097910c4466c6e",
+  "svg_sha256": "eb4e6930fd7371da5286d4a3dec4f30aff6ba47b56e841991020e32a45de8531",
+  "mapped": {
+    "node_camera": [
+      "2",
+      "3"
+    ],
+    "node_queue_estimator": [
+      "4",
+      "5"
+    ],
+    "node_wait_predictor": [
+      "6",
+      "7"
+    ],
+    "node_decision": [
+      "8",
+      "9",
+      "10"
+    ],
+    "connector_camera_queue": [
+      "11",
+      "12"
+    ],
+    "connector_queue_prediction": [
+      "13",
+      "14"
+    ],
+    "connector_prediction_decision": [
+      "15",
+      "16"
+    ]
+  },
+  "visual_quality_status": "real_generated_bounded_asset",
+  "problem_hero_asset": "/home/runner/work/ppt-hybrid-lab/ppt-hybrid-lab/benchmark/generated/queuezero/gemini31flashimage-v1/hybrid/problem_hero.jpg"
+}

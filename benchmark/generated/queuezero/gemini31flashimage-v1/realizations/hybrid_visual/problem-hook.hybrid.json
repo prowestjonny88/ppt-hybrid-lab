@@ -1,0 +1,182 @@
+{
+  "schema_version": "stage3-realization-v1",
+  "slide_id": "problem-hook",
+  "variant": "hybrid",
+  "objects": [
+    {
+      "semantic_object_id": "title",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "2",
+          "ppt_shape_name": "oxq:problem-hook:title:title",
+          "bounds_emu": {
+            "x": 670559,
+            "y": 377190,
+            "w": 10850879,
+            "h": 641908
+          },
+          "content_hash": "b2bd401a44e64ea1feb0e9a07ad3899b876d344369443c13521d2be983131aac"
+        }
+      ],
+      "token_refs": [
+        "text.primary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "d6776117bcd715945dd9e8638c20daba02109d27e1969cc6daabb028986bf47f"
+    },
+    {
+      "semantic_object_id": "subtitle",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "3",
+          "ppt_shape_name": "oxq:problem-hook:subtitle:subtitle",
+          "bounds_emu": {
+            "x": 670559,
+            "y": 1093165,
+            "w": 10850879,
+            "h": 395020
+          },
+          "content_hash": "cec3dddcd6e5e0d9555215cc0f85ed08182bb9fb7cc7a4b6c098d2ed5309091e"
+        }
+      ],
+      "token_refs": [
+        "text.secondary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "385dcdd9847feb919a8789a56a28148f25c72f0e1682f028ee68c5ef3225feab"
+    },
+    {
+      "semantic_object_id": "metric_wait",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "4",
+          "ppt_shape_name": "oxq:problem-hook:metric_wait:card",
+          "bounds_emu": {
+            "x": 670559,
+            "y": 2051913,
+            "w": 3011423,
+            "h": 1185062
+          },
+          "content_hash": "f98b7f08d6e67398f06a570b6cec3e9ce7d2886ae519c5b5fae5c30eed2cb0c2"
+        },
+        {
+          "ppt_object_id": "5",
+          "ppt_shape_name": "oxq:problem-hook:metric_wait:value",
+          "bounds_emu": {
+            "x": 851244,
+            "y": 2170419,
+            "w": 2650052,
+            "h": 568829
+          },
+          "content_hash": "6102e16f13aff81d923149ddf6cd8ac9d250d93b24933891425fb9025a7f53bd"
+        },
+        {
+          "ppt_object_id": "6",
+          "ppt_shape_name": "oxq:problem-hook:metric_wait:label",
+          "bounds_emu": {
+            "x": 851244,
+            "y": 2786652,
+            "w": 2650052,
+            "h": 260713
+          },
+          "content_hash": "70e367ffef4bcbe59ac4c51acfe6d99a0cd37884783f358f3a8cd87729e80fb1"
+        }
+      ],
+      "token_refs": [
+        "surface.raised",
+        "line.subtle"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "89320ef6da64bba63e2a8b8dbbec9b2f93b46db368f795b8cc8010d4d654b0d7"
+    },
+    {
+      "semantic_object_id": "pain_annotation",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "7",
+          "ppt_shape_name": "oxq:problem-hook:pain_annotation:annotation",
+          "bounds_emu": {
+            "x": 670559,
+            "y": 3566160,
+            "w": 4262322,
+            "h": 1250899
+          },
+          "content_hash": "6f51e8faf8eccafd1d075003563017187eb22ae41ed5f4a4d51e9702b8a846ca"
+        }
+      ],
+      "token_refs": [
+        "text.primary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "64ab205b3be99e9ba726f1f7cc46d907e077bd3b5a70b2eadb87cfb5cf00552d"
+    },
+    {
+      "semantic_object_id": "hero_visual_slot",
+      "render_lane": "image",
+      "parts": [
+        {
+          "ppt_object_id": "8",
+          "ppt_shape_name": "oxq:problem-hook:hero_visual_slot:picture",
+          "bounds_emu": {
+            "x": 5974079,
+            "y": 1508760,
+            "w": 5547359,
+            "h": 4389120
+          },
+          "content_hash": "db97abac617845b9d99e99b49af29e76d01b7ded9f82f749c11df9fcb75242da"
+        }
+      ],
+      "token_refs": [],
+      "fidelity": "editable_picture_slot",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "8c166d05adde80e3564ab086fdab153751342823b391ed9052f9ef99163ac8d9"
+    },
+    {
+      "semantic_object_id": "source_note",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "9",
+          "ppt_shape_name": "oxq:problem-hook:source_note:source",
+          "bounds_emu": {
+            "x": 670559,
+            "y": 6240780,
+            "w": 8778239,
+            "h": 240030
+          },
+          "content_hash": "cc2c1fd50980f462e74247400313c3083ace11a8cba7eff5a2d8814a2491d78a"
+        }
+      ],
+      "token_refs": [
+        "text.secondary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "391adf12aaf19911703aea27060f3ac6e91f5582ea9975b9b40d2d165c7dd75f"
+    }
+  ],
+  "semantic_hash": "d7525024f432c50409a1b7083a73db9f32f05824df43d9fa89dce1e45f8e9d20",
+  "render_plan": "experiment/queuezero/render_plans/problem_hook.hybrid.json",
+  "visual_quality_status": "real_generated_bounded_asset",
+  "hero_asset": "/home/runner/work/ppt-hybrid-lab/ppt-hybrid-lab/benchmark/generated/queuezero/gemini31flashimage-v1/hybrid/problem_hero.jpg"
+}

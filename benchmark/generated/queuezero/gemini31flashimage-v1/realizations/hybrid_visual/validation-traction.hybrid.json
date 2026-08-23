@@ -1,0 +1,313 @@
+{
+  "schema_version": "stage3-realization-v1",
+  "slide_id": "validation-traction",
+  "variant": "hybrid",
+  "objects": [
+    {
+      "semantic_object_id": "title",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "2",
+          "ppt_shape_name": "oxq:validation-traction:title:title",
+          "bounds_emu": {
+            "x": 670559,
+            "y": 377190,
+            "w": 10850879,
+            "h": 480060
+          },
+          "content_hash": "a6dca73b80a75b0eac47324088598d67753e41405e976d60486ace9958053797"
+        }
+      ],
+      "token_refs": [
+        "text.primary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "1798114dbcbe5a6b9de0c94e9f2627391b12505a2674aec3c25b53a1b34d3919"
+    },
+    {
+      "semantic_object_id": "subtitle",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "3",
+          "ppt_shape_name": "oxq:validation-traction:subtitle:subtitle",
+          "bounds_emu": {
+            "x": 670559,
+            "y": 914857,
+            "w": 10850879,
+            "h": 326440
+          },
+          "content_hash": "1730f93097e77debbbdd373e686ca483b9abf3f7671475f96130aa4ba90af579"
+        }
+      ],
+      "token_refs": [
+        "text.secondary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "bb132ca3a6e1b91f4bf9d36665df8e10bb8387d7e1e99e1b030b69d845ba5b16"
+    },
+    {
+      "semantic_object_id": "metric_mae",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "4",
+          "ppt_shape_name": "oxq:validation-traction:metric_mae:card",
+          "bounds_emu": {
+            "x": 887576,
+            "y": 1728216,
+            "w": 4882895,
+            "h": 1471041
+          },
+          "content_hash": "a9b1b7966cecce68c68679a59a40d485f6d4b378575728bff222b837532c84d7"
+        },
+        {
+          "ppt_object_id": "5",
+          "ppt_shape_name": "oxq:validation-traction:metric_mae:value",
+          "bounds_emu": {
+            "x": 1180550,
+            "y": 1875320,
+            "w": 4296948,
+            "h": 706099
+          },
+          "content_hash": "11ce20bafa6f67fb17a19989959fb1340f4a758ee987be3adaf85dfb27cc4390"
+        },
+        {
+          "ppt_object_id": "6",
+          "ppt_shape_name": "oxq:validation-traction:metric_mae:label",
+          "bounds_emu": {
+            "x": 1180550,
+            "y": 2640261,
+            "w": 4296948,
+            "h": 323629
+          },
+          "content_hash": "b83191667da5335581f568f272e6e6a5e3fa3feb47d485fa16b6cc0695d856be"
+        }
+      ],
+      "token_refs": [
+        "surface.raised",
+        "line.subtle"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "4a7924f271967647bb27e5a7248ef66a82a8bac2f72fe6452d447952d577967a"
+    },
+    {
+      "semantic_object_id": "metric_weekly_intent",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "7",
+          "ppt_shape_name": "oxq:validation-traction:metric_weekly_intent:card",
+          "bounds_emu": {
+            "x": 6421524,
+            "y": 1728216,
+            "w": 4882895,
+            "h": 1471041
+          },
+          "content_hash": "cb57d233cf16b072ed1abab7b9f4d6b3cd7909aeb17fe4b2dacd8ac0af5fd99a"
+        },
+        {
+          "ppt_object_id": "8",
+          "ppt_shape_name": "oxq:validation-traction:metric_weekly_intent:value",
+          "bounds_emu": {
+            "x": 6714498,
+            "y": 1875320,
+            "w": 4296948,
+            "h": 706099
+          },
+          "content_hash": "61c491f82fb8feb8d55b705495fdb27911bc4d0e3415e7f82082ffe421aee300"
+        },
+        {
+          "ppt_object_id": "9",
+          "ppt_shape_name": "oxq:validation-traction:metric_weekly_intent:label",
+          "bounds_emu": {
+            "x": 6714498,
+            "y": 2640261,
+            "w": 4296948,
+            "h": 323629
+          },
+          "content_hash": "9d338a2dc71397d4868068d10a538812917e50c42155e516b293ef06ad344e59"
+        }
+      ],
+      "token_refs": [
+        "surface.raised",
+        "line.subtle"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "4f1db21922e47fcf8601e862353cf7fc18874d6e2316ebd7cafeef11a0b574c8"
+    },
+    {
+      "semantic_object_id": "metric_students",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "10",
+          "ppt_shape_name": "oxq:validation-traction:metric_students:card",
+          "bounds_emu": {
+            "x": 887576,
+            "y": 3576447,
+            "w": 4882895,
+            "h": 1169289
+          },
+          "content_hash": "26f1b1e9f10d44b69f1116c689dd2e254c7a5ad9ee71753fb0ec696011853016"
+        },
+        {
+          "ppt_object_id": "11",
+          "ppt_shape_name": "oxq:validation-traction:metric_students:value",
+          "bounds_emu": {
+            "x": 1180550,
+            "y": 3693375,
+            "w": 4296948,
+            "h": 561258
+          },
+          "content_hash": "ce32781f615b1fd06960714990b46d491799ebc36b35a4b0c1cf9177e23ea6b2"
+        },
+        {
+          "ppt_object_id": "12",
+          "ppt_shape_name": "oxq:validation-traction:metric_students:label",
+          "bounds_emu": {
+            "x": 1180550,
+            "y": 4301406,
+            "w": 4296948,
+            "h": 257243
+          },
+          "content_hash": "4414d8cd67e23c9d12919c07acbcfdb2e901f0d6d793c741815e562c3f88107e"
+        }
+      ],
+      "token_refs": [
+        "surface.raised",
+        "line.subtle"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "e82ed1a1ca9c4c0562337a08d611f742de2e7311643519a39230030e05f87d5f"
+    },
+    {
+      "semantic_object_id": "metric_cafeterias",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "13",
+          "ppt_shape_name": "oxq:validation-traction:metric_cafeterias:card",
+          "bounds_emu": {
+            "x": 6421524,
+            "y": 3576447,
+            "w": 4882895,
+            "h": 1169289
+          },
+          "content_hash": "ed7e4afbc5ad48b51cf4b1f8f0639471953d85de8f10a6f356d1b3660141db71"
+        },
+        {
+          "ppt_object_id": "14",
+          "ppt_shape_name": "oxq:validation-traction:metric_cafeterias:value",
+          "bounds_emu": {
+            "x": 6714498,
+            "y": 3693375,
+            "w": 4296948,
+            "h": 561258
+          },
+          "content_hash": "c9896d0f7ea73b6abc510aa36888b1d3aeb0c9014793272c86e8975eaf100a08"
+        },
+        {
+          "ppt_object_id": "15",
+          "ppt_shape_name": "oxq:validation-traction:metric_cafeterias:label",
+          "bounds_emu": {
+            "x": 6714498,
+            "y": 4301406,
+            "w": 4296948,
+            "h": 257243
+          },
+          "content_hash": "c8ad4450e30509e2ef82edccb63d634c43704ff8c4862a080e4436832064c070"
+        }
+      ],
+      "token_refs": [
+        "surface.raised",
+        "line.subtle"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "fa151d764cc95b5817fddf1558713c19fe64883ab486832a5fe3ef67aa0be286"
+    },
+    {
+      "semantic_object_id": "pilot_gate",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "16",
+          "ppt_shape_name": "oxq:validation-traction:pilot_gate:gate",
+          "bounds_emu": {
+            "x": 2682239,
+            "y": 5417820,
+            "w": 6827519,
+            "h": 685800
+          },
+          "content_hash": "c06769a75ee7040b04763611ab963889718d45572d43c4a1cdce402753a53193"
+        },
+        {
+          "ppt_object_id": "17",
+          "ppt_shape_name": "oxq:validation-traction:pilot_gate:label",
+          "bounds_emu": {
+            "x": 2955339,
+            "y": 5520690,
+            "w": 6281317,
+            "h": 480059
+          },
+          "content_hash": "d734a618382144f7b783b6baa2af23c5365da7f1fd7f1a11ce124191744d54f9"
+        }
+      ],
+      "token_refs": [
+        "surface.raised",
+        "status.pending"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "1df6c427f5d13c5712004d32d9b45d54186f03616fef776f62e1ff80b9f292aa"
+    },
+    {
+      "semantic_object_id": "source_note",
+      "render_lane": "native",
+      "parts": [
+        {
+          "ppt_object_id": "18",
+          "ppt_shape_name": "oxq:validation-traction:source_note:source",
+          "bounds_emu": {
+            "x": 670559,
+            "y": 6240780,
+            "w": 8778239,
+            "h": 240030
+          },
+          "content_hash": "de0eb623b63650e013474039faff5c631dfd052a8f28efcbfead9b5bb5e3b472"
+        }
+      ],
+      "token_refs": [
+        "text.secondary"
+      ],
+      "fidelity": "semantic_and_editable",
+      "fit_result": "fit",
+      "fallback": null,
+      "realization_rev": 1,
+      "pptx_content_hash": "ad0d1fd9cdc6013e382ee5016dfa6bfe9158ad9ff0e582e36595c873e352d9b0"
+    }
+  ],
+  "semantic_hash": "6f6833a9a12f489bbbf5333c738c2217ae76a5bba1bb810332240900ee16e572",
+  "render_plan": "experiment/queuezero/render_plans/validation_traction.hybrid.json"
+}
