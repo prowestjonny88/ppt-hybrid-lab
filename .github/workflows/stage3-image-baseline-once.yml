@@ -11,102 +11,44 @@ concurrency:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
-  generate:
+  diagnose:
     runs-on: ubuntu-latest
-    env:
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      IMAGE_MODEL: gemini-3.1-flash-image
-      IMAGE_RESOLUTION: 2K
-      GENERATION_ID: gemini31flashimage-v1
-
     steps:
-      - name: Explicit one-time benchmark approval guard
-        run: |
-          test "${IMAGE_MODEL}" = "gemini-3.1-flash-image"
-          test "${IMAGE_RESOLUTION}" = "2K"
-          test "${GENERATION_ID}" = "gemini31flashimage-v1"
-          if [ -z "${GEMINI_API_KEY}" ]; then
-            echo "GEMINI_API_KEY secret is missing"
-            exit 1
-          fi
-
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install Gemini image-baseline dependencies
+      - name: Capture latest failed Gemini benchmark run
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          python -m pip install --upgrade pip
-          pip install google-genai pillow python-pptx pyyaml
-
-      - name: Build deterministic Stage 3 prompts
-        run: |
-          PYTHONPATH=. python scripts/create_queuezero_mock_assets.py
-          PYTHONPATH=. python scripts/build_stage3_variant_inputs.py
-
-      - name: Generate 3 full-slide baselines and 1 bounded hybrid hero
-        run: |
-          OUTPUT_DIR="benchmark/generated/queuezero/${GENERATION_ID}"
-          PYTHONPATH=. python tools/stage3_gemini_image_gen.py \
-            --model "${IMAGE_MODEL}" \
-            --resolution "${IMAGE_RESOLUTION}" \
-            --output-dir "${OUTPUT_DIR}"
-          mkdir -p "${OUTPUT_DIR}/prompts"
-          cp dist/prompts/*.txt "${OUTPUT_DIR}/prompts/"
-
-      - name: Package image-first PPTX
-        run: |
-          OUTPUT_DIR="benchmark/generated/queuezero/${GENERATION_ID}"
-          PYTHONPATH=. python scripts/build_stage3_image_first.py \
-            --assets-dir "${OUTPUT_DIR}/image_first" \
-            --out "${OUTPUT_DIR}/queuezero_image_first.pptx" \
-            --manifest "${OUTPUT_DIR}/image_first/package_manifest.json"
-
-      - name: Audit image-first structural baseline
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          from pptx import Presentation
-          from pptx.enum.shapes import MSO_SHAPE_TYPE
-
-          root = Path("benchmark/generated/queuezero/gemini31flashimage-v1")
-          prs = Presentation(root / "queuezero_image_first.pptx")
-          if len(prs.slides) != 3:
-              raise SystemExit(f"expected 3 slides, got {len(prs.slides)}")
-          for idx, slide in enumerate(prs.slides, 1):
-              if len(slide.shapes) != 1:
-                  raise SystemExit(f"slide {idx}: expected exactly one full-slide picture")
-              shape = slide.shapes[0]
-              if shape.shape_type != MSO_SHAPE_TYPE.PICTURE:
-                  raise SystemExit(f"slide {idx}: baseline object is not a picture")
-              if shape.width < prs.slide_width * 0.99 or shape.height < prs.slide_height * 0.99:
-                  raise SystemExit(f"slide {idx}: picture is not full-slide")
-          print("Image-first structural baseline passed: 3 slides, 3 full-slide pictures")
-          PY
-
-      - name: Upload Gemini visual benchmark artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: queuezero-stage3-gemini31flashimage-v1
-          path: benchmark/generated/queuezero/gemini31flashimage-v1/
-          if-no-files-found: error
-
-      - name: Persist generated benchmark assets
-        run: |
-          OUTPUT_DIR="benchmark/generated/queuezero/${GENERATION_ID}"
-          git config user.name "stage3-image-worker"
-          git config user.email "stage3-image-worker@users.noreply.github.com"
-          git add -f "${OUTPUT_DIR}"
-          if git diff --cached --quiet; then
-            echo "No generated benchmark changes"
+          mkdir -p benchmark/results
+          RUN_JSON=$(gh run list --repo "${GITHUB_REPOSITORY}" --workflow stage3-image-baseline-once.yml --limit 10 --json databaseId,conclusion,status,headSha,url,createdAt --jq '[.[] | select(.headSha != env.GITHUB_SHA)][0]')
+          if [ -z "${RUN_JSON}" ] || [ "${RUN_JSON}" = "null" ]; then
+            echo "No earlier benchmark run found" > benchmark/results/GEMINI_ONE_TIME_LATEST.log
+            printf '{"status":"no_prior_run"}\n' > benchmark/results/GEMINI_ONE_TIME_LATEST.json
           else
-            git commit -m "benchmark: persist ${GENERATION_ID} Gemini visual baseline"
+            echo "${RUN_JSON}" > benchmark/results/GEMINI_ONE_TIME_LATEST.json
+            RUN_ID=$(echo "${RUN_JSON}" | jq -r '.databaseId')
+            {
+              echo "Latest earlier Stage 3 Gemini benchmark run: ${RUN_ID}"
+              echo "Metadata: ${RUN_JSON}"
+              echo
+              gh run view "${RUN_ID}" --repo "${GITHUB_REPOSITORY}" --log-failed || true
+            } > benchmark/results/GEMINI_ONE_TIME_LATEST.log 2>&1
+          fi
+
+      - name: Persist diagnostic receipt
+        run: |
+          git config user.name "stage3-diagnostic"
+          git config user.email "stage3-diagnostic@users.noreply.github.com"
+          git add benchmark/results/GEMINI_ONE_TIME_LATEST.json benchmark/results/GEMINI_ONE_TIME_LATEST.log
+          if git diff --cached --quiet; then
+            echo "No diagnostic changes"
+          else
+            git commit -m "diagnostic: capture Gemini image baseline failure"
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
