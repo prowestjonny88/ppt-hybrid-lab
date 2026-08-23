@@ -81,15 +81,17 @@ def _render_hybrid_problem(em, root, hero_asset=None):
     if hero_asset is None:
         hero = root / "experiment/queuezero/assets/problem_hero_structural_v1.png"
         visual_quality_status = "structural_fixture_only_not_scored"
+        fit_policy = "stretch"
     else:
         hero = Path(hero_asset)
         if not hero.is_absolute():
             hero = root / hero
         visual_quality_status = "real_generated_bounded_asset"
+        fit_policy = "cover"
     if not hero.exists():
         raise RuntimeError(f"hybrid Problem hero missing: {hero}")
 
-    em.picture("hero_visual_slot", hero, "hero_frame", lane="image")
+    em.picture("hero_visual_slot", hero, "hero_frame", lane="image", fit=fit_policy)
     em.text("source_note", _text(s, "source_note"), "footer_region", role="source_note", part="source")
     return visual_quality_status, hero
 
