@@ -1,0 +1,67 @@
+{
+  "id": "task-008",
+  "type": "visual_constraints_forensics",
+  "status": "PENDING",
+  "repository": "likaku/Mck-ppt-design-skill",
+  "ref": "main",
+  "objective": "Forensically extract the portable layout-capacity, anti-collapse, visual QA, self-refinement, and composition-routing ideas from Mck-ppt-design-skill for Stage 4 of ppt-hybrid-lab. We already rejected its flat high-level component API as our product architecture; this task focuses narrowly on constraints and gates that can make a Visual-IR-driven hybrid system more robust without reducing design to generic component templates.",
+  "questions": [
+    "What machine-readable layout capacity constraints exist (max items, title/body char budgets, special limits), where are they enforced, and which are data-driven versus hard-coded?",
+    "How are layouts selected in Stage 2 and how much of that is semantic/rhetorical routing versus page-type/component selection?",
+    "What concrete anti-collapse rules exist for overflow, spacing, dynamic sizing, peer consistency, title uniformity, chart legends, horizontal item limits, or text fitting? Cite exact files/functions.",
+    "How do S3 and S4 gates derive pass/fail results? Identify which checks are objective, which are proxy metrics, and which can falsely pass an ugly slide.",
+    "What is stored in experiences/ and how does the self-refinement loop turn one-off failures into reusable rules? Which pattern is suitable for our Stage 4 visual system?",
+    "What layout-specific implementation notes in references/layouts are actually portable as archetype constraints rather than renderer recipes?",
+    "Which quality checks should become Visual IR compiler validations before rendering, which should be PPTX structural QA after rendering, and which require pixel/multimodal review?",
+    "What should ppt-hybrid-lab explicitly reject from MCK because it encourages card soup, rigid page templates, positional identity, or geometry-only QA?",
+    "Propose a clean-room capacity/guardrail schema for our composition archetype registry and a machine-recorded Stage 4 visual gate.",
+    "Recommend how to prevent the specific Stage 3 failure mode: technically valid equal-weight layouts with weak focal hierarchy and dead space.",
+    "Name exact follow-up paths/symbols if the bounded context is insufficient."
+  ],
+  "expected_output": [
+    "Executive summary of portable constraint/gating ideas",
+    "DIRECT EVIDENCE table with paths/symbols",
+    "INFERENCE section",
+    "RECOMMENDATION section for Stage 4 Visual IR/archetype/compiler/QA",
+    "REJECT / DO NOT PORT section",
+    "Proposed clean-room capacity and gate schema fragments",
+    "Open questions / exact follow-up source needs"
+  ],
+  "include_paths": [
+    "SKILL.md",
+    "README.md",
+    "references/**",
+    "experiences/**",
+    "mck_ppt/**",
+    "run_qa_tests.py"
+  ],
+  "exclude_paths": [
+    "assets/**",
+    "examples/**",
+    "**/*.png",
+    "**/*.jpg",
+    "**/*.jpeg",
+    "**/*.pptx",
+    "**/*.pdf"
+  ],
+  "focus_terms": [
+    "layout-matrix",
+    "char_budget",
+    "max_items",
+    "gate_check",
+    "overflow",
+    "dynamic",
+    "spacing",
+    "font",
+    "consistency",
+    "layout",
+    "experience",
+    "whitelist",
+    "peer",
+    "title"
+  ],
+  "max_files": 60,
+  "max_file_bytes": 150000,
+  "max_context_chars": 600000,
+  "output": ".ox/reports/task-008-mck-visual-constraints.md"
+}
