@@ -1,0 +1,19 @@
+{
+  "id": "task-001",
+  "type": "repo_analysis",
+  "status": "PENDING",
+  "repository": "current",
+  "objective": "Inspect the repository inventory and describe what this repository currently contains. This is a smoke test of the Ox Alpha worker.",
+  "questions": [
+    "What major directories exist?",
+    "What appears to be the purpose of the repository?",
+    "What important architecture questions remain unanswered?"
+  ],
+  "evidence_required": true,
+  "expected_output": [
+    "Executive summary",
+    "Observed evidence",
+    "Unknowns"
+  ],
+  "output": ".ox/reports/task-001.md"
+}
