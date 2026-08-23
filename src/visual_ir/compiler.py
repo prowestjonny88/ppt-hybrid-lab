@@ -54,61 +54,61 @@ def compile_validation_sample(root: Path, visual_ir_path: Path):
         },
         {
             "semantic_object_id": "metric_weekly_intent", "part": "value", "kind": "text",
-            "box": _box(0.052, 0.265, 0.36, 0.235), "text_source": "content",
-            "type_role": "hero_numeric", "font_size_pt": 78, "font_weight": 700,
+            "box": _box(0.052, 0.285, 0.39, 0.225), "text_source": "content",
+            "type_role": "hero_numeric", "font_size_pt": 82, "font_weight": 700,
             "color_token": "signal", "align": "left", "valign": "middle"
         },
         {
             "semantic_object_id": "metric_weekly_intent", "part": "label", "kind": "text",
-            "box": _box(0.058, 0.505, 0.30, 0.060), "text_source": "label",
+            "box": _box(0.058, 0.515, 0.31, 0.060), "text_source": "label",
             "type_role": "hero_label", "font_size_pt": 17, "font_weight": 600,
             "color_token": "ink", "align": "left", "valign": "top"
         },
         {
             "semantic_object_id": "metric_mae", "part": "value", "kind": "text",
-            "box": _box(0.605, 0.285, 0.30, 0.115), "text_source": "content",
-            "type_role": "support_numeric", "font_size_pt": 42, "font_weight": 700,
+            "box": _box(0.610, 0.295, 0.32, 0.115), "text_source": "content",
+            "type_role": "support_numeric", "font_size_pt": 44, "font_weight": 700,
             "color_token": "on_dark", "align": "left", "valign": "middle"
         },
         {
             "semantic_object_id": "metric_mae", "part": "label", "kind": "text",
-            "box": _box(0.608, 0.402, 0.28, 0.050), "text_source": "label",
+            "box": _box(0.612, 0.410, 0.28, 0.050), "text_source": "label",
             "type_role": "support_label", "font_size_pt": 13, "font_weight": 500,
             "color_token": "on_dark", "align": "left", "valign": "top"
         },
         {
             "semantic_object_id": "metric_students", "part": "value", "kind": "text",
-            "box": _box(0.608, 0.515, 0.11, 0.075), "text_source": "content",
-            "type_role": "scope_numeric", "font_size_pt": 27, "font_weight": 700,
+            "box": _box(0.612, 0.525, 0.11, 0.075), "text_source": "content",
+            "type_role": "scope_numeric", "font_size_pt": 28, "font_weight": 700,
             "color_token": "on_dark", "align": "left", "valign": "middle"
         },
         {
             "semantic_object_id": "metric_students", "part": "label", "kind": "text",
-            "box": _box(0.608, 0.592, 0.17, 0.042), "text_source": "label",
+            "box": _box(0.612, 0.602, 0.17, 0.042), "text_source": "label",
             "type_role": "scope_label", "font_size_pt": 10.5, "font_weight": 400,
             "color_token": "line", "align": "left", "valign": "top"
         },
         {
             "semantic_object_id": "metric_cafeterias", "part": "value", "kind": "text",
-            "box": _box(0.810, 0.515, 0.09, 0.075), "text_source": "content",
-            "type_role": "scope_numeric", "font_size_pt": 27, "font_weight": 700,
+            "box": _box(0.820, 0.525, 0.09, 0.075), "text_source": "content",
+            "type_role": "scope_numeric", "font_size_pt": 28, "font_weight": 700,
             "color_token": "on_dark", "align": "left", "valign": "middle"
         },
         {
             "semantic_object_id": "metric_cafeterias", "part": "label", "kind": "text",
-            "box": _box(0.810, 0.592, 0.14, 0.042), "text_source": "label",
+            "box": _box(0.820, 0.602, 0.14, 0.042), "text_source": "label",
             "type_role": "scope_label", "font_size_pt": 10.5, "font_weight": 400,
             "color_token": "line", "align": "left", "valign": "top"
         },
         {
             "semantic_object_id": "pilot_gate", "part": "label", "kind": "text",
-            "box": _box(0.445, 0.775, 0.47, 0.055), "text_source": "content",
+            "box": _box(0.612, 0.795, 0.34, 0.085), "text_source": "content",
             "type_role": "terminal", "font_size_pt": 14.5, "font_weight": 600,
-            "color_token": "ink", "align": "right", "valign": "middle"
+            "color_token": "on_dark", "align": "left", "valign": "middle"
         },
         {
             "semantic_object_id": "source_note", "part": "source", "kind": "text",
-            "box": _box(0.052, 0.935, 0.62, 0.030), "text_source": "content",
+            "box": _box(0.052, 0.935, 0.49, 0.030), "text_source": "content",
             "type_role": "source", "font_size_pt": 8.5, "font_weight": 400,
             "color_token": "muted", "align": "left", "valign": "middle"
         }
@@ -121,27 +121,27 @@ def compile_validation_sample(root: Path, visual_ir_path: Path):
         },
         {
             "decor_id": "technical_proof_field", "kind": "rect",
-            "box": _box(0.565, 0.230, 0.435, 0.475), "fill_token": "dark_field", "line_token": None
+            "box": _box(0.560, 0.230, 0.440, 0.700), "fill_token": "dark_field", "line_token": None
         },
         {
-            "decor_id": "technical_signal_edge", "kind": "rect",
-            "box": _box(0.565, 0.230, 0.006, 0.475), "fill_token": "signal", "line_token": None
+            "decor_id": "technical_field_edge", "kind": "rect",
+            "box": _box(0.560, 0.230, 0.006, 0.700), "fill_token": "signal", "line_token": None
         },
         {
             "decor_id": "technical_divider", "kind": "rect",
-            "box": _box(0.608, 0.478, 0.330, 0.003), "fill_token": "muted", "line_token": None
+            "box": _box(0.612, 0.485, 0.315, 0.003), "fill_token": "muted", "line_token": None
+        },
+        {
+            "decor_id": "scope_divider", "kind": "rect",
+            "box": _box(0.785, 0.525, 0.002, 0.125), "fill_token": "muted", "line_token": None
         },
         {
             "decor_id": "pilot_signal_line", "kind": "rect",
-            "box": _box(0.052, 0.855, 0.350, 0.004), "fill_token": "line", "line_token": None
-        },
-        {
-            "decor_id": "pilot_signal_line_active", "kind": "rect",
-            "box": _box(0.402, 0.855, 0.505, 0.004), "fill_token": "signal", "line_token": None
+            "box": _box(0.612, 0.742, 0.285, 0.004), "fill_token": "signal", "line_token": None
         },
         {
             "decor_id": "pilot_node", "kind": "ellipse",
-            "box": _box(0.914, 0.839, 0.017, 0.030), "fill_token": "attention", "line_token": None
+            "box": _box(0.902, 0.727, 0.018, 0.032), "fill_token": "attention", "line_token": None
         }
     ]
 
