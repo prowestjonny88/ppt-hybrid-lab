@@ -1,0 +1,34 @@
+{
+  "schema_version": "stage3-ci-receipt-v1",
+  "generated_at": "2026-08-23T07:30:27.072698+00:00",
+  "workflow_status": "failure",
+  "commit": "78f4153d43230452bdbd9b8b4e7b3ad39ea7bab7",
+  "run_id": "32625718664",
+  "run_attempt": "1",
+  "steps": {
+    "validate_semantics": "success",
+    "validate_plans": "success",
+    "probe_v2": "success",
+    "assets": "success",
+    "variant_inputs": "success",
+    "build_native": "success",
+    "audit_native": "success",
+    "build_hybrid": "failure",
+    "audit_hybrid": "skipped",
+    "panic_native": "skipped",
+    "panic_hybrid": "skipped"
+  },
+  "artifacts_present": {
+    "native_vector_pptx": true,
+    "hybrid_pptx": false,
+    "ppt_master_trace": false
+  },
+  "panic": {
+    "native_vector": null,
+    "hybrid": null
+  },
+  "notes": [
+    "Hybrid Problem hero remains a deterministic structural fixture and must not be used for blind visual-quality scoring.",
+    "A failed workflow receipt identifies the first failed stage via step outcomes; detailed logs remain in GitHub Actions."
+  ]
+}
