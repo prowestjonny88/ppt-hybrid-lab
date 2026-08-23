@@ -1,0 +1,264 @@
+{
+  "schema_version": "composition-archetypes-stage4-v0",
+  "status": "draft_not_frozen",
+  "principles": {
+    "archetypes_are": "composition grammars with capacity and hierarchy contracts",
+    "archetypes_are_not": "fixed coordinate templates or renderer methods",
+    "default_protagonist_count": 1,
+    "forbidden_global_fallback": "equal_weight_card_grid"
+  },
+  "archetypes": [
+    {
+      "archetype_id": "editorial_hero",
+      "intent_fit": ["hook", "frame", "transition"],
+      "content_shapes": ["hero_visual", "headline", "one_supporting_fact"],
+      "density_range": ["low", "medium"],
+      "required_roles": ["hero"],
+      "optional_roles": ["primary_support", "annotation", "source"],
+      "capacity": {"max_primary_items": 2, "max_secondary_items": 2, "max_total_visible_groups": 4},
+      "spatial_grammar": {
+        "focal_ratio_min": 2.4,
+        "whitespace_min": 0.28,
+        "allowed_axes": ["horizontal", "diagonal"],
+        "overlap_policy": "bounded_visual_only",
+        "hero_area_range": [0.38, 0.62]
+      },
+      "best_for": ["problem framing", "emotional hook", "section opening", "single visual metaphor"],
+      "avoid_for": ["dense metrics", "multi-entity comparison", "detailed process"],
+      "variation_tags": ["hero_left", "hero_right", "full_bleed_crop", "edge_crop"],
+      "anti_repetition": ["do not use on adjacent slides unless intentionally forming a visual sequence"],
+      "renderer_capabilities": ["native", "bounded_image", "svg"]
+    },
+    {
+      "archetype_id": "dominant_metric",
+      "intent_fit": ["hook", "prove"],
+      "content_shapes": ["one_primary_metric", "supporting_evidence", "terminal_annotation"],
+      "density_range": ["low", "medium"],
+      "required_roles": ["hero"],
+      "optional_roles": ["primary_support", "secondary_support", "annotation", "source"],
+      "capacity": {"max_primary_items": 2, "max_secondary_items": 3, "max_total_visible_groups": 5},
+      "spatial_grammar": {
+        "focal_ratio_min": 2.2,
+        "whitespace_min": 0.22,
+        "allowed_axes": ["horizontal", "vertical"],
+        "overlap_policy": "none",
+        "hero_area_range": [0.26, 0.46]
+      },
+      "best_for": ["traction", "impact", "economics", "one quantified proof"],
+      "avoid_for": ["four equal KPIs", "metrics without a clear strongest conclusion"],
+      "variation_tags": ["hero_left", "hero_top", "hero_center_edge", "proof_stack"],
+      "anti_repetition": ["secondary metrics may not visually equal the hero metric"],
+      "renderer_capabilities": ["native", "svg"]
+    },
+    {
+      "archetype_id": "product_stage",
+      "intent_fit": ["demonstrate", "explain"],
+      "content_shapes": ["product_screenshot", "callouts", "short_explanation"],
+      "density_range": ["low", "medium"],
+      "required_roles": ["hero"],
+      "optional_roles": ["primary_support", "annotation", "source"],
+      "capacity": {"max_primary_items": 3, "max_secondary_items": 3, "max_total_visible_groups": 6},
+      "spatial_grammar": {
+        "focal_ratio_min": 1.8,
+        "whitespace_min": 0.18,
+        "allowed_axes": ["horizontal", "radial"],
+        "overlap_policy": "callout_over_screenshot_only",
+        "hero_area_range": [0.42, 0.70]
+      },
+      "best_for": ["product demo", "workflow UI", "feature proof"],
+      "avoid_for": ["abstract strategy", "dense data"],
+      "variation_tags": ["device_left", "device_right", "center_stage", "cropped_detail"],
+      "anti_repetition": ["do not reuse identical screenshot framing on adjacent slides"],
+      "renderer_capabilities": ["native", "bounded_image"]
+    },
+    {
+      "archetype_id": "process_story",
+      "intent_fit": ["explain", "demonstrate"],
+      "content_shapes": ["ordered_steps", "transformation_point", "terminal_outcome"],
+      "density_range": ["medium"],
+      "required_roles": ["hero", "primary_support"],
+      "optional_roles": ["annotation", "source"],
+      "capacity": {"max_primary_items": 5, "max_secondary_items": 2, "max_total_visible_groups": 7},
+      "spatial_grammar": {
+        "focal_ratio_min": 1.35,
+        "whitespace_min": 0.16,
+        "allowed_axes": ["horizontal", "vertical", "path"],
+        "overlap_policy": "none",
+        "hero_area_range": [0.18, 0.34]
+      },
+      "best_for": ["how it works", "workflow", "operating model"],
+      "avoid_for": ["unordered evidence", "more than five peer steps"],
+      "variation_tags": ["linear", "staggered", "stepped", "single_bend"],
+      "anti_repetition": ["one transformation step must receive stronger emphasis than peers when semantics support it"],
+      "renderer_capabilities": ["native", "svg"]
+    },
+    {
+      "archetype_id": "evidence_constellation",
+      "intent_fit": ["prove", "frame"],
+      "content_shapes": ["thesis", "heterogeneous_evidence"],
+      "density_range": ["medium", "high"],
+      "required_roles": ["hero", "primary_support"],
+      "optional_roles": ["secondary_support", "annotation", "source"],
+      "capacity": {"max_primary_items": 3, "max_secondary_items": 5, "max_total_visible_groups": 7},
+      "spatial_grammar": {
+        "focal_ratio_min": 1.6,
+        "whitespace_min": 0.15,
+        "allowed_axes": ["radial", "asymmetric_grid", "edge_anchored"],
+        "overlap_policy": "none",
+        "hero_area_range": [0.18, 0.34]
+      },
+      "best_for": ["mixed validation evidence", "multi-source proof", "thesis with heterogeneous support"],
+      "avoid_for": ["homogeneous equal KPIs", "strict sequence"],
+      "variation_tags": ["central_thesis", "edge_thesis", "weighted_orbit"],
+      "anti_repetition": ["evidence weights must differ; do not normalize all support into identical cards"],
+      "renderer_capabilities": ["native", "svg", "bounded_image"]
+    },
+    {
+      "archetype_id": "contrast_split",
+      "intent_fit": ["compare", "frame", "prove"],
+      "content_shapes": ["two_opposed_states", "contrast_annotation"],
+      "density_range": ["low", "medium"],
+      "required_roles": ["hero"],
+      "optional_roles": ["primary_support", "secondary_support", "source"],
+      "capacity": {"max_primary_items": 4, "max_secondary_items": 4, "max_total_visible_groups": 6},
+      "spatial_grammar": {
+        "focal_ratio_min": 1.2,
+        "whitespace_min": 0.16,
+        "allowed_axes": ["horizontal", "vertical"],
+        "overlap_policy": "none",
+        "hero_area_range": [0.44, 0.72]
+      },
+      "best_for": ["before/after", "pain/solution", "manual/automated", "old/new"],
+      "avoid_for": ["three or more peer entities", "single-sided proof"],
+      "variation_tags": ["50_50", "65_35", "dark_light", "image_text"],
+      "anti_repetition": ["contrast must be semantic, not merely decorative two-column formatting"],
+      "renderer_capabilities": ["native", "svg", "bounded_image"]
+    },
+    {
+      "archetype_id": "comparison_axis",
+      "intent_fit": ["compare", "prove"],
+      "content_shapes": ["entities", "semantic_axes", "highlighted_wedge"],
+      "density_range": ["medium", "high"],
+      "required_roles": ["hero", "primary_support"],
+      "optional_roles": ["annotation", "source"],
+      "capacity": {"max_primary_items": 6, "max_secondary_items": 4, "max_total_visible_groups": 8},
+      "spatial_grammar": {
+        "focal_ratio_min": 1.4,
+        "whitespace_min": 0.12,
+        "allowed_axes": ["cartesian", "horizontal_band"],
+        "overlap_policy": "label_collision_forbidden",
+        "hero_area_range": [0.14, 0.28]
+      },
+      "best_for": ["competitive landscape", "positioning", "tradeoff comparison"],
+      "avoid_for": ["axes without semantic meaning", "large narrative copy"],
+      "variation_tags": ["quadrant", "single_axis", "wedge_highlight"],
+      "anti_repetition": ["highlight only the strategically relevant entity/wedge"],
+      "renderer_capabilities": ["native", "svg"]
+    },
+    {
+      "archetype_id": "funnel_or_progression",
+      "intent_fit": ["explain", "prove"],
+      "content_shapes": ["stages", "dropoff_or_progression", "terminal_state"],
+      "density_range": ["medium"],
+      "required_roles": ["hero", "primary_support"],
+      "optional_roles": ["annotation", "source"],
+      "capacity": {"max_primary_items": 5, "max_secondary_items": 3, "max_total_visible_groups": 7},
+      "spatial_grammar": {
+        "focal_ratio_min": 1.3,
+        "whitespace_min": 0.15,
+        "allowed_axes": ["vertical", "horizontal", "tapered"],
+        "overlap_policy": "none",
+        "hero_area_range": [0.18, 0.34]
+      },
+      "best_for": ["validation funnel", "adoption progression", "conversion story"],
+      "avoid_for": ["non-ordered categories", "unsupported conversion implication"],
+      "variation_tags": ["taper", "staircase", "progress_bar"],
+      "anti_repetition": ["visual width/scale may encode quantity only when evidence supports it"],
+      "renderer_capabilities": ["native", "svg"]
+    },
+    {
+      "archetype_id": "architecture_layers",
+      "intent_fit": ["explain", "frame"],
+      "content_shapes": ["layers", "dependencies", "shared_core"],
+      "density_range": ["medium", "high"],
+      "required_roles": ["hero", "primary_support"],
+      "optional_roles": ["secondary_support", "annotation", "source"],
+      "capacity": {"max_primary_items": 6, "max_secondary_items": 6, "max_total_visible_groups": 9},
+      "spatial_grammar": {
+        "focal_ratio_min": 1.25,
+        "whitespace_min": 0.12,
+        "allowed_axes": ["vertical_stack", "nested", "layered_horizontal"],
+        "overlap_policy": "semantic_nesting_only",
+        "hero_area_range": [0.20, 0.38]
+      },
+      "best_for": ["technical architecture", "platform layers", "capability stack"],
+      "avoid_for": ["pure chronology", "unrelated feature lists"],
+      "variation_tags": ["stack", "nested_core", "platform_band"],
+      "anti_repetition": ["layer order must encode a real dependency or abstraction relation"],
+      "renderer_capabilities": ["native", "svg"]
+    },
+    {
+      "archetype_id": "timeline_journey",
+      "intent_fit": ["explain", "transition", "ask"],
+      "content_shapes": ["milestones", "current_state", "next_state"],
+      "density_range": ["medium"],
+      "required_roles": ["hero", "primary_support"],
+      "optional_roles": ["secondary_support", "annotation", "source"],
+      "capacity": {"max_primary_items": 6, "max_secondary_items": 4, "max_total_visible_groups": 8},
+      "spatial_grammar": {
+        "focal_ratio_min": 1.35,
+        "whitespace_min": 0.14,
+        "allowed_axes": ["horizontal", "vertical", "path"],
+        "overlap_policy": "none",
+        "hero_area_range": [0.16, 0.30]
+      },
+      "best_for": ["roadmap", "rollout", "maturity", "history-to-next-step"],
+      "avoid_for": ["non-temporal categories", "too many detailed workstreams"],
+      "variation_tags": ["straight", "stepped", "current_focus", "future_focus"],
+      "anti_repetition": ["current/next state must be visually distinguishable from historical milestones"],
+      "renderer_capabilities": ["native", "svg"]
+    },
+    {
+      "archetype_id": "portfolio_map",
+      "intent_fit": ["frame", "explain", "compare"],
+      "content_shapes": ["common_core", "modules_or_segments", "expansion_logic"],
+      "density_range": ["medium", "high"],
+      "required_roles": ["hero", "primary_support"],
+      "optional_roles": ["secondary_support", "annotation", "source"],
+      "capacity": {"max_primary_items": 6, "max_secondary_items": 6, "max_total_visible_groups": 9},
+      "spatial_grammar": {
+        "focal_ratio_min": 1.3,
+        "whitespace_min": 0.12,
+        "allowed_axes": ["radial", "shared_core", "matrix"],
+        "overlap_policy": "semantic_nesting_only",
+        "hero_area_range": [0.18, 0.34]
+      },
+      "best_for": ["product portfolio", "segment expansion", "common platform with use cases"],
+      "avoid_for": ["simple one-product story", "strict process"],
+      "variation_tags": ["core_orbit", "common_base", "segment_map"],
+      "anti_repetition": ["shared core must remain visually distinct from differentiated modules"],
+      "renderer_capabilities": ["native", "svg", "bounded_image"]
+    },
+    {
+      "archetype_id": "terminal_ask",
+      "intent_fit": ["ask", "close"],
+      "content_shapes": ["ask", "minimal_support", "next_step"],
+      "density_range": ["low"],
+      "required_roles": ["hero"],
+      "optional_roles": ["primary_support", "annotation", "source"],
+      "capacity": {"max_primary_items": 2, "max_secondary_items": 2, "max_total_visible_groups": 4},
+      "spatial_grammar": {
+        "focal_ratio_min": 2.3,
+        "whitespace_min": 0.30,
+        "allowed_axes": ["centered", "edge_anchored", "horizontal"],
+        "overlap_policy": "bounded_visual_only",
+        "hero_area_range": [0.30, 0.56]
+      },
+      "best_for": ["pilot ask", "funding ask", "decision request", "closing CTA"],
+      "avoid_for": ["new dense evidence", "multi-part roadmap"],
+      "variation_tags": ["centered_statement", "ask_left_visual_right", "destination_cardless"],
+      "anti_repetition": ["do not introduce new proof objects unless required to support the ask"],
+      "renderer_capabilities": ["native", "bounded_image", "svg"]
+    }
+  ]
+}
