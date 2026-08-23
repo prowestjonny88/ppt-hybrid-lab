@@ -1,16 +1,18 @@
 {
   "project": "ppt-hybrid-lab",
-  "phase": "stage3_architecture_experiment",
-  "status": "editability_benchmark_green_visual_benchmark_next",
+  "phase": "stage4_visual_quality_reset",
+  "status": "visual_ir_draft_active_forensics_running",
   "canonical_brain": "ChatGPT Work",
   "delegated_investigator": "Ox Alpha",
   "infrastructure": {
     "github_actions_ox_worker": "verified",
     "openrouter_ox_alpha": "verified",
-    "gemini_ai_studio_image_lane": "workflow_configured_secret_presence_to_be_proven_at_runtime",
+    "gemini_ai_studio_image_lane": "verified_with_gemini_3_1_flash_image",
+    "gemini_output_mime": "image/jpeg",
     "bounded_source_packager": "implemented",
     "concurrent_run_hardening": "implemented",
-    "stage3_validation_workflow": "green"
+    "stage3_validation_workflow": "green",
+    "stage3_visual_review_pipeline": "verified"
   },
   "research": {
     "stage1_broad_architecture_scan": "complete",
@@ -19,18 +21,24 @@
     "stage3_rw_reasoning_extraction": "complete_and_adjudicated",
     "stage3_mck_native_component_analysis": "complete_and_adjudicated",
     "stage3_slide_ir_red_team": "complete_and_adjudicated",
-    "stage3_ppt_master_hybrid_adapter_trace": "complete_and_implemented"
+    "stage3_ppt_master_hybrid_adapter_trace": "complete_and_implemented",
+    "stage4_juneyao_visual_system_forensics": "queued_task_007",
+    "stage4_mck_visual_constraints_forensics": "queued_task_008"
   },
-  "architecture_hypotheses": {
-    "H1_image_first": "packager_available_real_visual_assets_not_yet_generated",
-    "H2_native_vector_first": "editability_verified_visual_quality_pending",
-    "H3_hybrid_native_vector_image": "editability_verified_real_hero_visual_pending"
+  "stage3_conclusion": {
+    "engineering_substrate": "successful",
+    "visual_quality": "failed_product_bar",
+    "native_vector_normalized_editability": 1.0,
+    "hybrid_normalized_editability": 0.96,
+    "image_first_visual_polish": "higher_but_semantically_unreliable",
+    "image_first_semantic_leakage_observed": true,
+    "current_native_hybrid_renderers": "engineering_fixtures_not_product_design_system",
+    "implementation_substrate_selected_for_stage4": "semantic_first_hybrid"
   },
   "verified_stage3_evidence": {
     "ppt_master_fail_closed_svg_compiler": true,
     "ppt_master_basic_native_geometry_lane_viable": true,
     "ppt_master_closed_native_text_grammar": true,
-    "ppt_master_visual_quality_parity_with_image_generation": "unknown",
     "rw_claim_first_reasoning_portable": true,
     "rw_typed_evidence_boundary_portable": true,
     "rw_proof_object_routing_portable": true,
@@ -41,82 +49,70 @@
     "mck_component_layer_too_flat_for_product_architecture": true,
     "mck_geometry_only_qa_requires_semantic_roles": true,
     "slide_ir_layering_survived_red_team": true,
-    "slide_ir_v0_dangling_refs_fixed_in_v1": true,
     "renderer_lane_leakage_removed_from_semantics": true,
     "round_trip_identity_contract_defined": true,
     "bounded_asset_region_contract_defined": true,
-    "ppt_master_cli_quick_generate_route_verified_in_source": true,
-    "hybrid_base_slide_strategy_selected": true,
     "native_vector_pptx_build_passed": true,
     "native_vector_structural_audit_passed": true,
     "hybrid_pptx_build_passed": true,
     "hybrid_structural_audit_passed": true,
     "native_vector_panic_suite_passed": true,
     "hybrid_panic_suite_passed": true,
-    "native_vector_normalized_editability": 1.0,
-    "hybrid_normalized_editability": 0.96,
     "panic_p8_then_p1_interaction_passed_both": true,
-    "google_imagen4_shutdown_2026_08_17": true,
-    "gemini_3_1_flash_image_stable_no_shutdown_announced_at_verification": true,
-    "gemini_3_1_flash_image_supports_16_9_2k_4k": true,
-    "gemini_3_1_flash_lite_image_rejected_for_stage3_due_to_1k_only": true
+    "gemini_3_1_flash_image_stable_pin_verified": true,
+    "gemini_four_stage3_visual_assets_generated_and_hashed": true,
+    "image_first_pptx_packaged_and_audited": true,
+    "real_hero_hybrid_pptx_built_and_audited": true,
+    "equal_renderer_visual_review_bundle_created": true
   },
   "architecture_artifacts": {
     "slide_ir_v1": "architecture/SLIDE_IR_V1.md",
     "slide_ir_redteam_adjudication": "architecture/SLIDE_IR_REDTEAM_ADJUDICATION.md",
     "capability_registry": "architecture/CAPABILITY_REGISTRY.stage3.json",
-    "deck_system": "experiment/queuezero/deck_system.stage3.json",
-    "panic_test_protocol": "benchmark/STAGE3_PANIC_TEST_PROTOCOL.md",
-    "panic_test_amendments": "benchmark/STAGE3_PROTOCOL_AMENDMENTS_V1.md"
+    "stage4_reset": "architecture/STAGE4_VISUAL_QUALITY_RESET.md",
+    "visual_ir_draft_v0": "architecture/VISUAL_IR_DRAFT_V0.md",
+    "visual_acceptance_gate": "benchmark/STAGE4_VISUAL_ACCEPTANCE_GATE.md",
+    "deck_system_stage3": "experiment/queuezero/deck_system.stage3.json"
   },
   "benchmark": {
     "project": "QueueZero",
+    "semantic_inputs_frozen": true,
     "slide_semantics": [
       "experiment/queuezero/slide_semantics/problem_hook.v1.json",
       "experiment/queuezero/slide_semantics/how_it_works.v1.json",
       "experiment/queuezero/slide_semantics/validation_traction.v1.json"
     ],
-    "render_plan_count": 9,
-    "native_vector_renderer": "src/native/queuezero_renderer.py",
-    "native_vector_build_cli": "scripts/build_stage3_native.py",
-    "hybrid_renderer": "src/hybrid/queuezero_renderer.py",
-    "hybrid_build_cli": "scripts/build_stage3_hybrid.py",
-    "image_first_packager": "src/image_first/package.py",
-    "image_first_build_cli": "scripts/build_stage3_image_first.py",
-    "image_generation_workflow": ".github/workflows/stage3-image-baseline.yml",
-    "image_generation_tool": "tools/stage3_gemini_image_gen.py",
+    "stage3_image_generation_id": "gemini31flashimage-v1",
     "image_model_pin": "gemini-3.1-flash-image",
-    "image_model_pin_status": "stable_exact_slug_no_fallback",
     "image_resolution": "2K",
-    "ppt_master_adapter": "src/svg_lane/ppt_master_adapter.py",
-    "ppt_master_pin": "65bb2eca59a36270819caba377097910c4466c6e",
-    "variant_manifest_builder": "scripts/build_stage3_variant_inputs.py",
-    "deterministic_mock_assets": "scripts/create_queuezero_mock_assets.py",
-    "visual_quality_status": "not_scored_real_image_assets_required",
-    "editability_status": "native_and_hybrid_green"
+    "image_output_mime": "image/jpeg",
+    "stage3_visual_run_receipt": "benchmark/generated/queuezero/gemini31flashimage-v1/run_receipt.json",
+    "stage3_visual_review_run": "benchmark/results/VISUAL_REVIEW_RUN.json",
+    "stage4_primary_comparison": "stage3_hybrid_fixture_vs_visual_ir_driven_hybrid",
+    "stage4_secondary_reference": "stage3_image_first_as_adversarial_visual_reference",
+    "visual_quality_status": "stage3_rejected_stage4_redesign_required",
+    "editability_status": "engineering_target_green"
   },
-  "validation": {
-    "referential_integrity_validator": "tests/validate_slide_semantics.py",
-    "render_plan_fairness_validator": "tests/validate_render_plans.py",
-    "probe_v1_svg_editable_text": "passed_via_pinned_ppt_master_adapter",
-    "probe_v2_native_single_object_patch": "passed",
-    "native_output_audit": "passed",
-    "hybrid_output_audit": "passed",
-    "panic_native": "passed_normalized_1.0",
-    "panic_hybrid": "passed_normalized_0.96",
-    "ci_workflow": ".github/workflows/validate.yml",
-    "ci_artifact_name": "queuezero-stage3-current",
-    "ci_result": "success",
-    "ci_receipt_commit": "e9be01373138605073f71ba619ae7d1e13f4f825"
+  "stage4_hypotheses": {
+    "missing_layer": "visual_director_and_visual_ir",
+    "visual_ir_should_precede_coordinates": true,
+    "composition_archetypes_should_be_grammars_not_frozen_templates": true,
+    "style_requires_identity_variation_and_anti_repetition_not_only_tokens": true,
+    "layout_capacity_requires_machine_readable_constraints": true,
+    "visual_quality_requires_pixel_multimodal_gate": true,
+    "full_slide_image_should_not_be_semantic_source_of_truth": true
   },
   "next_priorities": [
-    "run manually approved Gemini image workflow and prove GEMINI_API_KEY plus stable model availability at runtime",
-    "generate three real image-first full-slide assets with gemini-3.1-flash-image at 2K",
-    "generate the real bounded hybrid Problem hero using the same model",
-    "package the image-first baseline PPTX",
-    "render native, hybrid and image-first outputs to comparable previews",
-    "run blind visual scoring",
-    "combine editability and visual scores and decide Stage 3 architecture"
+    "adjudicate Ox task 007 JuneYaooo visual-system forensics",
+    "adjudicate Ox task 008 MCK visual-constraint forensics",
+    "revise Visual IR draft from direct evidence",
+    "define deck style profile schema and first QueueZero hackathon style profile",
+    "define 8-12 composition archetype contracts with content capacity and variation rules",
+    "red-team Visual IR and archetype registry before freezing v1",
+    "implement deterministic Visual IR compiler to normalized geometry and render lanes",
+    "redesign the same three frozen QueueZero slides through Stage 4 hybrid architecture",
+    "run semantic structural editability and visual acceptance gates",
+    "iterate pattern-level failures until the deck clears the would-submit-to-win bar"
   ],
   "last_updated": "2026-08-23"
 }
