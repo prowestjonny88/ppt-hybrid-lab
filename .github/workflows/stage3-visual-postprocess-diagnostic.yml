@@ -1,0 +1,89 @@
+name: Stage 3 Visual Postprocess Diagnostic
+
+on:
+  push:
+    paths:
+      - "benchmark/postprocess-diagnostic-trigger.txt"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install postprocess dependencies
+        run: pip install pillow python-pptx
+
+      - name: Record generated image dimensions and reproduce packaging error
+        shell: bash
+        run: |
+          mkdir -p benchmark/results
+          python - <<'PY'
+          import json, subprocess, sys, traceback
+          from pathlib import Path
+          from PIL import Image
+
+          root = Path('benchmark/generated/queuezero/gemini31flashimage-v1')
+          paths = [
+              root / 'image_first/problem_hook.jpg',
+              root / 'image_first/how_it_works.jpg',
+              root / 'image_first/validation_traction.jpg',
+              root / 'hybrid/problem_hero.jpg',
+          ]
+          info = []
+          for p in paths:
+              row = {'path': str(p), 'exists': p.exists()}
+              if p.exists():
+                  with Image.open(p) as im:
+                      row.update({
+                          'format': im.format,
+                          'width': im.width,
+                          'height': im.height,
+                          'ratio': im.width / im.height,
+                      })
+              info.append(row)
+
+          proc = subprocess.run(
+              [sys.executable, 'scripts/build_stage3_image_first.py',
+               '--assets-dir', str(root / 'image_first'),
+               '--out', str(root / 'queuezero_image_first.diagnostic.pptx'),
+               '--manifest', str(root / 'image_first/package_manifest.diagnostic.json')],
+              text=True, capture_output=True,
+          )
+          payload = {
+              'schema_version': 'stage3-postprocess-diagnostic-v1',
+              'images': info,
+              'package_returncode': proc.returncode,
+              'package_stdout': proc.stdout[-10000:],
+              'package_stderr': proc.stderr[-20000:],
+          }
+          Path('benchmark/results/GEMINI_POSTPROCESS_DIAGNOSTIC.json').write_text(
+              json.dumps(payload, indent=2) + '\n', encoding='utf-8'
+          )
+          print(json.dumps(payload, indent=2))
+          PY
+
+      - name: Persist diagnostic
+        if: always()
+        run: |
+          git config user.name "stage3-postprocess-diagnostic"
+          git config user.email "stage3-postprocess-diagnostic@users.noreply.github.com"
+          git add benchmark/results/GEMINI_POSTPROCESS_DIAGNOSTIC.json
+          if git diff --cached --quiet; then
+            echo "No diagnostic change"
+          else
+            git commit -m "diagnostic: persist Gemini visual postprocess failure"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
