@@ -1,0 +1,56 @@
+name: Gemini Model Smoke Check
+
+on:
+  push:
+    paths:
+      - ".github/workflows/gemini-model-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      IMAGE_MODEL: gemini-3.1-flash-image
+
+    steps:
+      - name: Verify secret is configured
+        run: |
+          if [ -z "${GEMINI_API_KEY}" ]; then
+            echo "GEMINI_API_KEY secret is missing or empty"
+            exit 1
+          fi
+          echo "GEMINI_API_KEY is configured (value remains masked)."
+
+      - name: Verify pinned stable Gemini image model exists
+        run: |
+          HTTP_CODE=$(curl -sS -o /tmp/model.json -w "%{http_code}" \
+            -H "x-goog-api-key: ${GEMINI_API_KEY}" \
+            "https://generativelanguage.googleapis.com/v1beta/models/${IMAGE_MODEL}")
+          if [ "${HTTP_CODE}" != "200" ]; then
+            echo "Gemini model lookup failed with HTTP ${HTTP_CODE}"
+            python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('/tmp/model.json')
+          if p.exists():
+              try:
+                  data = json.loads(p.read_text())
+                  err = data.get('error', {})
+                  print({'code': err.get('code'), 'status': err.get('status'), 'message': err.get('message')})
+              except Exception:
+                  print('Unable to parse model lookup error payload')
+          PY
+            exit 1
+          fi
+          python - <<'PY'
+          import json
+          data = json.load(open('/tmp/model.json'))
+          print('Model lookup OK')
+          print('name:', data.get('name'))
+          print('displayName:', data.get('displayName'))
+          print('supportedGenerationMethods:', data.get('supportedGenerationMethods'))
+          PY
