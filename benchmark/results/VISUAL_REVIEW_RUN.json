@@ -1,0 +1,9 @@
+{
+  "schema_version": "stage3-visual-review-run-v1",
+  "run_id": "32640415920",
+  "head_sha": "f0fb3554657eb7cf5881c612043e7dd2838a0931",
+  "artifact_name": "queuezero-stage3-visual-review",
+  "renderer": "LibreOffice headless -> PDF -> Poppler PNG @ 144dpi",
+  "variants": ["native", "hybrid", "image_first"],
+  "slides_per_variant": 3
+}
