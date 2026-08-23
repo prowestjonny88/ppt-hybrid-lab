@@ -24,6 +24,7 @@ concurrency:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   validate:
@@ -110,6 +111,40 @@ jobs:
             exit 1
           fi
 
+      - name: Capture original paid Gemini benchmark failure
+        if: always() && github.event_name != 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PAID_RUN_HEAD_SHA: cb65460e205145e65497b6df7c784127a04ed8cb
+        shell: bash
+        run: |
+          set +e
+          mkdir -p benchmark/results
+          META=benchmark/results/GEMINI_ONE_TIME_PAID_RUN.json
+          LOG=benchmark/results/GEMINI_ONE_TIME_PAID_RUN.log
+          : > "$LOG"
+          RAW=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/stage3-image-baseline-once.yml/runs?per_page=20" 2>>"$LOG")
+          API_RC=$?
+          if [ $API_RC -ne 0 ]; then
+            printf '{"status":"diagnostic_api_error","exit_code":%s}\n' "$API_RC" > "$META"
+          else
+            echo "$RAW" | jq --arg sha "$PAID_RUN_HEAD_SHA" '[.workflow_runs[] | select(.head_sha == $sha)][0] | {id,status,conclusion,head_sha,html_url,created_at,updated_at}' > "$META" 2>>"$LOG"
+            RUN_ID=$(jq -r '.id // empty' "$META")
+            if [ -n "$RUN_ID" ]; then
+              echo "Resolved paid benchmark run ID: $RUN_ID" >> "$LOG"
+              gh run view "$RUN_ID" --repo "$GITHUB_REPOSITORY" --log-failed >> "$LOG" 2>&1
+              echo "gh run view exit code: $?" >> "$LOG"
+            else
+              echo "Original paid benchmark run not found." >> "$LOG"
+            fi
+          fi
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('benchmark/results/GEMINI_ONE_TIME_PAID_RUN.log')
+          text = p.read_text(errors='replace') if p.exists() else ''
+          p.write_text(text[-120000:], encoding='utf-8')
+          PY
+
       - name: Upload Stage 3 current artifacts
         if: always()
         uses: actions/upload-artifact@v4
@@ -127,6 +162,8 @@ jobs:
             dist/panic/hybrid/summary.json
             dist/variant_inputs/*.json
             dist/prompts/*.txt
+            benchmark/results/GEMINI_ONE_TIME_PAID_RUN.json
+            benchmark/results/GEMINI_ONE_TIME_PAID_RUN.log
 
       - name: Write tracked Stage 3 CI receipt
         if: always() && github.event_name != 'pull_request'
@@ -145,16 +182,16 @@ jobs:
           STAGE3_PANIC_HYBRID: ${{ steps.panic_hybrid.outcome }}
         run: python scripts/write_stage3_ci_receipt.py
 
-      - name: Commit Stage 3 CI receipt
+      - name: Commit Stage 3 CI receipt and Gemini diagnostic
         if: always() && github.event_name != 'pull_request'
         run: |
           git config user.name "stage3-ci"
           git config user.email "stage3-ci@users.noreply.github.com"
-          git add benchmark/results/STAGE3_CI_LATEST.json
+          git add benchmark/results/STAGE3_CI_LATEST.json benchmark/results/GEMINI_ONE_TIME_PAID_RUN.json benchmark/results/GEMINI_ONE_TIME_PAID_RUN.log
           if git diff --cached --quiet; then
-            echo "No CI receipt change"
+            echo "No CI receipt/diagnostic change"
           else
-            git commit -m "ci: publish Stage 3 validation receipt"
+            git commit -m "ci: publish Stage 3 receipt and Gemini failure diagnostic"
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
