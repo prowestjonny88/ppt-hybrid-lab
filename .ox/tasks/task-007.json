@@ -1,0 +1,73 @@
+{
+  "id": "task-007",
+  "type": "visual_system_forensics",
+  "status": "PENDING",
+  "repository": "JuneYaooo/gpt-image2-ppt-skills",
+  "ref": "main",
+  "objective": "Forensically extract the portable visual-design intelligence from gpt-image2-ppt-skills for Stage 4 of ppt-hybrid-lab. Focus on how the repository represents style identity, distilled layout grammar, content capacity, layout routing, sample approval, variation/anti-repetition, template cloning, prompt assembly, visual QA, and edit/regeneration policy. We are NOT adopting its full-slide-image-first architecture as semantic truth. Produce evidence-backed recommendations for a semantic-first editable hybrid system and proposed fields/contracts for our Visual IR and style/archetype registry.",
+  "questions": [
+    "What exact structured representations exist for global style, identity anchors, density rules, variation rules, anti-repetition rules, layouts, visual signatures, content capacity, best_for/avoid_for, routing, external image slots, and reference evidence? Cite paths and fields.",
+    "How are reference PPTX/templates distilled into reusable style/layout descriptions? Identify the pipeline, intermediate artifacts, model prompts, and validation steps.",
+    "How does the system choose or route content into a layout/style? Distinguish deterministic routing from model judgement.",
+    "How does it preview/approve one visual sample before full-deck generation, and how is consistency preserved afterward?",
+    "How does it represent and enforce cross-slide variation / anti-repetition / deck rhythm, if at all?",
+    "How are visual generations versioned, edited, regenerated, rolled back, and visually reviewed? Which ideas are portable to bounded-asset or editable-object workflows?",
+    "What visual QA is genuinely machine-derived or render-derived versus prompt guidance or human judgement?",
+    "Which parts of its visual intelligence remain useful if full-slide images are forbidden as semantic source-of-truth?",
+    "Which parts should ppt-hybrid-lab explicitly reject because they depend on rasterizing semantics, post-hoc reconstruction, or unconstrained generated text?",
+    "Propose a clean-room Stage 4 schema for: (a) deck style profile, (b) composition archetype registry, (c) slide Visual IR, and (d) visual QA contract. Every proposed field should be linked to direct evidence, inference, or recommendation.",
+    "Critique our likely design mistake of treating page layouts as fixed templates. Based on this repository, identify where a reusable layout is a grammar/constraint system versus a frozen composition.",
+    "Name exact follow-up paths/symbols if the bounded context is insufficient."
+  ],
+  "expected_output": [
+    "Executive summary with the 5-10 most portable Stage 4 ideas",
+    "DIRECT EVIDENCE table with path/symbol/field citations",
+    "INFERENCE section",
+    "RECOMMENDATION section mapped to ppt-hybrid-lab Visual IR/style/archetype design",
+    "REJECT / DO NOT PORT section",
+    "Proposed clean-room schema fragments",
+    "Open questions / exact follow-up source needs"
+  ],
+  "include_paths": [
+    "SKILL.md",
+    "README.md",
+    "docs/**",
+    "styles/**",
+    "examples/**",
+    "scripts/**",
+    "references/**"
+  ],
+  "exclude_paths": [
+    "**/*.png",
+    "**/*.jpg",
+    "**/*.jpeg",
+    "**/*.pptx",
+    "**/*.pdf",
+    "**/*.woff*",
+    "**/*.ttf"
+  ],
+  "focus_terms": [
+    "template_profile",
+    "layouts.json",
+    "global_style",
+    "identity_anchors",
+    "density_rules",
+    "variation_rules",
+    "anti_repetition_rules",
+    "content_capacity",
+    "best_for",
+    "avoid_for",
+    "routing",
+    "reference_image",
+    "visual review",
+    "preview",
+    "rollback",
+    "edit",
+    "style",
+    "layout"
+  ],
+  "max_files": 60,
+  "max_file_bytes": 150000,
+  "max_context_chars": 600000,
+  "output": ".ox/reports/task-007-juneyao-visual-system.md"
+}
