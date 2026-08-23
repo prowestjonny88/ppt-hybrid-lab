@@ -1,16 +1,12 @@
-name: Stage 3 Image Baseline
+name: Stage 3 Gemini Image Baseline
 
 on:
   workflow_dispatch:
     inputs:
       confirm_spend:
-        description: "Type YES to allow paid OpenRouter image generation"
+        description: "Type YES to allow paid Google Gemini image generation"
         required: true
         default: "NO"
-      model:
-        description: "OpenRouter image model slug"
-        required: true
-        default: "bytedance-seed/seedream-4.5"
       resolution:
         description: "Requested image resolution"
         required: true
@@ -18,10 +14,10 @@ on:
       generation_id:
         description: "Persistent benchmark generation ID"
         required: true
-        default: "seedream45-v1"
+        default: "gemini31flash-v1"
 
 concurrency:
-  group: stage3-image-baseline
+  group: stage3-gemini-image-baseline
   cancel-in-progress: false
 
 permissions:
@@ -31,8 +27,8 @@ jobs:
   generate:
     runs-on: ubuntu-latest
     env:
-      OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-      IMAGE_MODEL: ${{ inputs.model }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      IMAGE_MODEL: gemini-3.1-flash-image
       IMAGE_RESOLUTION: ${{ inputs.resolution }}
       GENERATION_ID: ${{ inputs.generation_id }}
       CONFIRM_SPEND: ${{ inputs.confirm_spend }}
@@ -41,15 +37,19 @@ jobs:
       - name: Require explicit paid-generation approval
         run: |
           if [ "${CONFIRM_SPEND}" != "YES" ]; then
-            echo "Paid image generation was NOT approved. Re-run and type YES to proceed."
+            echo "Paid Gemini image generation was NOT approved. Re-run and type YES to proceed."
             exit 1
           fi
           if ! [[ "${GENERATION_ID}" =~ ^[A-Za-z0-9._-]+$ ]]; then
             echo "generation_id may contain only letters, digits, dot, underscore and hyphen"
             exit 1
           fi
-          if [ -z "${OPENROUTER_API_KEY}" ]; then
-            echo "OPENROUTER_API_KEY secret is missing"
+          if [ -z "${GEMINI_API_KEY}" ]; then
+            echo "GEMINI_API_KEY secret is missing"
+            exit 1
+          fi
+          if [ "${IMAGE_MODEL}" != "gemini-3.1-flash-image" ]; then
+            echo "Stage 3 benchmark is pinned to stable gemini-3.1-flash-image"
             exit 1
           fi
 
@@ -61,20 +61,20 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install image-baseline dependencies
+      - name: Install Gemini image-baseline dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests pillow python-pptx pyyaml
+          pip install google-genai pillow python-pptx pyyaml
 
       - name: Build deterministic Stage 3 prompts
         run: |
           PYTHONPATH=. python scripts/create_queuezero_mock_assets.py
           PYTHONPATH=. python scripts/build_stage3_variant_inputs.py
 
-      - name: Generate image-first slides and bounded hybrid hero
+      - name: Verify stable Gemini model and generate benchmark visuals
         run: |
           OUTPUT_DIR="benchmark/generated/queuezero/${GENERATION_ID}"
-          python tools/stage3_openrouter_image_gen.py \
+          PYTHONPATH=. python tools/stage3_gemini_image_gen.py \
             --model "${IMAGE_MODEL}" \
             --resolution "${IMAGE_RESOLUTION}" \
             --output-dir "${OUTPUT_DIR}"
@@ -113,7 +113,7 @@ jobs:
           print("Image-first structural baseline passed: 3 slides, 3 full-slide pictures")
           PY
 
-      - name: Upload paid visual benchmark artifact
+      - name: Upload Gemini visual benchmark artifact
         uses: actions/upload-artifact@v4
         with:
           name: queuezero-stage3-${{ inputs.generation_id }}
@@ -129,7 +129,7 @@ jobs:
           if git diff --cached --quiet; then
             echo "No generated benchmark changes"
           else
-            git commit -m "benchmark: persist ${GENERATION_ID} OpenRouter visual baseline"
+            git commit -m "benchmark: persist ${GENERATION_ID} Gemini visual baseline"
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
