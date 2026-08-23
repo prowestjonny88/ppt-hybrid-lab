@@ -1,0 +1,24 @@
+{
+  "plan_version": "stage3-render-plan-v1",
+  "slide_id": "problem-hook",
+  "variant": "hybrid",
+  "semantic_file": "experiment/queuezero/slide_semantics/problem_hook.v1.json",
+  "semantic_hash": null,
+  "mode": "structured",
+  "routing": {
+    "role_defaults": {
+      "title": "native",
+      "subtitle": "native",
+      "metric": "native",
+      "annotation": "native",
+      "source_note": "native",
+      "hero_visual_slot": "image"
+    },
+    "object_overrides": {
+      "hero_visual_slot": {"lane": "image", "reason": "bounded text-free congestion scene benefits from image-generation richness while all mutable information remains native"}
+    },
+    "decisions": []
+  },
+  "fallback_policy": "fail_closed",
+  "full_slide_rasterization_allowed": false
+}
