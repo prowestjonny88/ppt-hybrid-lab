@@ -8,17 +8,27 @@
     "github_actions_ox_worker": "verified",
     "openrouter_ox_alpha": "verified",
     "inventory_smoke_test": "complete",
-    "bounded_source_packager": "implemented"
+    "bounded_source_packager": "implemented",
+    "concurrent_run_hardening": "implemented"
   },
   "research": {
     "stage1_broad_architecture_scan": "complete",
     "stage2_forensics": "complete",
-    "stage3_ppt_master_svg_forensics": "task-002_pending"
+    "stage3_ppt_master_svg_forensics": "complete_and_adjudicated",
+    "stage3_rw_reasoning_extraction": "next",
+    "stage3_mck_native_component_analysis": "queued_after_rw",
+    "stage3_slide_ir_red_team": "queued_after_mck"
   },
   "architecture_hypotheses": {
     "H1_image_first": "under_test",
-    "H2_native_vector_first": "under_test",
+    "H2_native_vector_first": "supported_as_viable_render_lane_not_quality_winner",
     "H3_hybrid_native_vector_image": "under_test"
+  },
+  "verified_stage3_evidence": {
+    "ppt_master_fail_closed_svg_compiler": true,
+    "ppt_master_basic_native_geometry_lane_viable": true,
+    "ppt_master_closed_native_text_grammar": true,
+    "ppt_master_visual_quality_parity_with_image_generation": "unknown"
   },
   "benchmark": {
     "project": "QueueZero",
@@ -35,11 +45,10 @@
     "status": "specification"
   },
   "next_priorities": [
-    "complete task-002 PPT Master SVG-to-DrawingML forensic trace",
-    "define minimum safe native/vector feature subset",
-    "delegate RW reasoning extraction",
+    "delegate RW reasoning/proof-object extraction for the three benchmark slides",
     "delegate Mck native component analysis",
     "red-team the semantic Slide IR",
+    "freeze Stage 3 experimental Slide IR",
     "build controlled 3x3 architecture experiment"
   ],
   "last_updated": "2026-08-23"
