@@ -63,5 +63,6 @@
   "max_files": 60,
   "max_file_bytes": 150000,
   "max_context_chars": 600000,
-  "output": ".ox/reports/task-008-mck-visual-constraints.md"
+  "output": ".ox/reports/task-008-mck-visual-constraints.md",
+  "trigger_nonce": "stage4-retry-20260823-2210"
 }
