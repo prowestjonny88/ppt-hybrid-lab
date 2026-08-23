@@ -33,10 +33,16 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install probe dependencies
+      - name: Install Stage 3 dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install python-pptx
+          pip install python-pptx pillow cairosvg pyyaml fonttools
+
+      - name: Checkout pinned PPT Master reference compiler
+        run: |
+          git clone --filter=blob:none --no-checkout https://github.com/hugohe3/ppt-master.git /tmp/ppt-master
+          git -C /tmp/ppt-master checkout 65bb2eca59a36270819caba377097910c4466c6e
+          test "$(git -C /tmp/ppt-master rev-parse HEAD)" = "65bb2eca59a36270819caba377097910c4466c6e"
 
       - name: Validate Stage 3 slide semantics
         run: python tests/validate_slide_semantics.py
@@ -59,12 +65,22 @@ jobs:
       - name: Audit native-vector PPTX objects and realization mapping
         run: python tests/audit_native_output.py
 
+      - name: Build hybrid QueueZero benchmark deck
+        run: python scripts/build_stage3_hybrid.py --ppt-master-root /tmp/ppt-master
+
+      - name: Audit hybrid PPTX native SVG and bounded image structure
+        run: python tests/audit_hybrid_output.py
+
       - name: Upload Stage 3 current artifacts
         uses: actions/upload-artifact@v4
         with:
           name: queuezero-stage3-current
           path: |
             dist/queuezero_native_vector.pptx
+            dist/queuezero_hybrid.pptx
             dist/realizations/native_vector/*.json
+            dist/realizations/hybrid/*.json
+            dist/ppt_master_adapter_workspace/trace.json
+            dist/ppt_master_adapter_workspace/validation/*.json
             dist/variant_inputs/*.json
             dist/prompts/*.txt
