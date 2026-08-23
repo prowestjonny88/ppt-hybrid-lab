@@ -1,0 +1,33 @@
+Create ONE complete 16:9 hackathon pitch slide as a full-slide image baseline.
+This is a controlled architecture benchmark. Preserve all supplied semantics exactly; do not add facts, metrics, claims, labels, badges, or validation status.
+
+SLIDE ROLE: problem_hook
+GOVERNING CLAIM: Peak-meal queues turn a basic campus need into a predictable daily time tax.
+ACTION TITLE (exact text): Lunch queues are stealing up to half an hour
+SUBTITLE (exact text): Peak-meal waits reach 15–30 min — a repeated pain students cannot plan around.
+WHY IT MATTERS: A visible, repeated pain point creates a clear wedge for a real-time wait prediction product.
+
+PROOF OBJECT: pain_evidence_plus_scene
+PROOF LOGIC: Pair the exact peak-wait range with a bounded cafeteria-congestion scene without allowing the image to invent additional numeric claims.
+
+EXACT SEMANTIC TEXT / METRICS:
+- title (title): Lunch queues are stealing up to half an hour
+- subtitle (subtitle): Peak-meal waits reach 15–30 min — a repeated pain students cannot plan around.
+- metric_wait (metric): 15–30 min — peak wait
+- pain_annotation (annotation): The problem is not just queue length; it is uncertainty about whether a cafeteria is worth walking to right now.
+- source_note (source_note): Source: QueueZero controlled benchmark brief
+
+EVIDENCE BOUNDARY:
+- [confirmed] Peak cafeteria waits are 15–30 min.
+  Boundary: does not prove every student waits this long.
+  Boundary: does not prove all cafeterias are congested all day.
+
+VISUAL SEMANTIC GUARDRAILS:
+- Do NOT imply: every student always waits 30 minutes
+- Do NOT depict: embedded numeric wait times other than the supplied range
+- Do NOT depict: text baked into generated hero art
+
+HIERARCHY: action title is the single highest-priority conclusion; the proof object is the visual protagonist; source notes are low-weight. Do not create a second title-like conclusion or detached KPI rail.
+STYLE: polished modern hackathon pitch deck, strong information hierarchy, premium editorial composition, selective depth, not a generic dashboard/card grid.
+PALETTE TOKENS: accent.primary=#2563EB, accent.on=#FFFFFF, surface=#F7F8FA, surface.raised=#FFFFFF, text.primary=#111827, text.secondary=#4B5563, line.subtle=#D1D5DB, status.pending=#D97706
+OUTPUT: full-bleed 16:9 slide image only. All visible slide text must use the exact supplied wording.

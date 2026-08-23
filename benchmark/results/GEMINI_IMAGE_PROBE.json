@@ -1,0 +1,18 @@
+{
+  "schema_version": "stage3-gemini-paid-probe-v1",
+  "provider": "Google Gemini Developer API",
+  "endpoint": "v1beta/interactions",
+  "model": "gemini-3.1-flash-image",
+  "resolution": "2K",
+  "aspect_ratio": "16:9",
+  "job": "problem-hook.image_first",
+  "http_code": 400,
+  "curl_exit_code": 0,
+  "request_id": null,
+  "success": false,
+  "error": {
+    "code": "invalid_request",
+    "status": null,
+    "message": "The value 'image/png' is not supported for 'response_format.mime_type'. Supported values: 'image/jpeg'."
+  }
+}
