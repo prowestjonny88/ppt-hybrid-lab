@@ -66,37 +66,37 @@ def compile_validation_sample(root: Path, visual_ir_path: Path):
         },
         {
             "semantic_object_id": "metric_mae", "part": "value", "kind": "text",
-            "box": _box(0.565, 0.295, 0.31, 0.110), "text_source": "content",
+            "box": _box(0.605, 0.285, 0.30, 0.115), "text_source": "content",
             "type_role": "support_numeric", "font_size_pt": 42, "font_weight": 700,
             "color_token": "on_dark", "align": "left", "valign": "middle"
         },
         {
             "semantic_object_id": "metric_mae", "part": "label", "kind": "text",
-            "box": _box(0.568, 0.405, 0.28, 0.050), "text_source": "label",
+            "box": _box(0.608, 0.402, 0.28, 0.050), "text_source": "label",
             "type_role": "support_label", "font_size_pt": 13, "font_weight": 500,
             "color_token": "on_dark", "align": "left", "valign": "top"
         },
         {
             "semantic_object_id": "metric_students", "part": "value", "kind": "text",
-            "box": _box(0.568, 0.515, 0.11, 0.075), "text_source": "content",
+            "box": _box(0.608, 0.515, 0.11, 0.075), "text_source": "content",
             "type_role": "scope_numeric", "font_size_pt": 27, "font_weight": 700,
             "color_token": "on_dark", "align": "left", "valign": "middle"
         },
         {
             "semantic_object_id": "metric_students", "part": "label", "kind": "text",
-            "box": _box(0.568, 0.592, 0.17, 0.042), "text_source": "label",
+            "box": _box(0.608, 0.592, 0.17, 0.042), "text_source": "label",
             "type_role": "scope_label", "font_size_pt": 10.5, "font_weight": 400,
             "color_token": "line", "align": "left", "valign": "top"
         },
         {
             "semantic_object_id": "metric_cafeterias", "part": "value", "kind": "text",
-            "box": _box(0.785, 0.515, 0.09, 0.075), "text_source": "content",
+            "box": _box(0.810, 0.515, 0.09, 0.075), "text_source": "content",
             "type_role": "scope_numeric", "font_size_pt": 27, "font_weight": 700,
             "color_token": "on_dark", "align": "left", "valign": "middle"
         },
         {
             "semantic_object_id": "metric_cafeterias", "part": "label", "kind": "text",
-            "box": _box(0.785, 0.592, 0.14, 0.042), "text_source": "label",
+            "box": _box(0.810, 0.592, 0.14, 0.042), "text_source": "label",
             "type_role": "scope_label", "font_size_pt": 10.5, "font_weight": 400,
             "color_token": "line", "align": "left", "valign": "top"
         },
@@ -121,11 +121,15 @@ def compile_validation_sample(root: Path, visual_ir_path: Path):
         },
         {
             "decor_id": "technical_proof_field", "kind": "rect",
-            "box": _box(0.535, 0.245, 0.410, 0.445), "fill_token": "dark_field", "line_token": None
+            "box": _box(0.565, 0.230, 0.435, 0.475), "fill_token": "dark_field", "line_token": None
+        },
+        {
+            "decor_id": "technical_signal_edge", "kind": "rect",
+            "box": _box(0.565, 0.230, 0.006, 0.475), "fill_token": "signal", "line_token": None
         },
         {
             "decor_id": "technical_divider", "kind": "rect",
-            "box": _box(0.568, 0.478, 0.330, 0.003), "fill_token": "muted", "line_token": None
+            "box": _box(0.608, 0.478, 0.330, 0.003), "fill_token": "muted", "line_token": None
         },
         {
             "decor_id": "pilot_signal_line", "kind": "rect",
