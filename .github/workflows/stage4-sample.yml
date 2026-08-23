@@ -1,0 +1,124 @@
+name: Stage 4 Validation Visual Sample
+
+on:
+  push:
+    paths:
+      - "benchmark/stage4-sample-trigger.txt"
+      - "src/visual_ir/**"
+      - "scripts/build_stage4_sample.py"
+      - "tests/audit_stage4_sample.py"
+      - "experiment/queuezero/visual_ir/validation_traction.stage4.v0.json"
+      - "experiment/queuezero/style_profiles/queuezero_hackathon_v0.json"
+      - "architecture/COMPOSITION_ARCHETYPES.stage4.v0.json"
+  workflow_dispatch:
+
+concurrency:
+  group: stage4-validation-sample-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  sample:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PPTX and render dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install python-pptx
+          sudo apt-get update
+          sudo apt-get install -y libreoffice-impress poppler-utils fonts-crosextra-carlito fonts-liberation
+
+      - name: Validate Stage 4 Visual IR
+        id: visual_ir
+        run: python tests/validate_visual_ir.py
+
+      - name: Build editable Validation sample
+        id: build
+        run: python scripts/build_stage4_sample.py
+
+      - name: Audit editable Validation sample
+        id: audit
+        run: python tests/audit_stage4_sample.py
+
+      - name: Render sample through fixed visual-review pipeline
+        id: render
+        run: |
+          mkdir -p dist/stage4/rendered
+          libreoffice --headless --convert-to pdf --outdir dist/stage4/rendered dist/stage4/validation_traction_sample_v0.pptx
+          test -s dist/stage4/rendered/validation_traction_sample_v0.pdf
+          pdftoppm -png -r 144 \
+            dist/stage4/rendered/validation_traction_sample_v0.pdf \
+            dist/stage4/rendered/validation_traction_sample_v0
+          test -s dist/stage4/rendered/validation_traction_sample_v0-1.png
+
+      - name: Upload Stage 4 sample review artifact
+        id: upload
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: queuezero-stage4-validation-sample
+          if-no-files-found: warn
+          path: |
+            dist/stage4/validation_traction_sample_v0.pptx
+            dist/stage4/validation_traction.layout_solution.v0.json
+            dist/stage4/validation_traction.realization.v0.json
+            dist/stage4/rendered/validation_traction_sample_v0.pdf
+            dist/stage4/rendered/validation_traction_sample_v0-1.png
+
+      - name: Write Stage 4 sample receipt
+        if: always()
+        env:
+          VISUAL_IR_OUTCOME: ${{ steps.visual_ir.outcome }}
+          BUILD_OUTCOME: ${{ steps.build.outcome }}
+          AUDIT_OUTCOME: ${{ steps.audit.outcome }}
+          RENDER_OUTCOME: ${{ steps.render.outcome }}
+        run: |
+          mkdir -p benchmark/results
+          python - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+          payload = {
+              "schema_version": "stage4-sample-receipt-v1",
+              "generated_at": datetime.now(timezone.utc).isoformat(),
+              "commit": os.environ.get("GITHUB_SHA"),
+              "run_id": os.environ.get("GITHUB_RUN_ID"),
+              "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+              "artifact_name": "queuezero-stage4-validation-sample",
+              "steps": {
+                  "visual_ir_validation": os.environ.get("VISUAL_IR_OUTCOME"),
+                  "build": os.environ.get("BUILD_OUTCOME"),
+                  "audit": os.environ.get("AUDIT_OUTCOME"),
+                  "render": os.environ.get("RENDER_OUTCOME"),
+              },
+          }
+          Path("benchmark/results/STAGE4_SAMPLE_LATEST.json").write_text(
+              json.dumps(payload, indent=2) + "\n", encoding="utf-8"
+          )
+          PY
+
+      - name: Commit Stage 4 sample receipt
+        if: always()
+        run: |
+          git config user.name "stage4-sample-ci"
+          git config user.email "stage4-sample-ci@users.noreply.github.com"
+          git add benchmark/results/STAGE4_SAMPLE_LATEST.json
+          if git diff --cached --quiet; then
+            echo "No Stage 4 sample receipt change"
+          else
+            git commit -m "ci: publish Stage 4 sample receipt"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
