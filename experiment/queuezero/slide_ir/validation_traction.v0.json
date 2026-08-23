@@ -1,0 +1,237 @@
+{
+  "ir_version": "0.1-experimental",
+  "deck_id": "queuezero-stage3",
+  "slide_id": "validation-traction",
+  "page_role": "validation_traction",
+  "governing_claim": "Early testing shows QueueZero can predict waits accurately enough to merit a semester pilot.",
+  "subtitle_support": "42 students across 3 cafeterias produced a 3.8-minute MAE and 76% weekly-use intent.",
+  "why_it_matters": "The prototype has measurable technical performance and an initial demand signal, while retention and paid adoption remain unproven.",
+  "evidence": [
+    {
+      "evidence_id": "mae_result",
+      "statement": "QueueZero achieved a mean absolute error of 3.8 minutes in the benchmark scenario.",
+      "value": 3.8,
+      "display_value": "3.8 min",
+      "unit": "minutes",
+      "status": "confirmed",
+      "source_ref": "queuezero_benchmark_brief",
+      "supports_claims": ["prototype wait prediction has measurable accuracy"],
+      "does_not_prove": ["production reliability", "commercial viability"]
+    },
+    {
+      "evidence_id": "student_test_count",
+      "statement": "42 students were included in the initial test.",
+      "value": 42,
+      "display_value": "42",
+      "unit": "students",
+      "status": "confirmed",
+      "source_ref": "queuezero_benchmark_brief",
+      "supports_claims": ["initial user testing occurred"],
+      "does_not_prove": ["campus-wide adoption", "retention"]
+    },
+    {
+      "evidence_id": "weekly_use_intent",
+      "statement": "76% of tested students reported weekly-use intent.",
+      "value": 76,
+      "display_value": "76%",
+      "unit": "%",
+      "status": "confirmed",
+      "source_ref": "queuezero_benchmark_brief",
+      "supports_claims": ["initial demand signal exists"],
+      "does_not_prove": ["actual weekly retention", "paid conversion", "market fit"]
+    },
+    {
+      "evidence_id": "cafeteria_count",
+      "statement": "The prototype was tested across 3 cafeterias.",
+      "value": 3,
+      "display_value": "3",
+      "unit": "cafeterias",
+      "status": "confirmed",
+      "source_ref": "queuezero_benchmark_brief",
+      "supports_claims": ["testing covered more than one cafeteria context"],
+      "does_not_prove": ["cross-campus scalability"]
+    },
+    {
+      "evidence_id": "pilot_conversion",
+      "statement": "A semester-long university pilot has not yet been completed.",
+      "value": null,
+      "display_value": null,
+      "unit": null,
+      "status": "uncertainty",
+      "source_ref": "queuezero_benchmark_brief",
+      "supports_claims": ["pilot is the next validation gate"],
+      "does_not_prove": []
+    }
+  ],
+  "proof_object": {
+    "proof_object_id": "validation_evidence_stack",
+    "type": "validation_stack",
+    "logic": "Separate measured technical performance from early user-demand evidence, then terminate in an explicitly unproven pilot gate.",
+    "primary_object_ids": [
+      "metric_mae",
+      "metric_weekly_intent",
+      "metric_students",
+      "metric_cafeterias",
+      "pilot_gate"
+    ],
+    "required_relationships": [
+      "technical_metrics_support_prototype_performance",
+      "survey_metric_supports_initial_demand",
+      "evidence_points_toward_pilot_not_market_validation"
+    ],
+    "forbidden_implications": [
+      "weekly_intent_equals_retention",
+      "small_test_equals_market_fit",
+      "prediction_accuracy_equals_commercial_viability"
+    ]
+  },
+  "must_keep": [
+    "3.8 min",
+    "76%",
+    "42 students",
+    "3 cafeterias",
+    "semester pilot"
+  ],
+  "hierarchy": {
+    "highest_priority": "title",
+    "visual_protagonist": "validation_evidence_stack",
+    "primary_numbers": ["metric_weekly_intent", "metric_mae"],
+    "secondary_numbers": ["metric_students", "metric_cafeterias"],
+    "bottom_synthesis": "pilot_gate",
+    "source_note_weight": "low"
+  },
+  "semantic_objects": [
+    {
+      "object_id": "title",
+      "role": "title",
+      "content": "Early testing clears the bar for a semester pilot",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "allowed_render_lanes": ["native", "svg"],
+      "preferred_render_lane": "native"
+    },
+    {
+      "object_id": "subtitle",
+      "role": "subtitle",
+      "content": "Technical accuracy and user intent are promising; retention and paid adoption remain unproven.",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "allowed_render_lanes": ["native", "svg"],
+      "preferred_render_lane": "native"
+    },
+    {
+      "object_id": "metric_mae",
+      "role": "metric",
+      "content_ref": "mae_result",
+      "label": "prediction MAE",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "visual_intent": {"group": "technical_evidence", "emphasis": "high"},
+      "allowed_render_lanes": ["native", "svg"],
+      "preferred_render_lane": "native"
+    },
+    {
+      "object_id": "metric_weekly_intent",
+      "role": "metric",
+      "content_ref": "weekly_use_intent",
+      "label": "would use weekly",
+      "importance": "primary",
+      "editability_priority": "must_remain_editable",
+      "visual_intent": {"group": "demand_evidence", "emphasis": "high"},
+      "allowed_render_lanes": ["native", "svg"],
+      "preferred_render_lane": "native"
+    },
+    {
+      "object_id": "metric_students",
+      "role": "metric",
+      "content_ref": "student_test_count",
+      "label": "students tested",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "visual_intent": {"group": "test_scope", "emphasis": "medium"},
+      "allowed_render_lanes": ["native", "svg"],
+      "preferred_render_lane": "native"
+    },
+    {
+      "object_id": "metric_cafeterias",
+      "role": "metric",
+      "content_ref": "cafeteria_count",
+      "label": "cafeterias",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "visual_intent": {"group": "test_scope", "emphasis": "medium"},
+      "allowed_render_lanes": ["native", "svg"],
+      "preferred_render_lane": "native"
+    },
+    {
+      "object_id": "pilot_gate",
+      "role": "annotation",
+      "content": "Next proof: one-university semester pilot",
+      "importance": "secondary",
+      "editability_priority": "must_remain_editable",
+      "visual_intent": {"group": "next_validation", "emphasis": "medium"},
+      "allowed_render_lanes": ["native", "svg"],
+      "preferred_render_lane": "native"
+    },
+    {
+      "object_id": "source_note",
+      "role": "source_note",
+      "content": "Source: QueueZero controlled benchmark brief",
+      "importance": "tertiary",
+      "editability_priority": "must_remain_editable",
+      "allowed_render_lanes": ["native"],
+      "preferred_render_lane": "native"
+    }
+  ],
+  "relationships": [
+    {
+      "relationship_id": "technical_metrics_support_prototype_performance",
+      "type": "supports",
+      "from": "metric_mae",
+      "to": "pilot_gate",
+      "directional": true,
+      "evidence_refs": ["mae_result"],
+      "semantic_strength": "explicit",
+      "allowed_visual_forms": ["grouping", "directed_connector"],
+      "forbidden_visual_forms": ["checkmark"]
+    },
+    {
+      "relationship_id": "survey_metric_supports_initial_demand",
+      "type": "supports",
+      "from": "metric_weekly_intent",
+      "to": "pilot_gate",
+      "directional": true,
+      "evidence_refs": ["weekly_use_intent"],
+      "semantic_strength": "explicit",
+      "allowed_visual_forms": ["grouping", "directed_connector"],
+      "forbidden_visual_forms": ["retention_loop", "flywheel"]
+    },
+    {
+      "relationship_id": "evidence_points_toward_pilot_not_market_validation",
+      "type": "must_pass_before",
+      "from": "validation_evidence_stack",
+      "to": "pilot_gate",
+      "directional": true,
+      "evidence_refs": ["pilot_conversion"],
+      "semantic_strength": "explicit",
+      "allowed_visual_forms": ["gate", "arrow"],
+      "forbidden_visual_forms": ["verified_checkmark", "market_fit_badge"]
+    }
+  ],
+  "assets": [],
+  "render_plan": {
+    "variant": "unresolved",
+    "routing": {},
+    "fallback_policy": "fail_closed",
+    "full_slide_rasterization_allowed": null
+  },
+  "deck_system_ref": "queuezero-default-v0",
+  "qa_expectations": [
+    "All four numeric findings remain exact.",
+    "The pilot gate is visually distinct from confirmed evidence.",
+    "No visual implies that 76% intent equals retention or market fit.",
+    "Metrics remain independently editable in native/vector and hybrid variants.",
+    "No full-slide picture in native/vector or hybrid variants."
+  ],
+  "realization": null
+}
