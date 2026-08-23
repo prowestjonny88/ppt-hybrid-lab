@@ -1,0 +1,8 @@
+version: 1
+
+paths:
+  tasks_dir: .ox/tasks
+  reports_dir: .ox/reports
+
+runner:
+  script: .ox/runner/ox_runner.py
