@@ -1,0 +1,76 @@
+name: Stage 4 Visual IR Validate
+
+on:
+  push:
+    paths:
+      - "architecture/STAGE4_VISUAL_QUALITY_RESET.md"
+      - "architecture/VISUAL_IR_DRAFT_V0.md"
+      - "architecture/COMPOSITION_ARCHETYPES.stage4.v0.json"
+      - "experiment/queuezero/style_profiles/**"
+      - "experiment/queuezero/visual_ir/**"
+      - "tests/validate_visual_ir.py"
+      - "benchmark/stage4-ci-trigger.txt"
+      - ".github/workflows/stage4-validate.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: stage4-visual-ir-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate Stage 4 Visual IR boundary and references
+        id: visual_ir
+        run: python tests/validate_visual_ir.py
+
+      - name: Write Stage 4 CI receipt
+        if: always()
+        env:
+          VISUAL_IR_OUTCOME: ${{ steps.visual_ir.outcome }}
+        run: |
+          mkdir -p benchmark/results
+          python - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+          payload = {
+              "schema_version": "stage4-ci-receipt-v1",
+              "generated_at": datetime.now(timezone.utc).isoformat(),
+              "commit": os.environ.get("GITHUB_SHA"),
+              "run_id": os.environ.get("GITHUB_RUN_ID"),
+              "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+              "visual_ir_validation": os.environ.get("VISUAL_IR_OUTCOME"),
+          }
+          Path("benchmark/results/STAGE4_CI_LATEST.json").write_text(
+              json.dumps(payload, indent=2) + "\n", encoding="utf-8"
+          )
+          PY
+
+      - name: Commit Stage 4 CI receipt
+        if: always()
+        run: |
+          git config user.name "stage4-ci"
+          git config user.email "stage4-ci@users.noreply.github.com"
+          git add benchmark/results/STAGE4_CI_LATEST.json
+          if git diff --cached --quiet; then
+            echo "No Stage 4 CI receipt change"
+          else
+            git commit -m "ci: publish Stage 4 Visual IR receipt"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
