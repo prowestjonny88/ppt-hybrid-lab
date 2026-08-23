@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 """Generate Stage 3 visual benchmark assets with the pinned stable Gemini image model.
 
-This script intentionally fails closed:
+Fail-closed and resumable:
 - only the pinned stable model is accepted;
-- preview/latest/Imagen aliases are rejected;
-- no automatic model fallback is allowed;
-- exact prompt and image hashes are persisted for benchmark reproducibility.
+- no preview/latest/Imagen aliases or model fallback;
+- Gemini's live Interactions endpoint currently requires image/jpeg;
+- prompt/image hashes are persisted after every successful image;
+- already-verified outputs are skipped on rerun, preventing duplicate paid calls;
+- partial success remains recoverable through generation_manifest.json.
 """
 
 import argparse
@@ -17,33 +19,33 @@ from pathlib import Path
 
 from google import genai
 
-
 ROOT = Path(__file__).resolve().parents[1]
 PINNED_MODEL = "gemini-3.1-flash-image"
+OUTPUT_MIME = "image/jpeg"
 
 JOBS = [
     {
         "kind": "image_first",
         "prompt": "dist/prompts/problem-hook.image_first.txt",
-        "output": "image_first/problem_hook.png",
+        "output": "image_first/problem_hook.jpg",
         "aspect_ratio": "16:9",
     },
     {
         "kind": "image_first",
         "prompt": "dist/prompts/how-it-works.image_first.txt",
-        "output": "image_first/how_it_works.png",
+        "output": "image_first/how_it_works.jpg",
         "aspect_ratio": "16:9",
     },
     {
         "kind": "image_first",
         "prompt": "dist/prompts/validation-traction.image_first.txt",
-        "output": "image_first/validation_traction.png",
+        "output": "image_first/validation_traction.jpg",
         "aspect_ratio": "16:9",
     },
     {
         "kind": "hybrid_bounded_asset",
         "prompt": "dist/prompts/problem-hook.problem_hero.hybrid.txt",
-        "output": "hybrid/problem_hero.png",
+        "output": "hybrid/problem_hero.jpg",
         "aspect_ratio": "4:3",
     },
 ]
@@ -51,6 +53,10 @@ JOBS = [
 
 def sha_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def sha_file(path: Path) -> str:
+    return sha_bytes(path.read_bytes())
 
 
 def sha_text(text: str) -> str:
@@ -101,7 +107,7 @@ def generate_one(client, model, prompt, aspect_ratio, image_size):
         input=prompt,
         response_format={
             "type": "image",
-            "mime_type": "image/png",
+            "mime_type": OUTPUT_MIME,
             "aspect_ratio": aspect_ratio,
             "image_size": image_size,
         },
@@ -114,13 +120,72 @@ def generate_one(client, model, prompt, aspect_ratio, image_size):
     raw = decode_image_data(output_image.data)
     if len(raw) < 1024:
         raise RuntimeError(f"Gemini image payload is unexpectedly small ({len(raw)} bytes)")
+    if not raw.startswith(b"\xff\xd8"):
+        raise RuntimeError("Gemini response is not a JPEG despite image/jpeg request")
 
     return raw, {
         "interaction_id": getattr(interaction, "id", None),
         "output_text": getattr(interaction, "output_text", None),
         "usage": serialize_usage(interaction),
-        "mime_type": getattr(output_image, "mime_type", None) or "image/png",
+        "mime_type": getattr(output_image, "mime_type", None) or OUTPUT_MIME,
     }
+
+
+def load_manifest(path: Path, model: str, resolution: str, resolved_model: str):
+    base = {
+        "schema_version": "stage3-gemini-image-generation-v2",
+        "provider": "Google Gemini Developer API",
+        "model": model,
+        "resolved_model": resolved_model,
+        "resolution": resolution,
+        "output_mime_type": OUTPUT_MIME,
+        "fallback_allowed": False,
+        "jobs": [],
+        "complete": False,
+    }
+    if not path.exists():
+        return base
+    try:
+        old = json.loads(path.read_text(encoding="utf-8"))
+    except Exception:
+        return base
+    if old.get("model") != model or old.get("resolution") != resolution:
+        return base
+    base["jobs"] = old.get("jobs", [])
+    return base
+
+
+def write_manifest(path: Path, manifest: dict):
+    path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+
+
+def verified_existing_record(manifest, job, prompt_sha, out_path, model, resolution):
+    for record in manifest.get("jobs", []):
+        if record.get("output_path") != str(out_path.relative_to(ROOT)):
+            continue
+        if record.get("status") != "success":
+            continue
+        if record.get("prompt_sha256") != prompt_sha:
+            continue
+        if record.get("model") != model or record.get("image_size") != resolution:
+            continue
+        if record.get("aspect_ratio") != job["aspect_ratio"]:
+            continue
+        if record.get("mime_type") != OUTPUT_MIME:
+            continue
+        if not out_path.exists():
+            continue
+        if record.get("image_sha256") != sha_file(out_path):
+            continue
+        return record
+    return None
+
+
+def replace_job_record(manifest, output_path, new_record):
+    manifest["jobs"] = [
+        r for r in manifest.get("jobs", []) if r.get("output_path") != output_path
+    ]
+    manifest["jobs"].append(new_record)
 
 
 def main():
@@ -139,52 +204,79 @@ def main():
 
     output_dir = ROOT / args.output_dir
     output_dir.mkdir(parents=True, exist_ok=True)
-
-    manifest = {
-        "schema_version": "stage3-gemini-image-generation-v1",
-        "provider": "Google Gemini Developer API",
-        "model": args.model,
-        "resolved_model": resolved_model,
-        "resolution": args.resolution,
-        "fallback_allowed": False,
-        "jobs": [],
-    }
+    manifest_path = output_dir / "generation_manifest.json"
+    manifest = load_manifest(manifest_path, args.model, args.resolution, resolved_model)
+    write_manifest(manifest_path, manifest)
 
     for job in JOBS:
         prompt_path = ROOT / job["prompt"]
         if not prompt_path.exists():
             raise RuntimeError(f"missing deterministic prompt: {prompt_path}")
         prompt = prompt_path.read_text(encoding="utf-8").strip()
+        prompt_sha = sha_text(prompt)
         out_path = output_dir / job["output"]
         out_path.parent.mkdir(parents=True, exist_ok=True)
+        rel_output = str(out_path.relative_to(ROOT))
 
-        print(f"Generating {job['output']} ({job['aspect_ratio']}, {args.resolution})")
-        raw, response_meta = generate_one(
-            client,
-            args.model,
-            prompt,
-            job["aspect_ratio"],
-            args.resolution,
+        existing = verified_existing_record(
+            manifest, job, prompt_sha, out_path, args.model, args.resolution
         )
-        out_path.write_bytes(raw)
+        if existing:
+            print(f"SKIP verified paid output: {job['output']}")
+            continue
 
-        manifest["jobs"].append(
-            {
+        print(f"Generating {job['output']} ({job['aspect_ratio']}, {args.resolution}, {OUTPUT_MIME})")
+        try:
+            raw, response_meta = generate_one(
+                client,
+                args.model,
+                prompt,
+                job["aspect_ratio"],
+                args.resolution,
+            )
+            out_path.write_bytes(raw)
+            record = {
+                "status": "success",
                 "kind": job["kind"],
+                "model": args.model,
                 "prompt_path": job["prompt"],
-                "prompt_sha256": sha_text(prompt),
-                "output_path": str(out_path.relative_to(ROOT)),
+                "prompt_sha256": prompt_sha,
+                "output_path": rel_output,
                 "image_sha256": sha_bytes(raw),
                 "image_bytes": len(raw),
+                "mime_type": OUTPUT_MIME,
                 "aspect_ratio": job["aspect_ratio"],
                 "image_size": args.resolution,
                 "response": response_meta,
             }
-        )
+            replace_job_record(manifest, rel_output, record)
+            write_manifest(manifest_path, manifest)
+            print(f"Persisted generation receipt for {job['output']}")
+        except Exception as exc:
+            record = {
+                "status": "failed",
+                "kind": job["kind"],
+                "model": args.model,
+                "prompt_path": job["prompt"],
+                "prompt_sha256": prompt_sha,
+                "output_path": rel_output,
+                "mime_type": OUTPUT_MIME,
+                "aspect_ratio": job["aspect_ratio"],
+                "image_size": args.resolution,
+                "error_type": type(exc).__name__,
+                "error": str(exc),
+            }
+            replace_job_record(manifest, rel_output, record)
+            manifest["complete"] = False
+            write_manifest(manifest_path, manifest)
+            raise
 
-    manifest_path = output_dir / "generation_manifest.json"
-    manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Generated {len(JOBS)} assets; manifest: {manifest_path}")
+    successful = [r for r in manifest.get("jobs", []) if r.get("status") == "success"]
+    manifest["complete"] = len(successful) == len(JOBS)
+    write_manifest(manifest_path, manifest)
+    if not manifest["complete"]:
+        raise RuntimeError(f"generation incomplete: {len(successful)}/{len(JOBS)} jobs verified")
+    print(f"Generated/verified {len(JOBS)} assets; manifest: {manifest_path}")
 
 
 if __name__ == "__main__":
