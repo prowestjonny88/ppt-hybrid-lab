@@ -1,13 +1,12 @@
 {
   "project": "ppt-hybrid-lab",
   "phase": "stage3_architecture_experiment",
-  "status": "implementation_started",
+  "status": "implementation_in_progress",
   "canonical_brain": "ChatGPT Work",
   "delegated_investigator": "Ox Alpha",
   "infrastructure": {
     "github_actions_ox_worker": "verified",
     "openrouter_ox_alpha": "verified",
-    "inventory_smoke_test": "complete",
     "bounded_source_packager": "implemented",
     "concurrent_run_hardening": "implemented",
     "stage3_validation_workflow": "implemented"
@@ -18,12 +17,13 @@
     "stage3_ppt_master_svg_forensics": "complete_and_adjudicated",
     "stage3_rw_reasoning_extraction": "complete_and_adjudicated",
     "stage3_mck_native_component_analysis": "complete_and_adjudicated",
-    "stage3_slide_ir_red_team": "complete_and_adjudicated"
+    "stage3_slide_ir_red_team": "complete_and_adjudicated",
+    "stage3_ppt_master_hybrid_adapter_trace": "task-006_pending"
   },
   "architecture_hypotheses": {
     "H1_image_first": "under_test",
-    "H2_native_vector_first": "supported_as_viable_editability_lane_not_quality_winner",
-    "H3_hybrid_native_vector_image": "under_test"
+    "H2_native_vector_first": "implementation_available_pending_ci_artifact_review",
+    "H3_hybrid_native_vector_image": "implementation_in_progress_waiting_on_svg_adapter_trace"
   },
   "verified_stage3_evidence": {
     "ppt_master_fail_closed_svg_compiler": true,
@@ -46,14 +46,12 @@
     "bounded_asset_region_contract_defined": true
   },
   "architecture_artifacts": {
-    "slide_ir_draft_v0": "architecture/SLIDE_IR_DRAFT_V0.md",
     "slide_ir_v1": "architecture/SLIDE_IR_V1.md",
     "slide_ir_redteam_adjudication": "architecture/SLIDE_IR_REDTEAM_ADJUDICATION.md",
     "capability_registry": "architecture/CAPABILITY_REGISTRY.stage3.json",
     "deck_system": "experiment/queuezero/deck_system.stage3.json",
     "panic_test_protocol": "benchmark/STAGE3_PANIC_TEST_PROTOCOL.md",
-    "panic_test_amendments": "benchmark/STAGE3_PROTOCOL_AMENDMENTS_V1.md",
-    "mck_adjudication": "architecture/MCK_NATIVE_COMPONENT_ADJUDICATION.md"
+    "panic_test_amendments": "benchmark/STAGE3_PROTOCOL_AMENDMENTS_V1.md"
   },
   "benchmark": {
     "project": "QueueZero",
@@ -62,25 +60,29 @@
       "experiment/queuezero/slide_semantics/how_it_works.v1.json",
       "experiment/queuezero/slide_semantics/validation_traction.v1.json"
     ],
-    "planned_slide_types": ["problem_hook", "how_it_works", "validation_traction"],
-    "planned_variants_per_slide": ["image_first", "native_vector", "hybrid"],
     "render_plan_count": 9,
-    "status": "ir_v1_frozen_build_scaffold_next"
+    "native_vector_renderer": "src/native/queuezero_renderer.py",
+    "native_vector_build_cli": "scripts/build_stage3_native.py",
+    "variant_manifest_builder": "scripts/build_stage3_variant_inputs.py",
+    "deterministic_mock_assets": "scripts/create_queuezero_mock_assets.py",
+    "status": "native_vector_path_implemented_hybrid_svg_adapter_pending"
   },
   "validation": {
     "referential_integrity_validator": "tests/validate_slide_semantics.py",
     "render_plan_fairness_validator": "tests/validate_render_plans.py",
     "probe_v1_svg_editable_text": "accepted_from_stage2_empirical_plus_source_evidence",
     "probe_v2_native_single_object_patch": "tests/probes/native_patch_probe.py",
+    "native_output_audit": "tests/audit_native_output.py",
+    "ci_workflow": ".github/workflows/validate.yml",
+    "ci_artifact_name": "queuezero-stage3-current",
     "ci_result": "pending_observation"
   },
   "next_priorities": [
-    "implement minimal native component API with deterministic semantic identities",
-    "implement QueueZero native-vector renderer and realization map",
-    "implement constrained SVG adapter for the How-It-Works hybrid diagram",
-    "create bounded/mock assets required by the benchmark",
-    "build A/B/C variant input manifests and outputs",
-    "run panic edits, structural audit, and blind visual scoring"
+    "adjudicate task-006 and implement pinned PPT Master SVG adapter",
+    "build hybrid structured deck with bounded problem hero asset and SVG How-It-Works diagram",
+    "materialize image-first full-slide outputs from hashed prompts",
+    "run P1-P10 panic edits and structural audit across all variants",
+    "run blind visual scoring and decide architecture"
   ],
   "last_updated": "2026-08-23"
 }
