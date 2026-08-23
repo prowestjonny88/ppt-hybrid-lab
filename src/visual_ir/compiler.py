@@ -42,25 +42,25 @@ def compile_validation_sample(root: Path, visual_ir_path: Path):
     placements = [
         {
             "semantic_object_id": "title", "part": "title", "kind": "text",
-            "box": _box(0.052, 0.060, 0.70, 0.085), "text_source": "content",
-            "type_role": "title", "font_size_pt": 27, "font_weight": 700,
+            "box": _box(0.052, 0.058, 0.89, 0.075), "text_source": "content",
+            "type_role": "title", "font_size_pt": 24.5, "font_weight": 700,
             "color_token": "ink", "align": "left", "valign": "top"
         },
         {
             "semantic_object_id": "subtitle", "part": "subtitle", "kind": "text",
-            "box": _box(0.052, 0.150, 0.73, 0.060), "text_source": "content",
-            "type_role": "subtitle", "font_size_pt": 12.5, "font_weight": 400,
+            "box": _box(0.052, 0.143, 0.82, 0.050), "text_source": "content",
+            "type_role": "subtitle", "font_size_pt": 12.0, "font_weight": 400,
             "color_token": "muted", "align": "left", "valign": "top"
         },
         {
             "semantic_object_id": "metric_weekly_intent", "part": "value", "kind": "text",
-            "box": _box(0.052, 0.275, 0.36, 0.235), "text_source": "content",
+            "box": _box(0.052, 0.265, 0.36, 0.235), "text_source": "content",
             "type_role": "hero_numeric", "font_size_pt": 78, "font_weight": 700,
             "color_token": "signal", "align": "left", "valign": "middle"
         },
         {
             "semantic_object_id": "metric_weekly_intent", "part": "label", "kind": "text",
-            "box": _box(0.058, 0.515, 0.30, 0.065), "text_source": "label",
+            "box": _box(0.058, 0.505, 0.30, 0.060), "text_source": "label",
             "type_role": "hero_label", "font_size_pt": 17, "font_weight": 600,
             "color_token": "ink", "align": "left", "valign": "top"
         },
@@ -102,8 +102,8 @@ def compile_validation_sample(root: Path, visual_ir_path: Path):
         },
         {
             "semantic_object_id": "pilot_gate", "part": "label", "kind": "text",
-            "box": _box(0.445, 0.800, 0.47, 0.085), "text_source": "content",
-            "type_role": "terminal", "font_size_pt": 15, "font_weight": 600,
+            "box": _box(0.445, 0.775, 0.47, 0.055), "text_source": "content",
+            "type_role": "terminal", "font_size_pt": 14.5, "font_weight": 600,
             "color_token": "ink", "align": "right", "valign": "middle"
         },
         {
@@ -117,7 +117,7 @@ def compile_validation_sample(root: Path, visual_ir_path: Path):
     decorations = [
         {
             "decor_id": "top_signal_rule", "kind": "rect",
-            "box": _box(0.052, 0.038, 0.105, 0.006), "fill_token": "signal", "line_token": None
+            "box": _box(0.052, 0.035, 0.105, 0.005), "fill_token": "signal", "line_token": None
         },
         {
             "decor_id": "technical_proof_field", "kind": "rect",
@@ -129,15 +129,15 @@ def compile_validation_sample(root: Path, visual_ir_path: Path):
         },
         {
             "decor_id": "pilot_signal_line", "kind": "rect",
-            "box": _box(0.052, 0.846, 0.350, 0.004), "fill_token": "line", "line_token": None
+            "box": _box(0.052, 0.855, 0.350, 0.004), "fill_token": "line", "line_token": None
         },
         {
             "decor_id": "pilot_signal_line_active", "kind": "rect",
-            "box": _box(0.402, 0.846, 0.505, 0.004), "fill_token": "signal", "line_token": None
+            "box": _box(0.402, 0.855, 0.505, 0.004), "fill_token": "signal", "line_token": None
         },
         {
             "decor_id": "pilot_node", "kind": "ellipse",
-            "box": _box(0.914, 0.830, 0.017, 0.030), "fill_token": "attention", "line_token": None
+            "box": _box(0.914, 0.839, 0.017, 0.030), "fill_token": "attention", "line_token": None
         }
     ]
 
