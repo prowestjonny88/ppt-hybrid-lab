@@ -1,7 +1,7 @@
 {
   "id": "task-006",
   "type": "feature_trace",
-  "status": "PENDING",
+  "status": "COMPLETE",
   "repository": "hugohe3/ppt-master",
   "objective": "Determine the minimum, deterministic integration recipe for using pinned PPT Master as an external Stage 3 experiment adapter that compiles ONE constrained full-slide SVG containing only the QueueZero How-It-Works diagram into native editable DrawingML/PPTX shapes, so those shapes can be inserted into our independently assembled hybrid PPTX. Do not redesign our architecture and do not copy repo code. We need exact callable APIs/CLI, runtime dependencies, outputs, trace/identity mapping, and the safest transplant/integration strategy.",
   "questions": [
@@ -30,7 +30,12 @@
     "skills/ppt-master/workflows/generate-pptx.md",
     "README.md"
   ],
-  "exclude_paths": ["**/*.png", "**/*.jpg", "**/*.pptx", "**/*.pdf"],
+  "exclude_paths": [
+    "**/*.png",
+    "**/*.jpg",
+    "**/*.pptx",
+    "**/*.pdf"
+  ],
   "focus_terms": [
     "create_pptx_with_native_svg",
     "convert_svg_to_slide_shapes",
@@ -61,5 +66,30 @@
     "Adapter validation checklist",
     "Exact follow-up source requests if needed"
   ],
-  "output": ".ox/reports/task-006-ppt-master-hybrid-adapter.md"
+  "output": ".ox/reports/task-006-ppt-master-hybrid-adapter.md",
+  "inspected_repository": {
+    "repository": "hugohe3/ppt-master",
+    "ref": "65bb2eca59a36270819caba377097910c4466c6e",
+    "source": "https://github.com/hugohe3/ppt-master.git"
+  },
+  "context_package": {
+    "tracked_file_count": 13979,
+    "eligible_text_file_count": 58,
+    "focus_match_count": 27,
+    "included_file_count": 8,
+    "included_files": [
+      "README.md",
+      "skills/ppt-master/scripts/svg_to_pptx/pptx_package/__init__.py",
+      "skills/ppt-master/scripts/svg_to_pptx/pptx_package/builder.py",
+      "skills/ppt-master/scripts/svg_to_pptx/pptx_package/cli.py",
+      "skills/ppt-master/scripts/svg_to_pptx/pptx_package/dimensions.py",
+      "skills/ppt-master/scripts/svg_to_pptx/pptx_package/narration.py",
+      "skills/ppt-master/scripts/svg_to_pptx/pptx_package/notes.py",
+      "skills/ppt-master/scripts/svg_to_pptx/pptx_package/slide_xml.py"
+    ],
+    "context_chars": 260000,
+    "max_files": 32,
+    "max_file_bytes": 100000,
+    "max_context_chars": 260000
+  }
 }
