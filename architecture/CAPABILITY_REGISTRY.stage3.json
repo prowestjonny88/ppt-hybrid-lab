@@ -1,0 +1,64 @@
+{
+  "registry_version": "stage3-v1",
+  "lanes": {
+    "native": {
+      "editable_text": true,
+      "editable_shapes": true,
+      "editable_picture_slots": true,
+      "editable_charts": "not_required_for_stage3",
+      "editable_tables": "not_required_for_stage3",
+      "semantic_shape_identity": "required_by_our_emitter",
+      "full_slide_rasterization": false,
+      "status": "verified_for_stage3_primitives"
+    },
+    "svg": {
+      "backend_reference": "hugohe3/ppt-master@65bb2eca59a36270819caba377097910c4466c6e",
+      "editable_text": true,
+      "editable_shapes": true,
+      "text_as_curves": false,
+      "supported_stage3_subset": [
+        "rect",
+        "roundRect_equal_rx_ry",
+        "circle",
+        "ellipse",
+        "line",
+        "simple_arrow_markers",
+        "path_M_L_C_Z",
+        "polygon",
+        "polyline",
+        "controlled_text",
+        "shallow_groups",
+        "validated_images"
+      ],
+      "excluded_stage3_features": [
+        "mask",
+        "foreignObject",
+        "textPath",
+        "arbitrary_css_style_blocks",
+        "shear_transforms",
+        "unbounded_filters"
+      ],
+      "fallback": "fail_closed",
+      "full_slide_rasterization": false,
+      "verification": {
+        "source_evidence": "drawingml/elements.py convert_text path + closed text grammar; Stage 2 empirical fixture produced editable text objects",
+        "status": "verified"
+      }
+    },
+    "image": {
+      "editable_text": false,
+      "editable_shapes": false,
+      "bounded_assets_only_in_hybrid": true,
+      "text_free_generated_assets_required": true,
+      "full_slide_rasterization": "allowed_only_for_image_first_baseline",
+      "status": "benchmark_baseline_and_bounded_asset_lane"
+    }
+  },
+  "hard_constraints": {
+    "must_remain_editable_text": ["native", "svg"],
+    "replaceable_asset": ["native", "image"],
+    "raster_allowed": ["image", "native", "svg"],
+    "hybrid_full_slide_rasterization": false,
+    "native_vector_full_slide_rasterization": false
+  }
+}
