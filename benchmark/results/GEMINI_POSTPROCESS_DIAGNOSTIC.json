@@ -1,0 +1,40 @@
+{
+  "schema_version": "stage3-postprocess-diagnostic-v1",
+  "images": [
+    {
+      "path": "benchmark/generated/queuezero/gemini31flashimage-v1/image_first/problem_hook.jpg",
+      "exists": true,
+      "format": "JPEG",
+      "width": 2752,
+      "height": 1536,
+      "ratio": 1.7916666666666667
+    },
+    {
+      "path": "benchmark/generated/queuezero/gemini31flashimage-v1/image_first/how_it_works.jpg",
+      "exists": true,
+      "format": "JPEG",
+      "width": 2752,
+      "height": 1536,
+      "ratio": 1.7916666666666667
+    },
+    {
+      "path": "benchmark/generated/queuezero/gemini31flashimage-v1/image_first/validation_traction.jpg",
+      "exists": true,
+      "format": "JPEG",
+      "width": 2752,
+      "height": 1536,
+      "ratio": 1.7916666666666667
+    },
+    {
+      "path": "benchmark/generated/queuezero/gemini31flashimage-v1/hybrid/problem_hero.jpg",
+      "exists": true,
+      "format": "JPEG",
+      "width": 2400,
+      "height": 1792,
+      "ratio": 1.3392857142857142
+    }
+  ],
+  "package_returncode": 1,
+  "package_stdout": "",
+  "package_stderr": "Traceback (most recent call last):\n  File \"/home/runner/work/ppt-hybrid-lab/ppt-hybrid-lab/scripts/build_stage3_image_first.py\", line 5, in <module>\n    from src.image_first.package import build_image_first\nModuleNotFoundError: No module named 'src'\n"
+}
