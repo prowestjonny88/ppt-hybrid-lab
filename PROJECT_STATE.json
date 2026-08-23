@@ -16,12 +16,12 @@
     "stage2_forensics": "complete",
     "stage3_ppt_master_svg_forensics": "complete_and_adjudicated",
     "stage3_rw_reasoning_extraction": "complete_and_adjudicated",
-    "stage3_mck_native_component_analysis": "task-004_pending",
-    "stage3_slide_ir_red_team": "queued_after_mck"
+    "stage3_mck_native_component_analysis": "complete_and_adjudicated",
+    "stage3_slide_ir_red_team": "task-005_pending"
   },
   "architecture_hypotheses": {
     "H1_image_first": "under_test",
-    "H2_native_vector_first": "supported_as_viable_render_lane_not_quality_winner",
+    "H2_native_vector_first": "supported_as_viable_editability_lane_not_quality_winner",
     "H3_hybrid_native_vector_image": "under_test"
   },
   "verified_stage3_evidence": {
@@ -33,12 +33,17 @@
     "rw_typed_evidence_boundary_portable": true,
     "rw_proof_object_routing_portable": true,
     "rw_deck_system_vs_page_local_separation_portable": true,
-    "rw_image_only_rendering_requirement_rejected": true
+    "rw_image_only_rendering_requirement_rejected": true,
+    "mck_native_objects_support_local_edits": true,
+    "mck_same_bbox_image_replacement_isolated": true,
+    "mck_component_layer_too_flat_for_product_architecture": true,
+    "mck_geometry_only_qa_requires_semantic_roles": true
   },
   "architecture_artifacts": {
     "slide_ir_draft_v0": "architecture/SLIDE_IR_DRAFT_V0.md",
     "validation_slide_ir_example_v0": "experiment/queuezero/slide_ir/validation_traction.v0.json",
-    "panic_test_protocol": "benchmark/STAGE3_PANIC_TEST_PROTOCOL.md"
+    "panic_test_protocol": "benchmark/STAGE3_PANIC_TEST_PROTOCOL.md",
+    "mck_adjudication": "architecture/MCK_NATIVE_COMPONENT_ADJUDICATION.md"
   },
   "benchmark": {
     "project": "QueueZero",
@@ -52,14 +57,14 @@
       "native_vector",
       "hybrid"
     ],
-    "status": "protocol_frozen_ir_draft_unfrozen"
+    "status": "protocol_frozen_ir_red_team_in_progress"
   },
   "next_priorities": [
-    "complete and adjudicate task-004 Mck native component analysis",
-    "refine minimum native component API using Mck evidence",
-    "red-team Slide IR draft v0 with Ox",
-    "freeze Stage 3 experimental Slide IR",
-    "build controlled 3x3 architecture experiment"
+    "complete and adjudicate task-005 Slide IR red-team",
+    "patch and freeze Stage 3 experimental Slide IR",
+    "implement minimum native component API and constrained SVG lane adapter",
+    "build controlled 3x3 architecture experiment",
+    "run panic edits, structural audit, and blind visual scoring"
   ],
   "last_updated": "2026-08-23"
 }
