@@ -1,7 +1,7 @@
 {
   "project": "ppt-hybrid-lab",
   "phase": "stage3_architecture_experiment",
-  "status": "implementation_in_progress",
+  "status": "editability_benchmark_green_visual_benchmark_next",
   "canonical_brain": "ChatGPT Work",
   "delegated_investigator": "Ox Alpha",
   "infrastructure": {
@@ -9,7 +9,7 @@
     "openrouter_ox_alpha": "verified",
     "bounded_source_packager": "implemented",
     "concurrent_run_hardening": "implemented",
-    "stage3_validation_workflow": "implemented"
+    "stage3_validation_workflow": "green"
   },
   "research": {
     "stage1_broad_architecture_scan": "complete",
@@ -21,9 +21,9 @@
     "stage3_ppt_master_hybrid_adapter_trace": "complete_and_implemented"
   },
   "architecture_hypotheses": {
-    "H1_image_first": "under_test",
-    "H2_native_vector_first": "implementation_available_pending_ci_artifact_review",
-    "H3_hybrid_native_vector_image": "implementation_available_pending_ci_verification_and_real_hero_asset"
+    "H1_image_first": "packager_available_real_visual_assets_not_yet_generated",
+    "H2_native_vector_first": "editability_verified_visual_quality_pending",
+    "H3_hybrid_native_vector_image": "editability_verified_real_hero_visual_pending"
   },
   "verified_stage3_evidence": {
     "ppt_master_fail_closed_svg_compiler": true,
@@ -45,7 +45,16 @@
     "round_trip_identity_contract_defined": true,
     "bounded_asset_region_contract_defined": true,
     "ppt_master_cli_quick_generate_route_verified_in_source": true,
-    "hybrid_base_slide_strategy_selected": true
+    "hybrid_base_slide_strategy_selected": true,
+    "native_vector_pptx_build_passed": true,
+    "native_vector_structural_audit_passed": true,
+    "hybrid_pptx_build_passed": true,
+    "hybrid_structural_audit_passed": true,
+    "native_vector_panic_suite_passed": true,
+    "hybrid_panic_suite_passed": true,
+    "native_vector_normalized_editability": 1.0,
+    "hybrid_normalized_editability": 0.96,
+    "panic_p8_then_p1_interaction_passed_both": true
   },
   "architecture_artifacts": {
     "slide_ir_v1": "architecture/SLIDE_IR_V1.md",
@@ -67,30 +76,36 @@
     "native_vector_build_cli": "scripts/build_stage3_native.py",
     "hybrid_renderer": "src/hybrid/queuezero_renderer.py",
     "hybrid_build_cli": "scripts/build_stage3_hybrid.py",
+    "image_first_packager": "src/image_first/package.py",
+    "image_first_build_cli": "scripts/build_stage3_image_first.py",
     "ppt_master_adapter": "src/svg_lane/ppt_master_adapter.py",
     "ppt_master_pin": "65bb2eca59a36270819caba377097910c4466c6e",
     "variant_manifest_builder": "scripts/build_stage3_variant_inputs.py",
     "deterministic_mock_assets": "scripts/create_queuezero_mock_assets.py",
-    "visual_quality_status": "hybrid_problem_hero_is_structural_fixture_only_not_for_scoring",
-    "status": "native_and_hybrid_paths_implemented_pending_ci_verification"
+    "visual_quality_status": "not_scored_real_image_assets_required",
+    "editability_status": "native_and_hybrid_green"
   },
   "validation": {
     "referential_integrity_validator": "tests/validate_slide_semantics.py",
     "render_plan_fairness_validator": "tests/validate_render_plans.py",
-    "probe_v1_svg_editable_text": "pinned_ppt_master_adapter_now_exercises_in_ci",
-    "probe_v2_native_single_object_patch": "tests/probes/native_patch_probe.py",
-    "native_output_audit": "tests/audit_native_output.py",
-    "hybrid_output_audit": "tests/audit_hybrid_output.py",
+    "probe_v1_svg_editable_text": "passed_via_pinned_ppt_master_adapter",
+    "probe_v2_native_single_object_patch": "passed",
+    "native_output_audit": "passed",
+    "hybrid_output_audit": "passed",
+    "panic_native": "passed_normalized_1.0",
+    "panic_hybrid": "passed_normalized_0.96",
     "ci_workflow": ".github/workflows/validate.yml",
     "ci_artifact_name": "queuezero-stage3-current",
-    "ci_result": "pending_observation"
+    "ci_result": "success",
+    "ci_receipt_commit": "e9be01373138605073f71ba619ae7d1e13f4f825"
   },
   "next_priorities": [
-    "observe and fix Stage 3 CI hybrid adapter integration until green",
-    "replace structural problem hero with a real generated visual asset for visual scoring",
-    "materialize image-first full-slide outputs from hashed prompts",
-    "run P1-P10 panic edits and structural audit across all variants",
-    "run blind visual scoring and decide architecture"
+    "generate real image-first full-slide assets with a manually approved OpenRouter image workflow",
+    "generate a real bounded hybrid Problem hero asset",
+    "package the image-first baseline PPTX",
+    "render native, hybrid and image-first outputs to comparable previews",
+    "run blind visual scoring",
+    "combine editability and visual scores and decide Stage 3 architecture"
   ],
   "last_updated": "2026-08-23"
 }
