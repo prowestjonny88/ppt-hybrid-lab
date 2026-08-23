@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 import argparse
+import sys
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from src.hybrid.queuezero_renderer import build_hybrid
 
@@ -12,13 +17,12 @@ def main():
     parser.add_argument("--realizations", default="dist/realizations/hybrid")
     parser.add_argument("--adapter-workspace", default="dist/ppt_master_adapter_workspace")
     args = parser.parse_args()
-    root = Path(__file__).resolve().parents[1]
     output, realizations = build_hybrid(
-        root,
+        ROOT,
         Path(args.ppt_master_root),
-        root / args.out,
-        root / args.realizations,
-        root / args.adapter_workspace,
+        ROOT / args.out,
+        ROOT / args.realizations,
+        ROOT / args.adapter_workspace,
     )
     print(f"Built {output}")
     print(f"Hybrid realizations: {len(realizations)} slides")
