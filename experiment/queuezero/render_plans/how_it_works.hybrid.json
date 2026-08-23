@@ -1,0 +1,23 @@
+{
+  "plan_version": "stage3-render-plan-v1",
+  "slide_id": "how-it-works",
+  "variant": "hybrid",
+  "semantic_file": "experiment/queuezero/slide_semantics/how_it_works.v1.json",
+  "semantic_hash": null,
+  "mode": "structured",
+  "routing": {
+    "role_defaults": {
+      "title": "native",
+      "subtitle": "native",
+      "diagram_node": "svg",
+      "connector": "svg",
+      "image_slot": "native",
+      "source_note": "native"
+    },
+    "object_overrides": {},
+    "decisions": []
+  },
+  "fallback_policy": "fail_closed",
+  "full_slide_rasterization_allowed": false,
+  "note": "Diagram structure uses constrained SVG→DrawingML; product screenshot stays an independently replaceable picture object; all diagram labels must remain editable text."
+}
