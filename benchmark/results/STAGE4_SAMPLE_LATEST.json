@@ -1,8 +1,8 @@
 {
   "schema_version": "stage4-sample-receipt-v1",
-  "generated_at": "2026-08-23T14:14:04.995914+00:00",
-  "commit": "b104a51b2375312cd08c49a19b7697dd613d3a96",
-  "run_id": "32644762939",
+  "generated_at": "2026-08-23T14:16:41.608632+00:00",
+  "commit": "e9336b5904d26d1f750f661bcd2b353dcce68415",
+  "run_id": "32644897343",
   "run_attempt": "1",
   "artifact_name": "queuezero-stage4-validation-sample",
   "steps": {
