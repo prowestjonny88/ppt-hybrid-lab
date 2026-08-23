@@ -39,5 +39,8 @@ jobs:
       - name: Validate Stage 3 slide semantics
         run: python tests/validate_slide_semantics.py
 
+      - name: Validate A/B/C render-plan fairness
+        run: python tests/validate_render_plans.py
+
       - name: Probe V2 native single-object patch
         run: python tests/probes/native_patch_probe.py
