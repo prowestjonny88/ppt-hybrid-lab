@@ -71,6 +71,12 @@ jobs:
       - name: Audit hybrid PPTX native SVG and bounded image structure
         run: python tests/audit_hybrid_output.py
 
+      - name: Run native-vector panic edits
+        run: python tests/run_panic_edits.py --variant native_vector --pptx dist/queuezero_native_vector.pptx --out-dir dist/panic/native_vector
+
+      - name: Run hybrid panic edits
+        run: python tests/run_panic_edits.py --variant hybrid --pptx dist/queuezero_hybrid.pptx --out-dir dist/panic/hybrid
+
       - name: Upload Stage 3 current artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -82,5 +88,7 @@ jobs:
             dist/realizations/hybrid/*.json
             dist/ppt_master_adapter_workspace/trace.json
             dist/ppt_master_adapter_workspace/validation/*.json
+            dist/panic/native_vector/summary.json
+            dist/panic/hybrid/summary.json
             dist/variant_inputs/*.json
             dist/prompts/*.txt
