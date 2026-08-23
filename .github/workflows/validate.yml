@@ -86,11 +86,11 @@ jobs:
 
       - name: Run native-vector panic edits
         id: panic_native
-        run: python tests/run_panic_edits.py --variant native_vector --pptx dist/queuezero_native_vector.pptx --out-dir dist/panic/native_vector
+        run: python tests/run_panic_edits_safe.py --variant native_vector --pptx dist/queuezero_native_vector.pptx --out-dir dist/panic/native_vector
 
       - name: Run hybrid panic edits
         id: panic_hybrid
-        run: python tests/run_panic_edits.py --variant hybrid --pptx dist/queuezero_hybrid.pptx --out-dir dist/panic/hybrid
+        run: python tests/run_panic_edits_safe.py --variant hybrid --pptx dist/queuezero_hybrid.pptx --out-dir dist/panic/hybrid
 
       - name: Upload Stage 3 current artifacts
         if: always()
