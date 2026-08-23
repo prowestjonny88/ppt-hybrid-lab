@@ -1,7 +1,7 @@
 {
   "id": "task-008",
   "type": "visual_constraints_forensics",
-  "status": "PENDING",
+  "status": "COMPLETE",
   "repository": "likaku/Mck-ppt-design-skill",
   "ref": "main",
   "objective": "Forensically extract the portable layout-capacity, anti-collapse, visual QA, self-refinement, and composition-routing ideas from Mck-ppt-design-skill for Stage 4 of ppt-hybrid-lab. We already rejected its flat high-level component API as our product architecture; this task focuses narrowly on constraints and gates that can make a Visual-IR-driven hybrid system more robust without reducing design to generic component templates.",
@@ -64,5 +64,50 @@
   "max_file_bytes": 150000,
   "max_context_chars": 600000,
   "output": ".ox/reports/task-008-mck-visual-constraints.md",
-  "trigger_nonce": "stage4-retry-20260823-2210"
+  "trigger_nonce": "stage4-retry-20260823-2210",
+  "inspected_repository": {
+    "repository": "likaku/Mck-ppt-design-skill",
+    "ref": "e190e083b715b63172e1c4fea01bc5f9bb21a021",
+    "source": "https://github.com/likaku/Mck-ppt-design-skill.git"
+  },
+  "context_package": {
+    "tracked_file_count": 53,
+    "eligible_text_file_count": 28,
+    "focus_match_count": 27,
+    "included_file_count": 28,
+    "included_files": [
+      "experiences/layout-pitfalls.md",
+      "experiences/overflow.md",
+      "references/layout-matrix.yaml",
+      "experiences/chart-limits.md",
+      "experiences/cjk-issues.md",
+      "references/layout-catalog.md",
+      "references/scripts/gate_check.py",
+      "references/scripts/gate_check_s3.py",
+      "README.md",
+      "SKILL.md",
+      "run_qa_tests.py",
+      "mck_ppt/__init__.py",
+      "mck_ppt/constants.py",
+      "mck_ppt/core.py",
+      "mck_ppt/cover_image.py",
+      "mck_ppt/deck_builder.py",
+      "mck_ppt/engine.py",
+      "mck_ppt/qa.py",
+      "mck_ppt/review.py",
+      "references/INDEX.md",
+      "references/color-palette.md",
+      "mck_ppt/storylines/ai_enterprise.py",
+      "references/framework/engine-api.md",
+      "references/framework/guard-rails.md",
+      "references/framework/planning-guide.md",
+      "references/team/brand-guide.md",
+      "references/team/presentation-convention.md",
+      "mck_ppt/storylines/__init__.py"
+    ],
+    "context_chars": 371033,
+    "max_files": 60,
+    "max_file_bytes": 150000,
+    "max_context_chars": 600000
+  }
 }
