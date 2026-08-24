@@ -5,6 +5,7 @@ on:
     paths:
       - "src/visual_ir/**"
       - "scripts/build_stage4_deck.py"
+      - "scripts/create_queuezero_mock_assets.py"
       - "tests/audit_stage4_deck.py"
       - "experiment/queuezero/visual_ir/**"
       - "experiment/queuezero/style_profiles/**"
@@ -37,6 +38,8 @@ jobs:
           pip install python-pptx pillow
           sudo apt-get update
           sudo apt-get install -y libreoffice-impress poppler-utils fonts-crosextra-carlito fonts-liberation
+      - name: Generate deterministic QueueZero benchmark fixtures
+        run: python scripts/create_queuezero_mock_assets.py
       - name: Validate Visual IR and deck rhythm
         id: validate
         run: |
