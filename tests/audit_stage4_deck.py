@@ -28,11 +28,11 @@ def _max_font_pt(shape):
 
 
 def _estimated_required_height_in(shape):
-    """Conservative wrap estimate for high-risk title-band text.
+    """Conservative wrap estimate for high-risk semantic text.
 
     This is deliberately a proxy, not a replacement for pixel review. It catches
-    the exact failure class where the PowerPoint textbox bounds are valid but a
-    renderer wraps glyphs beyond the intended title band and into the subtitle.
+    the failure class where the PowerPoint textbox bounds are valid but a renderer
+    wraps glyphs beyond the intended semantic zone and into adjacent content.
     """
     text = " ".join((shape.text or "").split())
     font_pt = _max_font_pt(shape)
@@ -45,15 +45,21 @@ def _estimated_required_height_in(shape):
     return line_count * font_pt * 1.20 / 72.0
 
 
-def _check_title_band_capacity(slide, slide_id):
+def _check_text_capacity(slide, slide_id):
     risky = []
     for shape in slide.shapes:
         if not getattr(shape, "has_text_frame", False):
             continue
-        if not (
+        font_pt = _max_font_pt(shape)
+        is_title_band = (
             shape.name.endswith(":title:title")
             or shape.name.endswith(":subtitle:subtitle")
-        ):
+        )
+        # Large evidence numbers are just as capable of silently wrapping as a
+        # title. Smaller copy remains covered by pixel review rather than this
+        # intentionally conservative structural proxy.
+        is_large_evidence = font_pt is not None and font_pt >= 24
+        if not (is_title_band or is_large_evidence):
             continue
         required = _estimated_required_height_in(shape)
         available = shape.height / EMU_PER_INCH
@@ -63,7 +69,7 @@ def _check_title_band_capacity(slide, slide_id):
             )
     if risky:
         raise SystemExit(
-            f"title-band overflow risk on {slide_id}: " + "; ".join(risky)
+            f"semantic text overflow risk on {slide_id}: " + "; ".join(risky)
         )
 
 
@@ -89,7 +95,7 @@ def main():
         for obj in realization["objects"]:
             if obj["kind"] == "picture" and not obj.get("asset_present"):
                 raise SystemExit(f"required visual asset missing: {obj.get('asset_path')}")
-        _check_title_band_capacity(slide, realization["slide_id"])
+        _check_text_capacity(slide, realization["slide_id"])
 
     if len(all_names) < 20:
         raise SystemExit("deck unexpectedly sparse; structural realization likely incomplete")
