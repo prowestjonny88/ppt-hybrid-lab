@@ -15,11 +15,13 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+TESTS_DIR = Path(__file__).resolve().parent
+for candidate in (ROOT, TESTS_DIR):
+    if str(candidate) not in sys.path:
+        sys.path.insert(0, str(candidate))
 
 from src.visual_ir.style_runtime import resolve_style_profile
-from tests.validate_visual_ir import load, index_by, validate_one
+from validate_visual_ir import load, index_by, validate_one
 
 ARCHETYPES_PATH = ROOT / "architecture/COMPOSITION_ARCHETYPES.stage4.v0.json"
 STYLE_PATH = ROOT / "experiment/queuezero/style_profiles/queuezero_hackathon_v0.json"
