@@ -1,0 +1,108 @@
+{
+  "schema_version": "stage4-design-languages-v0",
+  "status": "draft_not_frozen",
+  "design_languages": [
+    {
+      "design_language_id": "editorial-signal-v0",
+      "name": "Editorial Signal",
+      "intent": "A sharp product/editorial presentation language built around one visible protagonist, asymmetric evidence, restrained structural marks, and rhythmic contrast rather than repeated cards.",
+      "forbidden_aesthetics": [
+        "generic equal-weight metric card grid",
+        "gradient SaaS dashboard wallpaper",
+        "glassmorphism everywhere",
+        "decorative icons for every bullet",
+        "tiny uppercase label soup",
+        "universal centered alignment",
+        "shadow on every container",
+        "four identical rounded cards as default proof layout"
+      ],
+      "typography": {
+        "character": "editorial_product",
+        "primary_family_preference": ["Aptos Display", "Aptos", "Arial"],
+        "body_family_preference": ["Aptos", "Arial"],
+        "numeric_family_preference": ["Aptos Display", "Aptos", "Arial"],
+        "title_behavior": "sentence_case_action_title_not_banner",
+        "hero_number_behavior": "oversized_open_space_not_container_card",
+        "source_behavior": "small_but_readable_single_line_or_two_line_max",
+        "forbidden": ["all_caps_long_titles", "universal_center_alignment", "automatic_shrink_all_text"]
+      },
+      "whitespace": {
+        "character": "intentional_editorial",
+        "minimum_slide_fraction_target": 0.20,
+        "protected_gutters": true,
+        "rule": "Whitespace is reserved around the visual protagonist before secondary content is placed; it is not leftover space after packing."
+      },
+      "geometry": {
+        "character": "precise_with_selective_softness",
+        "corner_radius": "small_to_medium_only_for_images_or_true_containers",
+        "line_language": "hairline_structural_rules_and_signal_paths",
+        "container_policy": "use containers only when grouping is semantically meaningful",
+        "shape_vocabulary": ["flat_field", "hairline_rule", "signal_path", "soft_image_crop", "open_metric", "bounded_annotation"]
+      },
+      "depth": {
+        "character": "mostly_flat",
+        "allowed": ["subtle_image_lift", "single_depth_layer_for_product_stage"],
+        "forbidden": ["shadow_on_every_card", "multi_layer_glass_panels"]
+      },
+      "identity_anchors": [
+        {
+          "anchor_id": "signal_path",
+          "description": "A thin signal-colored path with one emphasized node, used only when a real sequence, dependency, or destination exists.",
+          "implementable_as": "vector",
+          "usage": "selective",
+          "max_frequency": "roughly_half_of_content_slides"
+        },
+        {
+          "anchor_id": "open_evidence_number",
+          "description": "The strongest quantified conclusion sits directly in open space at large scale rather than inside a generic KPI container.",
+          "implementable_as": "native_text",
+          "usage": "evidence_slides",
+          "max_frequency": "one_hero_number_per_slide"
+        },
+        {
+          "anchor_id": "dark_proof_field",
+          "description": "A high-contrast field may create a proof or terminal-action peak against a light canvas; it is semantic grouping and deck rhythm, not decoration.",
+          "implementable_as": "vector",
+          "usage": "occasional",
+          "max_frequency": "no_adjacent_repetition"
+        },
+        {
+          "anchor_id": "edge_index",
+          "description": "A tiny optional edge marker may provide deck navigation without competing with title or source.",
+          "implementable_as": "native_text_or_vector",
+          "usage": "optional",
+          "max_frequency": "consistent_if_enabled"
+        }
+      ],
+      "density_rules": {
+        "low": "One dominant idea, one support cluster maximum, large protected whitespace.",
+        "medium": "One protagonist plus two to five differentiated support objects; support may share a zone but should not normalize into identical tiles by default.",
+        "high": "Remove decoration, merge semantically related support, and change composition before reducing title/hero hierarchy. If still overloaded, fail and request content reduction."
+      },
+      "variation_rules": [
+        "Alternate protagonist anchoring across adjacent slides when semantics permit.",
+        "Vary open-canvas, split-field, edge-anchored, and bounded-product compositions while preserving typography and identity anchors.",
+        "Use high-contrast proof fields as rhythm punctuation, not as the default background.",
+        "Metric evidence may be hero-number, annotated comparison, scale, or support cluster; do not normalize all metrics into cards."
+      ],
+      "anti_repetition_rules": [
+        "Never repeat the same archetype plus variation signature on adjacent slides unless explicitly marked as an intentional sequence.",
+        "Do not repeat the same protagonist position on three consecutive slides without an intentional-sequence marker.",
+        "Do not use the signal_path anchor on every slide.",
+        "Do not place every visual inside a rounded rectangle.",
+        "Do not use more than one major dark proof field on adjacent slides.",
+        "Do not render all supporting facts with identical size and contrast."
+      ],
+      "archetype_compatibility": {
+        "preferred": ["editorial_hero", "dominant_metric", "product_stage", "process_story", "evidence_constellation", "contrast_split", "terminal_ask"],
+        "supported": ["comparison_axis", "funnel_or_progression", "architecture_layers", "timeline_journey", "portfolio_map"]
+      },
+      "quality_intent": {
+        "visual_protagonist": "obvious_within_one_glance",
+        "hierarchy": "one_clear_primary_then_support",
+        "originality": "distinctive_through_composition_not_decoration",
+        "presentability": "final_round_pitch_or_executive_product_story"
+      }
+    }
+  ]
+}
