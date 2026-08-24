@@ -109,6 +109,9 @@ jobs:
             dist/stage4/deck/realizations.json
             dist/stage4/deck/rendered/queuezero_stage4_v0.pdf
             dist/stage4/deck/rendered/*.png
+      # Receipt v15 includes both source→layout→realization provenance identity
+      # and PPTX round-trip realization identity. Keep this workflow edit as a
+      # deterministic clean-run trigger after concurrency-cancelled hardening runs.
       - name: Write run receipt
         if: always()
         env:
