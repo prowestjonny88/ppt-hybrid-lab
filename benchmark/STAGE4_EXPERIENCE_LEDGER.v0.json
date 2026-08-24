@@ -37,6 +37,33 @@
       "fix": "Prefer open/asymmetric fields and edge-anchored composition when containers are not semantically necessary.",
       "preventative_rules": ["containers_require_semantic_grouping", "distinctive_through_composition_not_decoration"],
       "regression_targets": ["validation-traction"]
+    },
+    {
+      "experience_id": "exp-005-process-line-dead-space",
+      "source_stage": "stage4",
+      "failure": "Initial How-It-Works composition placed four labels on a long horizontal spine while the product screenshot remained a small lower-right thumbnail, producing dead space and weak product proof.",
+      "root_cause": "The compiler treated the process as evenly distributed steps instead of honoring the Visual IR requirement that the decision/product be the terminal destination.",
+      "fix": "Compress early sensing stages into a differentiated signal chain and allocate a dedicated light product-destination field with a larger independently replaceable screenshot.",
+      "preventative_rules": ["process_has_terminal_destination", "product_screenshot_not_thumbnail", "transformation_point_emphasized", "dead_space_requires_intent"],
+      "regression_targets": ["how-it-works"]
+    },
+    {
+      "experience_id": "exp-006-mock-ui-invented-values",
+      "source_stage": "stage4",
+      "failure": "The deterministic product screenshot fixture contained invented cafeteria wait values that were not present in the frozen benchmark facts.",
+      "root_cause": "A visual fixture was treated as harmless decoration even though readable UI text can be interpreted as product/evidence content.",
+      "fix": "Redesign the mock UI around frozen semantic copy only: Wait prediction, Go now / choose another cafeteria, and the known three-cafeteria test context; remove fabricated numeric estimates.",
+      "preventative_rules": ["fixture_text_obeys_evidence_boundary", "no_invented_numeric_ui_copy", "replaceable_asset_semantic_review"],
+      "regression_targets": ["how-it-works"]
+    },
+    {
+      "experience_id": "exp-007-slide-specific-compiler-debt",
+      "source_stage": "stage4",
+      "failure": "The first three-slide Stage 4 compiler improved visual quality but still dispatched by QueueZero slide ID and embedded concrete asset paths in layout recipes.",
+      "root_cause": "Benchmark implementation outran the intended architecture boundary between Visual IR, composition grammar and concrete asset realization.",
+      "fix": "Introduce an archetype+variant solver registry that binds semantic objects by role/hierarchy/group structure, plus a separate benchmark asset-binding layer. Add CI that forbids benchmark slide IDs inside reusable solvers.",
+      "preventative_rules": ["archetype_solver_registry_required", "no_slide_id_dispatch_in_solver", "asset_binding_separate_from_composition", "solver_trace_persisted"],
+      "regression_targets": ["problem-hook", "how-it-works", "validation-traction"]
     }
   ]
 }
