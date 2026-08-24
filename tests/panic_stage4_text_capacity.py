@@ -43,7 +43,7 @@ def _add_textbox(slide, name: str, text: str, width_in: float, height_in: float,
 def _expect_fail(slide, label: str):
     try:
         _check_text_capacity(slide, label)
-    except SystemExit as exc:
+    except ValueError as exc:
         if "overflow risk" not in str(exc):
             raise SystemExit(f"panic produced wrong failure: {exc}")
         return
