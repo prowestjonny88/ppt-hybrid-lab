@@ -105,7 +105,7 @@ jobs:
             dist/stage4/deck/realizations.json
             dist/stage4/deck/rendered/queuezero_stage4_v0.pdf
             dist/stage4/deck/rendered/*.png
-      - name: Write receipt
+      - name: Write run receipt
         if: always()
         env:
           VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
@@ -118,18 +118,22 @@ jobs:
           import json, os
           from datetime import datetime, timezone
           from pathlib import Path
+
+          steps = {
+            "validation": os.environ.get("VALIDATE_OUTCOME"),
+            "build": os.environ.get("BUILD_OUTCOME"),
+            "audit": os.environ.get("AUDIT_OUTCOME"),
+            "render": os.environ.get("RENDER_OUTCOME"),
+          }
+          all_green = all(value == "success" for value in steps.values())
           payload = {
-            "schema_version": "stage4-deck-receipt-v12",
+            "schema_version": "stage4-deck-receipt-v13",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "commit": os.environ.get("GITHUB_SHA"),
             "run_id": os.environ.get("GITHUB_RUN_ID"),
             "artifact_name": "queuezero-stage4-full-deck",
-            "steps": {
-              "validation": os.environ.get("VALIDATE_OUTCOME"),
-              "build": os.environ.get("BUILD_OUTCOME"),
-              "audit": os.environ.get("AUDIT_OUTCOME"),
-              "render": os.environ.get("RENDER_OUTCOME"),
-            },
+            "canonical_green": all_green,
+            "steps": steps,
             "validation_contract": [
               "design_language_profile_layering",
               "style_layering_fail_closed_panic",
@@ -149,14 +153,19 @@ jobs:
               "text_capacity_fail_closed_panic"
             ]
           }
-          Path("benchmark/results/STAGE4_DECK_LATEST.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+          attempt = Path("benchmark/results/STAGE4_DECK_LAST_ATTEMPT.json")
+          attempt.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
+          if all_green:
+            Path("benchmark/results/STAGE4_DECK_LATEST.json").write_text(
+              json.dumps(payload, indent=2) + "\n", encoding="utf-8"
+            )
           PY
-      - name: Commit receipt
+      - name: Commit receipts
         if: always()
         run: |
           git config user.name "stage4-deck-ci"
           git config user.email "stage4-deck-ci@users.noreply.github.com"
-          git add benchmark/results/STAGE4_DECK_LATEST.json
+          git add benchmark/results/STAGE4_DECK_LAST_ATTEMPT.json benchmark/results/STAGE4_DECK_LATEST.json
           if git diff --cached --quiet; then
             echo "No receipt change"
           else
