@@ -1,8 +1,8 @@
 {
   "schema_version": "stage4-ci-receipt-v3",
-  "generated_at": "2026-08-24T03:03:04.074735+00:00",
-  "commit": "c876b846f5f0423a6cd2bd6c8f7173e3b7d7fcb2",
-  "run_id": "32685068947",
+  "generated_at": "2026-08-24T06:08:52.980108+00:00",
+  "commit": "dfe9206013f3bf58cd5d85f07be38580f888b11e",
+  "run_id": "32696099113",
   "run_attempt": "1",
   "visual_ir_validation": "success",
   "deck_rhythm_validation": "success",
