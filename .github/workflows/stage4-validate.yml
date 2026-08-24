@@ -7,6 +7,7 @@ on:
       - "architecture/VISUAL_IR_DRAFT_V0.md"
       - "architecture/COMPOSITION_ARCHETYPES.stage4.v0.json"
       - "architecture/ARCHETYPE_ROUTING_RULES.stage4.v0.json"
+      - "architecture/DESIGN_LANGUAGES.stage4.v0.json"
       - "architecture/STAGE4_GATE_SCHEMA.v0.json"
       - "benchmark/STAGE4_EXPERIENCE_LEDGER.v0.json"
       - "experiment/queuezero/stage4_deck_plan.v0.json"
@@ -16,11 +17,13 @@ on:
       - "src/visual_ir/compiler.py"
       - "src/visual_ir/archetype_solvers.py"
       - "src/visual_ir/router.py"
+      - "src/visual_ir/style_runtime.py"
       - "tests/validate_visual_ir.py"
       - "tests/validate_stage4_deck_rhythm.py"
       - "tests/validate_stage4_compiler.py"
       - "tests/validate_stage4_solver_registry.py"
       - "tests/validate_stage4_routing.py"
+      - "tests/validate_stage4_style_layering.py"
       - "benchmark/stage4-ci-trigger.txt"
       - ".github/workflows/stage4-validate.yml"
   workflow_dispatch:
@@ -46,8 +49,13 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Validate DesignLanguage and DeckStyleProfile layering
+        id: style_layering
+        run: python tests/validate_stage4_style_layering.py
+
       - name: Validate Stage 4 Visual IR boundary and references
         id: visual_ir
+        if: always()
         run: python tests/validate_visual_ir.py
 
       - name: Validate Stage 4 deck rhythm and adjacency
@@ -73,6 +81,7 @@ jobs:
       - name: Write Stage 4 CI receipt
         if: always()
         env:
+          STYLE_LAYERING_OUTCOME: ${{ steps.style_layering.outcome }}
           VISUAL_IR_OUTCOME: ${{ steps.visual_ir.outcome }}
           DECK_RHYTHM_OUTCOME: ${{ steps.deck_rhythm.outcome }}
           ROUTING_OUTCOME: ${{ steps.routing.outcome }}
@@ -85,11 +94,12 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
           payload = {
-              "schema_version": "stage4-ci-receipt-v5",
+              "schema_version": "stage4-ci-receipt-v6",
               "generated_at": datetime.now(timezone.utc).isoformat(),
               "commit": os.environ.get("GITHUB_SHA"),
               "run_id": os.environ.get("GITHUB_RUN_ID"),
               "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
+              "style_layering_validation": os.environ.get("STYLE_LAYERING_OUTCOME"),
               "visual_ir_validation": os.environ.get("VISUAL_IR_OUTCOME"),
               "deck_rhythm_validation": os.environ.get("DECK_RHYTHM_OUTCOME"),
               "deterministic_routing_validation": os.environ.get("ROUTING_OUTCOME"),
