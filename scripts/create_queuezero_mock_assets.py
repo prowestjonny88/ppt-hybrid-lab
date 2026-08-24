@@ -1,26 +1,66 @@
 #!/usr/bin/env python3
 from pathlib import Path
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = ROOT / "experiment" / "queuezero" / "assets"
 
 
+def _font(size, bold=False):
+    candidates = [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "/usr/share/fonts/truetype/liberation2/LiberationSans-Bold.ttf" if bold else "/usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf",
+        "DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf",
+    ]
+    for candidate in candidates:
+        try:
+            return ImageFont.truetype(candidate, size=size)
+        except OSError:
+            continue
+    return ImageFont.load_default()
+
+
 def product_ui(path, variant=1):
-    image = Image.new("RGB", (720, 1280), "#F7F8FA" if variant == 1 else "#F9FAFB")
+    """Deterministic product mock used as a replaceable screenshot fixture.
+
+    Keep the UI illustrative but semantically conservative: no fabricated wait
+    values, accuracy, retention, or market-fit claims. The only product decision
+    text comes directly from the frozen QueueZero semantics.
+    """
+    signal = "#2563EB" if variant == 1 else "#F97316"
+    signal_soft = "#E8EEFF" if variant == 1 else "#FFF0E8"
+    image = Image.new("RGB", (720, 1280), "#EEF1F6")
     d = ImageDraw.Draw(image)
-    d.rounded_rectangle((35, 35, 685, 1245), radius=38, fill="#FFFFFF", outline="#D1D5DB", width=4)
-    d.rounded_rectangle((75, 95, 645, 250), radius=20, fill="#E8F0FF" if variant == 1 else "#FFF3E8")
-    d.text((105, 155), "QueueZero - live cafeteria waits", fill="#111827")
-    waits = ("8 min", "18 min", "11 min") if variant == 1 else ("6 min", "14 min", "9 min")
-    rows = [(320, "North cafeteria", waits[0]), (525, "Central cafeteria", waits[1]), (730, "South cafeteria", waits[2])]
-    for y, label, wait in rows:
-        d.rounded_rectangle((85, y, 635, y + 165), radius=20, fill="#FFFFFF", outline="#E5E7EB", width=3)
-        d.text((120, y + 55), label, fill="#111827")
-        d.text((510, y + 55), wait, fill="#2563EB" if variant == 1 else "#F97316")
-    d.rounded_rectangle((155, 1000, 565, 1120), radius=30, fill="#2563EB" if variant == 1 else "#F97316")
-    d.text((270, 1045), "Best option", fill="#FFFFFF")
+
+    # Device canvas.
+    d.rounded_rectangle((32, 24, 688, 1256), radius=42, fill="#FFFFFF", outline="#CBD1DA", width=4)
+
+    # Header / live sensing cue.
+    d.text((78, 78), "QUEUEZERO", font=_font(25, True), fill="#111827")
+    d.text((78, 120), "Live cafeteria decision", font=_font(18), fill="#6B7280")
+    d.ellipse((575, 78, 597, 100), fill=signal)
+    d.text((610, 76), "LIVE", font=_font(16, True), fill=signal)
+
+    # Product output is the visual protagonist.
+    d.rounded_rectangle((72, 205, 648, 510), radius=34, fill=signal)
+    d.text((110, 250), "WAIT PREDICTION", font=_font(18, True), fill="#DCE5FF" if variant == 1 else "#FFE0CF")
+    d.text((110, 300), "Go now", font=_font(54, True), fill="#FFFFFF")
+    d.text((110, 382), "or choose another cafeteria", font=_font(22), fill="#FFFFFF")
+
+    # Three known cafeteria contexts; no invented numeric estimates.
+    d.text((78, 575), "Cafeterias", font=_font(20, True), fill="#111827")
+    for idx, y in enumerate((635, 785, 935), start=1):
+        d.rounded_rectangle((72, y, 648, y + 118), radius=24, fill="#F8FAFC", outline="#E3E7EE", width=3)
+        d.text((104, y + 28), f"Cafeteria {idx}", font=_font(20, True), fill="#111827")
+        d.text((104, y + 66), "wait estimate", font=_font(16), fill="#6B7280")
+        # Small visual signal bar; decorative only, not a quantitative scale.
+        d.rounded_rectangle((500, y + 45, 604, y + 60), radius=8, fill=signal_soft)
+        d.rounded_rectangle((500, y + 45, 552 + idx * 8, y + 60), radius=8, fill=signal)
+
+    d.text((78, 1125), "3 cafeterias in the controlled test", font=_font(17), fill="#6B7280")
+    d.rounded_rectangle((78, 1175, 330, 1222), radius=22, fill=signal_soft)
+    d.text((110, 1187), "Decision ready", font=_font(16, True), fill=signal)
     image.save(path)
 
 
