@@ -10,6 +10,7 @@ on:
       - "scripts/create_queuezero_mock_assets.py"
       - "tests/audit_stage4_deck.py"
       - "tests/validate_stage4_realization_identity.py"
+      - "tests/panic_stage4_provenance_identity.py"
       - "tests/panic_stage4_text_capacity.py"
       - "tests/validate_stage4_capacity.py"
       - "tests/panic_stage4_capacity.py"
@@ -79,11 +80,12 @@ jobs:
       - name: Build three-slide editable deck
         id: build
         run: python scripts/build_stage4_deck.py
-      - name: Structural, realization-identity and text-capacity audit
+      - name: Structural, provenance, realization-identity and text-capacity audit
         id: audit
         run: |
           python tests/audit_stage4_deck.py
           python tests/validate_stage4_realization_identity.py
+          python tests/panic_stage4_provenance_identity.py
           python tests/panic_stage4_text_capacity.py
       - name: Render all slides
         id: render
@@ -129,7 +131,7 @@ jobs:
           }
           all_green = all(value == "success" for value in steps.values())
           payload = {
-            "schema_version": "stage4-deck-receipt-v14",
+            "schema_version": "stage4-deck-receipt-v15",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "commit": os.environ.get("GITHUB_SHA"),
             "run_id": os.environ.get("GITHUB_RUN_ID"),
@@ -151,6 +153,8 @@ jobs:
               "deck_rhythm_fail_closed_panic",
               "all_slide_compiler",
               "archetype_solver_registry",
+              "source_layout_realization_provenance_identity",
+              "provenance_identity_negative_regression",
               "pptx_realization_round_trip_identity",
               "realization_identity_negative_regression",
               "semantic_text_capacity",
