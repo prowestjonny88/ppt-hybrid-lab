@@ -11,7 +11,7 @@
     "gemini_output_mime": "image/jpeg",
     "stage3_validation_workflow": "green",
     "stage4_visual_ir_workflow": "green",
-    "stage4_full_deck_workflow": "green_v13",
+    "stage4_full_deck_workflow": "green_v15",
     "stage4_fixed_render_pipeline": "LibreOffice_PPTX_to_PDF_to_144dpi_PNG",
     "stage4_latest_good_receipt_preservation": "implemented",
     "hourly_project_watch": "enabled"
@@ -57,6 +57,8 @@
     "visual_ir_contract_gate": "green_with_negative_panic_suite",
     "style_layering_gate": "green_with_negative_panic_suite",
     "asset_binding_gate": "green_with_negative_panic_suite",
+    "source_layout_realization_provenance_identity_gate": "green_with_negative_regression",
+    "pptx_realization_round_trip_identity_gate": "green_with_negative_regression",
     "pixel_multimodal_gate": "model_pass_human_style_freeze_pending",
     "canonical_receipt_policy": "last_attempt_always_recorded_latest_only_advances_on_all_green"
   },
@@ -82,14 +84,19 @@
     "visual_ir_negative_panic_suite": true,
     "deck_rhythm_negative_panic_suite": true,
     "text_capacity_negative_panic_suite": true,
+    "source_layout_realization_provenance_identity": true,
+    "provenance_identity_negative_regression": true,
+    "pptx_realization_round_trip_identity": true,
+    "realization_identity_negative_regression": true,
     "asset_binding_panic_ci_import_regression_fixed": true,
     "text_capacity_panic_ci_import_regression_fixed": true,
+    "text_capacity_panic_exception_contract_regression_fixed": true,
     "problem_peak_wait_single_line_regression_fixed": true,
     "validation_title_collision_regression_fixed": true,
     "how_it_works_dead_space_product_thumbnail_regression_fixed": true,
     "mock_ui_invented_wait_values_removed": true,
     "experience_regression_ledger_active": true,
-    "latest_full_deck_receipt_schema": "stage4-deck-receipt-v13",
+    "latest_full_deck_receipt_schema": "stage4-deck-receipt-v15",
     "latest_known_good_receipt_preserved_on_failed_attempt": true
   },
   "architecture_artifacts": {
@@ -128,7 +135,7 @@
     "last_stage4_attempt_receipt": "benchmark/results/STAGE4_DECK_LAST_ATTEMPT.json",
     "latest_stage4_ci_receipt": "benchmark/results/STAGE4_CI_LATEST.json",
     "machine_visual_gate": "PASS",
-    "machine_full_deck_gate": "PASS_v13",
+    "machine_full_deck_gate": "PASS_v15",
     "human_style_freeze": "PENDING",
     "would_submit_to_win": "not_asserted_without_human_approval"
   },
@@ -150,5 +157,5 @@
     "after human freeze, add one additional benchmark role to test solver generalization rather than QueueZero overfitting",
     "only then advance toward Stage 5 production pipeline integration"
   ],
-  "last_updated": "2026-08-24T16:20Z"
+  "last_updated": "2026-08-25T07:18+08:00"
 }
