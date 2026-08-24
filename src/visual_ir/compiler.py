@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Stage 4 Visual IR compiler.
 
-Semantic IR + Visual IR + style profile -> normalized layout solution.
-The compiler is deliberately thin: it validates deterministic routing eligibility,
-resolves concrete asset instances, and dispatches to a reusable archetype+variant
-solver.
+Semantic IR + Visual IR + resolved design language/profile -> normalized layout
+solution. The compiler validates deterministic routing eligibility, resolves
+concrete asset instances, and dispatches to a reusable archetype+variant solver.
 """
 
 from __future__ import annotations
@@ -14,6 +13,7 @@ from pathlib import Path
 from src.ir.runtime import canonical_hash, load_json
 from src.visual_ir.archetype_solvers import SOLVER_REGISTRY
 from src.visual_ir.router import route_candidates
+from src.visual_ir.style_runtime import resolve_style_profile
 
 STYLE_PATH = "experiment/queuezero/style_profiles/queuezero_hackathon_v0.json"
 ASSET_BINDINGS_PATH = "experiment/queuezero/stage4_asset_bindings.json"
@@ -54,9 +54,9 @@ def compile_slide(root: Path, visual_ir_path: Path):
     path = Path(visual_ir_path)
     ir = load_json(path)
     semantics = load_json(root / ir["semantic_file"])
-    style = load_json(root / STYLE_PATH)
+    style, profile, language = resolve_style_profile(root, root / STYLE_PATH)
 
-    if ir["style"]["profile_id"] != style["profile_id"]:
+    if ir["style"]["profile_id"] != profile["profile_id"]:
         raise RuntimeError("Visual IR/style profile mismatch")
 
     routing = route_candidates(root, semantics)
@@ -84,7 +84,11 @@ def compile_slide(root: Path, visual_ir_path: Path):
         "semantic_file": ir["semantic_file"],
         "semantic_hash": canonical_hash(semantics),
         "visual_ir_hash": canonical_hash(ir),
-        "style_profile_hash": canonical_hash(style),
+        "design_language_id": language["design_language_id"],
+        "design_language_hash": canonical_hash(language),
+        "style_profile_id": profile["profile_id"],
+        "style_profile_hash": canonical_hash(profile),
+        "resolved_style_hash": canonical_hash(style),
         "archetype_id": key[0],
         "variant": key[1],
         "routing_trace": routing,
