@@ -16,6 +16,11 @@ ARCHETYPES_PATH = ROOT / "architecture/COMPOSITION_ARCHETYPES.stage4.v0.json"
 STYLE_PATH = ROOT / "experiment/queuezero/style_profiles/queuezero_hackathon_v0.json"
 VISUAL_IR_DIR = ROOT / "experiment/queuezero/visual_ir"
 
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from src.visual_ir.style_runtime import resolve_style_profile
+
 FORBIDDEN_GEOMETRY_KEYS = {
     "x", "y", "w", "h", "left", "top", "right", "bottom",
     "width", "height", "bbox", "rect", "bounds", "bounds_emu",
@@ -74,7 +79,6 @@ def validate_one(path: Path, archetypes, style):
     semantic_ids = set(semantic_objects)
     semantic_group_ids = set(semantic_groups)
 
-    # Keep Visual IR as visual reasoning, not a renderer-coordinate sidecar.
     errors.extend(walk_forbidden_geometry(ir))
 
     hierarchy = ir.get("hierarchy", {})
@@ -123,13 +127,13 @@ def validate_one(path: Path, archetypes, style):
         style.get("archetype_compatibility", {}).get("supported", [])
     )
     if archetype_id and archetype_id not in compatible:
-        errors.append(f"style profile does not declare archetype compatibility for {archetype_id}")
+        errors.append(f"resolved style does not declare archetype compatibility for {archetype_id}")
 
     anchor_ids = {item["anchor_id"] for item in style.get("identity_anchors", [])}
     requested_anchors = set(ir.get("style", {}).get("identity_anchor_refs", []))
     unknown_anchors = sorted(requested_anchors - anchor_ids)
     if unknown_anchors:
-        errors.append(f"unknown style identity anchors: {unknown_anchors}")
+        errors.append(f"unknown active identity anchors: {unknown_anchors}")
 
     shape_vocab = set(style.get("geometry", {}).get("shape_vocabulary", []))
     requested_shapes = set(ir.get("style", {}).get("shape_vocabulary", []))
@@ -200,7 +204,7 @@ def validate_one(path: Path, archetypes, style):
 def main():
     registry = load(ARCHETYPES_PATH)
     archetypes = index_by(registry.get("archetypes", []), "archetype_id")
-    style = load(STYLE_PATH)
+    style, profile, language = resolve_style_profile(ROOT, STYLE_PATH)
 
     paths = sorted(VISUAL_IR_DIR.glob("*.stage4.v0.json"))
     if not paths:
@@ -222,7 +226,10 @@ def main():
         print(f"Visual IR validation failed for {failures}/{len(paths)} files", file=sys.stderr)
         raise SystemExit(1)
 
-    print(f"Visual IR validation passed: {len(paths)} slides, {len(archetypes)} archetypes, style={style['profile_id']}")
+    print(
+        f"Visual IR validation passed: {len(paths)} slides, {len(archetypes)} archetypes, "
+        f"style={profile['profile_id']}, design_language={language['design_language_id']}"
+    )
 
 
 if __name__ == "__main__":
