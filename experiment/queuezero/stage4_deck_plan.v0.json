@@ -1,0 +1,17 @@
+{
+  "schema_version": "stage4-deck-plan-v0",
+  "status": "draft_not_frozen",
+  "deck_id": "queuezero-stage4",
+  "style_profile": "experiment/queuezero/style_profiles/queuezero_hackathon_v0.json",
+  "slides": [
+    {"position": 1, "slide_id": "problem-hook", "visual_ir": "experiment/queuezero/visual_ir/problem_hook.stage4.v0.json"},
+    {"position": 2, "slide_id": "how-it-works", "visual_ir": "experiment/queuezero/visual_ir/how_it_works.stage4.v0.json"},
+    {"position": 3, "slide_id": "validation-traction", "visual_ir": "experiment/queuezero/visual_ir/validation_traction.stage4.v0.json"}
+  ],
+  "deck_rules": {
+    "max_adjacent_same_archetype": 1,
+    "max_same_protagonist_anchor_streak": 2,
+    "major_dark_field_max_adjacent": 1,
+    "require_distinct_adjacent_variation_signature": true
+  }
+}
