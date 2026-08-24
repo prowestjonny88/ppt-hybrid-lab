@@ -16,8 +16,10 @@ on:
       - "tests/panic_stage4_solver_contracts.py"
       - "tests/panic_stage4_style_layering.py"
       - "tests/panic_stage4_asset_bindings.py"
+      - "tests/panic_stage4_visual_ir.py"
       - "tests/validate_stage4_solver_registry.py"
       - "tests/validate_stage4_style_layering.py"
+      - "tests/validate_visual_ir.py"
       - "experiment/queuezero/stage4_asset_bindings.json"
       - "experiment/queuezero/visual_ir/**"
       - "experiment/queuezero/style_profiles/**"
@@ -52,13 +54,14 @@ jobs:
           sudo apt-get install -y libreoffice-impress poppler-utils fonts-crosextra-carlito fonts-liberation
       - name: Generate deterministic QueueZero benchmark fixtures
         run: python scripts/create_queuezero_mock_assets.py
-      - name: Validate style layering, assets, capacity, Visual IR, routing, rhythm and solver boundary
+      - name: Validate style layering, assets, Visual IR, capacity, routing, rhythm and solver boundary
         id: validate
         run: |
           python tests/validate_stage4_style_layering.py
           python tests/panic_stage4_style_layering.py
           python tests/panic_stage4_asset_bindings.py
           python tests/validate_visual_ir.py
+          python tests/panic_stage4_visual_ir.py
           python tests/validate_stage4_capacity.py
           python tests/panic_stage4_capacity.py
           python tests/validate_stage4_routing.py
@@ -109,7 +112,7 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
           payload = {
-            "schema_version": "stage4-deck-receipt-v9",
+            "schema_version": "stage4-deck-receipt-v10",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "commit": os.environ.get("GITHUB_SHA"),
             "run_id": os.environ.get("GITHUB_RUN_ID"),
@@ -125,6 +128,7 @@ jobs:
               "style_layering_fail_closed_panic",
               "asset_binding_fail_closed_panic",
               "visual_ir",
+              "visual_ir_fail_closed_panic",
               "archetype_capacity",
               "capacity_fail_closed_panic",
               "deterministic_routing",
