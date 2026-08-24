@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""Stage 4 deck-level adjacency and rhythm validation."""
+
+from __future__ import annotations
+
 import json
 from pathlib import Path
 
@@ -10,31 +14,9 @@ def load(path):
     return json.loads(Path(path).read_text(encoding="utf-8"))
 
 
-def main():
-    plan = load(PLAN_PATH)
+def evaluate_resolved_rhythm(resolved, rules):
+    """Return rhythm violations for already-resolved (plan_item, Visual IR) pairs."""
     errors = []
-    slides = sorted(plan["slides"], key=lambda x: x["position"])
-    rules = plan["deck_rules"]
-
-    positions = [s["position"] for s in slides]
-    if positions != list(range(1, len(slides) + 1)):
-        errors.append(f"positions must be contiguous from 1; got {positions}")
-
-    seen_ids = set()
-    resolved = []
-    for item in slides:
-        if item["slide_id"] in seen_ids:
-            errors.append(f"duplicate slide_id {item['slide_id']}")
-        seen_ids.add(item["slide_id"])
-        path = ROOT / item["visual_ir"]
-        if not path.exists():
-            errors.append(f"missing Visual IR {item['visual_ir']}")
-            continue
-        ir = load(path)
-        if ir.get("slide_id") != item["slide_id"]:
-            errors.append(f"slide_id mismatch for {item['visual_ir']}")
-        resolved.append((item, ir))
-
     same_archetype_streak = 0
     anchor_streak = 0
     previous_archetype = None
@@ -83,6 +65,40 @@ def main():
         previous_signature = variation_tags
         previous_anchor = hero_anchor
         previous_dark = uses_dark
+
+    return errors
+
+
+def resolve_plan(plan, root=ROOT):
+    """Resolve deck-plan Visual IR references and return (resolved, structural errors)."""
+    errors = []
+    slides = sorted(plan["slides"], key=lambda x: x["position"])
+
+    positions = [s["position"] for s in slides]
+    if positions != list(range(1, len(slides) + 1)):
+        errors.append(f"positions must be contiguous from 1; got {positions}")
+
+    seen_ids = set()
+    resolved = []
+    for item in slides:
+        if item["slide_id"] in seen_ids:
+            errors.append(f"duplicate slide_id {item['slide_id']}")
+        seen_ids.add(item["slide_id"])
+        path = Path(root) / item["visual_ir"]
+        if not path.exists():
+            errors.append(f"missing Visual IR {item['visual_ir']}")
+            continue
+        ir = load(path)
+        if ir.get("slide_id") != item["slide_id"]:
+            errors.append(f"slide_id mismatch for {item['visual_ir']}")
+        resolved.append((item, ir))
+    return resolved, errors
+
+
+def main():
+    plan = load(PLAN_PATH)
+    resolved, errors = resolve_plan(plan)
+    errors.extend(evaluate_resolved_rhythm(resolved, plan["deck_rules"]))
 
     if errors:
         print(f"Stage 4 deck rhythm validation failed with {len(errors)} issue(s)")
