@@ -14,6 +14,7 @@ on:
       - "tests/panic_stage4_routing.py"
       - "tests/panic_stage4_solver_contracts.py"
       - "tests/panic_stage4_style_layering.py"
+      - "tests/panic_stage4_asset_bindings.py"
       - "tests/validate_stage4_solver_registry.py"
       - "tests/validate_stage4_style_layering.py"
       - "experiment/queuezero/stage4_asset_bindings.json"
@@ -50,11 +51,12 @@ jobs:
           sudo apt-get install -y libreoffice-impress poppler-utils fonts-crosextra-carlito fonts-liberation
       - name: Generate deterministic QueueZero benchmark fixtures
         run: python scripts/create_queuezero_mock_assets.py
-      - name: Validate style layering, capacity, Visual IR, routing, rhythm and solver boundary
+      - name: Validate style layering, assets, capacity, Visual IR, routing, rhythm and solver boundary
         id: validate
         run: |
           python tests/validate_stage4_style_layering.py
           python tests/panic_stage4_style_layering.py
+          python tests/panic_stage4_asset_bindings.py
           python tests/validate_visual_ir.py
           python tests/validate_stage4_capacity.py
           python tests/validate_stage4_routing.py
@@ -105,7 +107,7 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
           payload = {
-            "schema_version": "stage4-deck-receipt-v7",
+            "schema_version": "stage4-deck-receipt-v8",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "commit": os.environ.get("GITHUB_SHA"),
             "run_id": os.environ.get("GITHUB_RUN_ID"),
@@ -119,6 +121,7 @@ jobs:
             "validation_contract": [
               "design_language_profile_layering",
               "style_layering_fail_closed_panic",
+              "asset_binding_fail_closed_panic",
               "visual_ir",
               "archetype_capacity",
               "deterministic_routing",
