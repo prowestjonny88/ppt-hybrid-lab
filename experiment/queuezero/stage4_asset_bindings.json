@@ -1,0 +1,19 @@
+{
+  "schema_version": "stage4-asset-bindings-v0",
+  "status": "benchmark_binding_not_semantic_truth",
+  "deck_id": "queuezero-stage3",
+  "bindings": {
+    "problem-hook": {
+      "hero_visual_slot": "benchmark/generated/queuezero/gemini31flashimage-v1/hybrid/problem_hero.jpg"
+    },
+    "how-it-works": {
+      "screenshot_main": "experiment/queuezero/assets/product_ui_v1.png"
+    }
+  },
+  "rules": [
+    "Asset bindings select a concrete file instance only; they may not alter semantic content.",
+    "Replaceable assets remain independently replaceable PowerPoint picture objects.",
+    "If no explicit Stage 4 binding exists, the compiler may use the semantic asset current_instance source.",
+    "Missing required assets fail closed during structural audit."
+  ]
+}
