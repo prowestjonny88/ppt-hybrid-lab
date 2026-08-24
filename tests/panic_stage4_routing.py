@@ -26,6 +26,22 @@ def _expect_failure(label, fn):
     raise SystemExit(f"routing panic failed closed contract: {label} unexpectedly succeeded")
 
 
+def _route_or_no_candidates(payload):
+    """Return a normal routing trace or an empty-candidate trace on fail-closed.
+
+    Negative panic mutations are allowed to make *every* archetype ineligible.
+    In that case route_candidates() correctly raises RuntimeError. The panic test
+    should treat that as the strongest valid fail-closed outcome rather than as a
+    test harness failure.
+    """
+    try:
+        return route_candidates(ROOT, payload)
+    except RuntimeError as exc:
+        if "no deterministic archetype candidates" not in str(exc):
+            raise
+        return {"candidates": [], "fail_closed": True, "error": str(exc)}
+
+
 def main():
     for rel in CASES:
         semantics = load_json(ROOT / rel)
@@ -47,18 +63,19 @@ def main():
     no_flow["relationships"] = []
     for group in no_flow.get("groups", []):
         group["layout_hint"] = None
-    trace = route_candidates(ROOT, no_flow)
+    trace = _route_or_no_candidates(no_flow)
     if "process_story" in trace["candidates"]:
         raise SystemExit("routing panic: process_story remained eligible without ordered-flow evidence")
 
     # Removing all metrics from validation semantics must eliminate metric-led
-    # archetypes instead of guessing them from the validation page role.
+    # archetypes instead of guessing them from the validation page role. A total
+    # no-candidate RuntimeError is also an acceptable (and stricter) outcome.
     validation = load_json(ROOT / CASES[2])
     no_metrics = deepcopy(validation)
     no_metrics["semantic_objects"] = [
         obj for obj in no_metrics.get("semantic_objects", []) if obj.get("role") != "metric"
     ]
-    trace = route_candidates(ROOT, no_metrics)
+    trace = _route_or_no_candidates(no_metrics)
     if "dominant_metric" in trace["candidates"]:
         raise SystemExit("routing panic: dominant_metric remained eligible with zero metrics")
 
