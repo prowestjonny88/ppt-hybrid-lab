@@ -2,8 +2,9 @@
 """Stage 4 Visual IR compiler.
 
 Semantic IR + Visual IR + style profile -> normalized layout solution.
-The compiler is deliberately thin: it validates the composition contract, resolves
-concrete asset instances, and dispatches to a reusable archetype+variant solver.
+The compiler is deliberately thin: it validates deterministic routing eligibility,
+resolves concrete asset instances, and dispatches to a reusable archetype+variant
+solver.
 """
 
 from __future__ import annotations
@@ -12,6 +13,7 @@ from pathlib import Path
 
 from src.ir.runtime import canonical_hash, load_json
 from src.visual_ir.archetype_solvers import SOLVER_REGISTRY
+from src.visual_ir.router import route_candidates
 
 STYLE_PATH = "experiment/queuezero/style_profiles/queuezero_hackathon_v0.json"
 ASSET_BINDINGS_PATH = "experiment/queuezero/stage4_asset_bindings.json"
@@ -57,7 +59,15 @@ def compile_slide(root: Path, visual_ir_path: Path):
     if ir["style"]["profile_id"] != style["profile_id"]:
         raise RuntimeError("Visual IR/style profile mismatch")
 
-    key = (ir["composition"]["archetype_id"], ir["composition"]["variant"])
+    routing = route_candidates(root, semantics)
+    selected_archetype = ir["composition"]["archetype_id"]
+    if selected_archetype not in routing["candidates"]:
+        raise RuntimeError(
+            f"selected archetype {selected_archetype!r} was not deterministically eligible; "
+            f"candidates={routing['candidates']}"
+        )
+
+    key = (selected_archetype, ir["composition"]["variant"])
     solver = SOLVER_REGISTRY.get(key)
     if solver is None:
         raise RuntimeError(f"unsupported Stage 4 archetype/variant {key}")
@@ -77,6 +87,7 @@ def compile_slide(root: Path, visual_ir_path: Path):
         "style_profile_hash": canonical_hash(style),
         "archetype_id": key[0],
         "variant": key[1],
+        "routing_trace": routing,
         "compiler": "src/visual_ir/compiler.py::compile_slide",
         "solver": f"src.visual_ir.archetype_solvers::{solver.__name__}",
         "canvas": {"width_norm": 1.0, "height_norm": 1.0, "background_token": "canvas"},
