@@ -6,9 +6,13 @@ on:
       - "architecture/STAGE4_VISUAL_QUALITY_RESET.md"
       - "architecture/VISUAL_IR_DRAFT_V0.md"
       - "architecture/COMPOSITION_ARCHETYPES.stage4.v0.json"
+      - "architecture/STAGE4_GATE_SCHEMA.v0.json"
+      - "benchmark/STAGE4_EXPERIENCE_LEDGER.v0.json"
+      - "experiment/queuezero/stage4_deck_plan.v0.json"
       - "experiment/queuezero/style_profiles/**"
       - "experiment/queuezero/visual_ir/**"
       - "tests/validate_visual_ir.py"
+      - "tests/validate_stage4_deck_rhythm.py"
       - "benchmark/stage4-ci-trigger.txt"
       - ".github/workflows/stage4-validate.yml"
   workflow_dispatch:
@@ -38,10 +42,16 @@ jobs:
         id: visual_ir
         run: python tests/validate_visual_ir.py
 
+      - name: Validate Stage 4 deck rhythm and adjacency
+        id: deck_rhythm
+        if: always()
+        run: python tests/validate_stage4_deck_rhythm.py
+
       - name: Write Stage 4 CI receipt
         if: always()
         env:
           VISUAL_IR_OUTCOME: ${{ steps.visual_ir.outcome }}
+          DECK_RHYTHM_OUTCOME: ${{ steps.deck_rhythm.outcome }}
         run: |
           mkdir -p benchmark/results
           python - <<'PY'
@@ -49,12 +59,13 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
           payload = {
-              "schema_version": "stage4-ci-receipt-v1",
+              "schema_version": "stage4-ci-receipt-v2",
               "generated_at": datetime.now(timezone.utc).isoformat(),
               "commit": os.environ.get("GITHUB_SHA"),
               "run_id": os.environ.get("GITHUB_RUN_ID"),
               "run_attempt": os.environ.get("GITHUB_RUN_ATTEMPT"),
               "visual_ir_validation": os.environ.get("VISUAL_IR_OUTCOME"),
+              "deck_rhythm_validation": os.environ.get("DECK_RHYTHM_OUTCOME"),
           }
           Path("benchmark/results/STAGE4_CI_LATEST.json").write_text(
               json.dumps(payload, indent=2) + "\n", encoding="utf-8"
