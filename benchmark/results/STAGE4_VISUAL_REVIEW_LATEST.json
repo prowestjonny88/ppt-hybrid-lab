@@ -1,0 +1,84 @@
+{
+  "schema_version": "stage4-visual-review-v1",
+  "status": "model_visual_gate_pass_human_style_freeze_pending",
+  "review_basis": {
+    "artifact": "queuezero-stage4-full-deck",
+    "workflow_run_id": 32699065171,
+    "render_pipeline": "LibreOffice PPTX -> PDF -> 144dpi PNG",
+    "reviewer_type": "multimodal_model_review",
+    "note": "This is a subjective visual-quality gate, not a replacement for human style approval."
+  },
+  "slides": [
+    {
+      "slide_id": "problem-hook",
+      "scores_1_to_5": {
+        "first_impression": 4.2,
+        "professional_design": 4.2,
+        "hierarchy": 4.5,
+        "originality": 3.9,
+        "pitch_clarity": 4.6,
+        "density": 4.4,
+        "consistency": 4.3,
+        "presentability": 4.2
+      },
+      "blocking_failures": [],
+      "notes": [
+        "Large 15–30 min evidence reads immediately and the photo carries context without owning semantics.",
+        "Composition is strong enough for the current Stage 4 benchmark, though the image itself remains a generated contextual asset rather than product proof."
+      ]
+    },
+    {
+      "slide_id": "how-it-works",
+      "scores_1_to_5": {
+        "first_impression": 4.0,
+        "professional_design": 4.1,
+        "hierarchy": 4.3,
+        "originality": 3.9,
+        "pitch_clarity": 4.6,
+        "density": 4.2,
+        "consistency": 4.4,
+        "presentability": 4.1
+      },
+      "blocking_failures": [],
+      "notes": [
+        "The vertical sensing chain and light product destination materially reduce dead space and make the decision feel like the output of the process.",
+        "The redesigned screenshot is semantically conservative and more legible, but the product fixture is still a benchmark mock rather than a polished real product capture."
+      ]
+    },
+    {
+      "slide_id": "validation-traction",
+      "scores_1_to_5": {
+        "first_impression": 4.3,
+        "professional_design": 4.4,
+        "hierarchy": 4.7,
+        "originality": 4.0,
+        "pitch_clarity": 4.6,
+        "density": 4.4,
+        "consistency": 4.5,
+        "presentability": 4.4
+      },
+      "blocking_failures": [],
+      "notes": [
+        "76% clearly dominates while 3.8 min, 42 and 3 remain differentiated supporting proof.",
+        "The dark proof field gives the deck a useful rhythmic peak and the semester pilot reads as the next gate rather than a victory badge."
+      ]
+    }
+  ],
+  "deck_assessment": {
+    "machine_visual_gate": "PASS",
+    "human_style_freeze": "PENDING",
+    "would_submit_to_win": "not_asserted_without_human_approval",
+    "strengths": [
+      "clear visual protagonists",
+      "coherent photo -> light mechanism -> dark evidence rhythm",
+      "no equal-weight card soup",
+      "semantic text remains editable",
+      "bounded assets remain replaceable"
+    ],
+    "remaining_nonblocking_concerns": [
+      "benchmark product screenshot is synthetic rather than an authentic product capture",
+      "current style profile has been proven on only three content roles",
+      "additional archetype variants still require visual proof before they can be considered production-ready"
+    ]
+  }
+}
