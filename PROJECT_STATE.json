@@ -11,8 +11,9 @@
     "gemini_output_mime": "image/jpeg",
     "stage3_validation_workflow": "green",
     "stage4_visual_ir_workflow": "green",
-    "stage4_full_deck_workflow": "green_v11",
+    "stage4_full_deck_workflow": "green_v13",
     "stage4_fixed_render_pipeline": "LibreOffice_PPTX_to_PDF_to_144dpi_PNG",
+    "stage4_latest_good_receipt_preservation": "implemented",
     "hourly_project_watch": "enabled"
   },
   "research": {
@@ -52,11 +53,12 @@
     "capacity_preflight": "compiler_enforced_from_machine_archetype_registry",
     "deck_rhythm_gate": "green_with_negative_panic_suite",
     "archetype_solver_registry_gate": "green_with_negative_panic_suite",
-    "structural_text_capacity_gate": "green",
+    "structural_text_capacity_gate": "green_with_negative_panic_suite",
     "visual_ir_contract_gate": "green_with_negative_panic_suite",
     "style_layering_gate": "green_with_negative_panic_suite",
     "asset_binding_gate": "green_with_negative_panic_suite",
-    "pixel_multimodal_gate": "model_pass_human_style_freeze_pending"
+    "pixel_multimodal_gate": "model_pass_human_style_freeze_pending",
+    "canonical_receipt_policy": "last_attempt_always_recorded_latest_only_advances_on_all_green"
   },
   "verified_stage4_evidence": {
     "visual_ir_no_coordinate_leakage_gate": true,
@@ -79,13 +81,16 @@
     "capacity_negative_panic_suite": true,
     "visual_ir_negative_panic_suite": true,
     "deck_rhythm_negative_panic_suite": true,
+    "text_capacity_negative_panic_suite": true,
     "asset_binding_panic_ci_import_regression_fixed": true,
+    "text_capacity_panic_ci_import_regression_fixed": true,
     "problem_peak_wait_single_line_regression_fixed": true,
     "validation_title_collision_regression_fixed": true,
     "how_it_works_dead_space_product_thumbnail_regression_fixed": true,
     "mock_ui_invented_wait_values_removed": true,
     "experience_regression_ledger_active": true,
-    "latest_full_deck_receipt_schema": "stage4-deck-receipt-v11"
+    "latest_full_deck_receipt_schema": "stage4-deck-receipt-v13",
+    "latest_known_good_receipt_preserved_on_failed_attempt": true
   },
   "architecture_artifacts": {
     "slide_ir_v1": "architecture/SLIDE_IR_V1.md",
@@ -111,7 +116,8 @@
     "asset_panic_regressions": "tests/panic_stage4_asset_bindings.py",
     "capacity_panic_regressions": "tests/panic_stage4_capacity.py",
     "visual_ir_panic_regressions": "tests/panic_stage4_visual_ir.py",
-    "deck_rhythm_panic_regressions": "tests/panic_stage4_deck_rhythm.py"
+    "deck_rhythm_panic_regressions": "tests/panic_stage4_deck_rhythm.py",
+    "text_capacity_panic_regressions": "tests/panic_stage4_text_capacity.py"
   },
   "benchmark": {
     "project": "QueueZero",
@@ -119,9 +125,10 @@
     "slide_roles": ["problem-hook", "how-it-works", "validation-traction"],
     "stage4_deck_artifact": "queuezero-stage4-full-deck",
     "latest_stage4_deck_receipt": "benchmark/results/STAGE4_DECK_LATEST.json",
+    "last_stage4_attempt_receipt": "benchmark/results/STAGE4_DECK_LAST_ATTEMPT.json",
     "latest_stage4_ci_receipt": "benchmark/results/STAGE4_CI_LATEST.json",
     "machine_visual_gate": "PASS",
-    "machine_full_deck_gate": "PASS_v11",
+    "machine_full_deck_gate": "PASS_v13",
     "human_style_freeze": "PENDING",
     "would_submit_to_win": "not_asserted_without_human_approval"
   },
@@ -143,5 +150,5 @@
     "after human freeze, add one additional benchmark role to test solver generalization rather than QueueZero overfitting",
     "only then advance toward Stage 5 production pipeline integration"
   ],
-  "last_updated": "2026-08-24T14:36Z"
+  "last_updated": "2026-08-24T16:20Z"
 }
