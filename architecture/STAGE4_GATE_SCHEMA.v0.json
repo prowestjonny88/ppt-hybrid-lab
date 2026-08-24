@@ -1,0 +1,70 @@
+{
+  "schema_version": "stage4-gate-schema-v0",
+  "status": "draft_not_frozen",
+  "principles": {
+    "verdict_source": "machine_derived",
+    "model_prose_may_override": false,
+    "geometry_is_sufficient_for_visual_acceptance": false,
+    "unsupported_archetype_behavior": "fail_closed"
+  },
+  "tiers": {
+    "compiler": {
+      "blocking": true,
+      "checks": [
+        "semantic_refs_resolve",
+        "archetype_exists",
+        "variant_supported",
+        "capacity_within_canonical_limits",
+        "role_font_floors_preserved",
+        "single_protagonist_contract",
+        "no_renderer_coordinates_in_visual_ir",
+        "overflow_policy_declared_and_bounded"
+      ]
+    },
+    "structural": {
+      "blocking": true,
+      "checks": [
+        "required_semantic_objects_realized",
+        "must_editable_objects_are_native_text_or_shapes",
+        "replaceable_assets_remain_replaceable",
+        "shape_identity_stable",
+        "no_unapproved_full_slide_raster",
+        "no_title_collision_proxy",
+        "no_out_of_bounds_objects"
+      ]
+    },
+    "pixel": {
+      "blocking_for_style_freeze": true,
+      "checks": [
+        "semantic_leakage_absent",
+        "primary_text_readable",
+        "visual_protagonist_obvious",
+        "support_weight_differentiated",
+        "intentional_whitespace_preserved",
+        "dead_zone_not_accidental",
+        "composition_not_equal_weight_card_soup",
+        "presentability_bar_met"
+      ]
+    },
+    "deck": {
+      "blocking": true,
+      "checks": [
+        "adjacent_archetype_repetition_allowed",
+        "variation_signature_not_repeated_adjacent",
+        "reuse_budget_respected",
+        "protagonist_anchor_not_repeated_three_times",
+        "dark_field_not_repeated_adjacent",
+        "identity_anchor_frequency_respected"
+      ]
+    }
+  },
+  "exemptions": {
+    "allowed": true,
+    "required_fields": ["rule_id", "archetype_id", "variant", "evidence", "expires_or_review_trigger"],
+    "category_global_exemptions_forbidden": true
+  },
+  "record_contract": {
+    "required": ["slide_id", "semantic_hash", "visual_ir_hash", "tier_results", "blocking_failures", "verdict"],
+    "allowed_verdicts": ["PASS", "FAIL", "HUMAN_REVIEW_REQUIRED"]
+  }
+}
