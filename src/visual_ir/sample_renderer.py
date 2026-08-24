@@ -14,6 +14,7 @@ from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Inches, Pt
 
 from src.ir.runtime import load_json, object_index, resolved_object_text
+from src.visual_ir.style_runtime import resolve_style_profile
 
 SLIDE_W_IN = 13.333333
 SLIDE_H_IN = 7.5
@@ -123,7 +124,11 @@ def render_layout_slide(root: Path, prs: Presentation, layout_solution: dict):
     if layout_solution.get("schema_version") != "stage4-layout-solution-v0":
         raise RuntimeError("unsupported layout solution schema")
     semantics = load_json(root / layout_solution["semantic_file"])
-    style = load_json(root / STYLE_PATH)
+    style, profile, language = resolve_style_profile(root, root / STYLE_PATH)
+    if layout_solution.get("style_profile_id") != profile["profile_id"]:
+        raise RuntimeError("layout solution/style profile mismatch")
+    if layout_solution.get("design_language_id") != language["design_language_id"]:
+        raise RuntimeError("layout solution/design language mismatch")
     semantic_objects = object_index(semantics)
     slide = prs.slides.add_slide(prs.slide_layouts[6])
 
@@ -162,10 +167,21 @@ def render_layout_slide(root: Path, prs: Presentation, layout_solution: dict):
         realization_objects.append(record)
 
     return {
-        "slide_id": semantics["slide_id"], "semantic_hash": layout_solution["semantic_hash"],
-        "visual_ir_hash": layout_solution["visual_ir_hash"], "style_profile_hash": layout_solution["style_profile_hash"],
-        "archetype_id": layout_solution["archetype_id"], "variant": layout_solution["variant"],
-        "compiler": layout_solution["compiler"], "objects": realization_objects, "decorations": decoration_objects,
+        "slide_id": semantics["slide_id"],
+        "semantic_hash": layout_solution["semantic_hash"],
+        "visual_ir_hash": layout_solution["visual_ir_hash"],
+        "design_language_id": layout_solution["design_language_id"],
+        "design_language_hash": layout_solution["design_language_hash"],
+        "style_profile_id": layout_solution["style_profile_id"],
+        "style_profile_hash": layout_solution["style_profile_hash"],
+        "resolved_style_hash": layout_solution["resolved_style_hash"],
+        "archetype_id": layout_solution["archetype_id"],
+        "variant": layout_solution["variant"],
+        "routing_trace": layout_solution.get("routing_trace"),
+        "solver": layout_solution.get("solver"),
+        "compiler": layout_solution["compiler"],
+        "objects": realization_objects,
+        "decorations": decoration_objects,
     }
 
 
