@@ -11,6 +11,7 @@ on:
       - "tests/audit_stage4_deck.py"
       - "tests/validate_stage4_capacity.py"
       - "tests/validate_stage4_routing.py"
+      - "tests/panic_stage4_routing.py"
       - "tests/validate_stage4_solver_registry.py"
       - "tests/validate_stage4_style_layering.py"
       - "experiment/queuezero/stage4_asset_bindings.json"
@@ -54,6 +55,7 @@ jobs:
           python tests/validate_visual_ir.py
           python tests/validate_stage4_capacity.py
           python tests/validate_stage4_routing.py
+          python tests/panic_stage4_routing.py
           python tests/validate_stage4_deck_rhythm.py
           python tests/validate_stage4_compiler.py
           python tests/validate_stage4_solver_registry.py
@@ -99,7 +101,7 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
           payload = {
-            "schema_version": "stage4-deck-receipt-v4",
+            "schema_version": "stage4-deck-receipt-v5",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "commit": os.environ.get("GITHUB_SHA"),
             "run_id": os.environ.get("GITHUB_RUN_ID"),
@@ -115,6 +117,7 @@ jobs:
               "visual_ir",
               "archetype_capacity",
               "deterministic_routing",
+              "routing_fail_closed_panic",
               "deck_rhythm",
               "all_slide_compiler",
               "archetype_solver_registry"
