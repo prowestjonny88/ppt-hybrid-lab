@@ -58,13 +58,13 @@ def _solution(root: Path, visual_ir_path: Path, placements, decorations):
 
 def _compile_problem(root: Path, path: Path):
     placements = [
-        # Pixel review of the first full-deck render exposed title overflow even
-        # though the semantic boxes did not geometrically intersect. Reserve a
-        # genuinely two-line title band before secondary copy begins.
         _text("title", "title", _box(0.052, 0.080, 0.44, 0.175), 27, 700),
         _text("subtitle", "subtitle", _box(0.052, 0.270, 0.43, 0.072), 12.5, 400, "muted"),
-        _text("metric_wait", "value", _box(0.052, 0.395, 0.39, 0.180), 76, 700, "signal"),
-        _text("metric_wait", "label", _box(0.058, 0.575, 0.22, 0.055), 16, 600, source="label"),
+        # Keep the supplied "15–30 min" evidence together as one visual unit.
+        # The previous 76pt / 0.39-wide treatment wrapped "min" onto a second
+        # line and collided with its label despite passing box-only QA.
+        _text("metric_wait", "value", _box(0.052, 0.405, 0.43, 0.155), 64, 700, "signal", valign="middle"),
+        _text("metric_wait", "label", _box(0.058, 0.575, 0.22, 0.050), 16, 600, source="label"),
         _text("pain_annotation", "annotation", _box(0.052, 0.690, 0.41, 0.125), 15, 500),
         {
             "semantic_object_id": "hero_visual_slot", "part": "asset", "kind": "picture",
@@ -84,9 +84,6 @@ def _compile_problem(root: Path, path: Path):
 
 def _compile_how_it_works(root: Path, path: Path):
     placements = [
-        # The claim naturally wraps to two lines. Give it a two-line band and
-        # keep the subtitle outside that band instead of relying on renderer
-        # overflow behaviour.
         _text("title", "title", _box(0.052, 0.070, 0.70, 0.145), 27, 700),
         _text("subtitle", "subtitle", _box(0.052, 0.225, 0.72, 0.055), 12, 400, "muted"),
         _text("node_camera", "node", _box(0.070, 0.370, 0.14, 0.070), 16, 600),
