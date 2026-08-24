@@ -90,11 +90,11 @@
   },
   "style": {
     "profile_id": "queuezero-hackathon-v0",
-    "identity_anchor_refs": ["signal_path", "dark_proof_field", "edge_index"],
+    "identity_anchor_refs": ["signal_path", "edge_index"],
     "decoration_budget": "low",
     "shape_vocabulary": ["signal_path", "flat_field", "soft_image_crop", "hairline_rule"],
     "image_treatment": "editorial_product_documentary",
-    "variation_tags": ["left_to_right", "terminal_product_stage", "dark_destination"]
+    "variation_tags": ["left_to_right", "terminal_product_stage", "light_product_destination"]
   },
   "asset_treatments": [
     {
@@ -102,7 +102,7 @@
       "role": "product_destination",
       "visual_weight": 0.82,
       "crop_intent": "preserve_full_ui_readability_and_key_wait_decision_area",
-      "background_behavior": "stage_on_dark_field_or_open_canvas",
+      "background_behavior": "stage_on_open_canvas_with_bounded_surface_if_needed",
       "edge_behavior": "independent_replaceable_picture_no_fake_device_chrome_required",
       "text_policy": "existing_product_ui_text_allowed",
       "semantic_exclusions": ["invented product badges", "new unsupported metrics"]
@@ -125,7 +125,7 @@
   "deck_rhythm": {
     "previous_archetype": "editorial_hero",
     "avoid_archetypes": ["editorial_hero"],
-    "preferred_change": "move_from_open_emotional_hook_to_precise_directional_structure",
+    "preferred_change": "move_from_open_emotional_hook to precise directional structure on a light canvas, reserving the major dark proof field for the following evidence peak",
     "hero_anchor_preference": "right_destination",
     "rhythm_role": "mechanism_reveal"
   },
@@ -133,6 +133,7 @@
     {"id": "one_continuous_story", "rule": "Camera → queue → prediction → decision must read as one continuous direction, not four unrelated peer cards."},
     {"id": "prediction_is_transform", "rule": "Wait prediction should be the visually emphasized transformation point before the product decision, but the final decision remains the single hero destination."},
     {"id": "product_is_destination", "rule": "The screenshot must feel like the terminal proof/output of the pipeline rather than a separate side illustration."},
+    {"id": "reserve_dark_field", "rule": "Do not use a major dark proof field on this slide; reserve that rhythmic device for the following validation evidence peak."},
     {"id": "no_accuracy_badge", "rule": "Do not add accuracy, privacy, compliance, or verified status marks to the pipeline."},
     {"id": "no_internal_labels", "rule": "Never render workflow_runtime_map, semantic object IDs, or relationship IDs."}
   ],
