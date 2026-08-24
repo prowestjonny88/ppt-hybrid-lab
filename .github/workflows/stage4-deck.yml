@@ -4,12 +4,14 @@ on:
   push:
     paths:
       - "architecture/ARCHETYPE_ROUTING_RULES.stage4.v0.json"
+      - "architecture/DESIGN_LANGUAGES.stage4.v0.json"
       - "src/visual_ir/**"
       - "scripts/build_stage4_deck.py"
       - "scripts/create_queuezero_mock_assets.py"
       - "tests/audit_stage4_deck.py"
       - "tests/validate_stage4_routing.py"
       - "tests/validate_stage4_solver_registry.py"
+      - "tests/validate_stage4_style_layering.py"
       - "experiment/queuezero/stage4_asset_bindings.json"
       - "experiment/queuezero/visual_ir/**"
       - "experiment/queuezero/style_profiles/**"
@@ -44,9 +46,10 @@ jobs:
           sudo apt-get install -y libreoffice-impress poppler-utils fonts-crosextra-carlito fonts-liberation
       - name: Generate deterministic QueueZero benchmark fixtures
         run: python scripts/create_queuezero_mock_assets.py
-      - name: Validate Visual IR, routing, deck rhythm, compiler and solver boundary
+      - name: Validate style layering, Visual IR, routing, rhythm and solver boundary
         id: validate
         run: |
+          python tests/validate_stage4_style_layering.py
           python tests/validate_visual_ir.py
           python tests/validate_stage4_routing.py
           python tests/validate_stage4_deck_rhythm.py
@@ -94,7 +97,7 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
           payload = {
-            "schema_version": "stage4-deck-receipt-v2",
+            "schema_version": "stage4-deck-receipt-v3",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "commit": os.environ.get("GITHUB_SHA"),
             "run_id": os.environ.get("GITHUB_RUN_ID"),
@@ -106,6 +109,7 @@ jobs:
               "render": os.environ.get("RENDER_OUTCOME"),
             },
             "validation_contract": [
+              "design_language_profile_layering",
               "visual_ir",
               "deterministic_routing",
               "deck_rhythm",
