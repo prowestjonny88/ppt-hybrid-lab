@@ -10,6 +10,7 @@ on:
       - "scripts/create_queuezero_mock_assets.py"
       - "tests/audit_stage4_deck.py"
       - "tests/validate_stage4_capacity.py"
+      - "tests/panic_stage4_capacity.py"
       - "tests/validate_stage4_routing.py"
       - "tests/panic_stage4_routing.py"
       - "tests/panic_stage4_solver_contracts.py"
@@ -59,6 +60,7 @@ jobs:
           python tests/panic_stage4_asset_bindings.py
           python tests/validate_visual_ir.py
           python tests/validate_stage4_capacity.py
+          python tests/panic_stage4_capacity.py
           python tests/validate_stage4_routing.py
           python tests/panic_stage4_routing.py
           python tests/panic_stage4_solver_contracts.py
@@ -107,7 +109,7 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
           payload = {
-            "schema_version": "stage4-deck-receipt-v8",
+            "schema_version": "stage4-deck-receipt-v9",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "commit": os.environ.get("GITHUB_SHA"),
             "run_id": os.environ.get("GITHUB_RUN_ID"),
@@ -124,6 +126,7 @@ jobs:
               "asset_binding_fail_closed_panic",
               "visual_ir",
               "archetype_capacity",
+              "capacity_fail_closed_panic",
               "deterministic_routing",
               "routing_fail_closed_panic",
               "solver_contract_fail_closed_panic",
