@@ -1,13 +1,20 @@
 {
-  "schema_version": "stage4-deck-receipt-v1",
-  "generated_at": "2026-08-24T06:56:53.986240+00:00",
-  "commit": "3d7f8e4cb9d81a9a383f3222eb545c70c98a83c1",
-  "run_id": "32699355398",
+  "schema_version": "stage4-deck-receipt-v2",
+  "generated_at": "2026-08-24T06:59:50.980220+00:00",
+  "commit": "f45b3e14f650bf96ab3b3f9533a4c7ac379dcad5",
+  "run_id": "32699532555",
   "artifact_name": "queuezero-stage4-full-deck",
   "steps": {
-    "validation": "skipped",
-    "build": "skipped",
-    "audit": "skipped",
-    "render": "skipped"
-  }
+    "validation": "success",
+    "build": "success",
+    "audit": "success",
+    "render": "success"
+  },
+  "validation_contract": [
+    "visual_ir",
+    "deterministic_routing",
+    "deck_rhythm",
+    "all_slide_compiler",
+    "archetype_solver_registry"
+  ]
 }
