@@ -64,6 +64,15 @@
       "fix": "Introduce an archetype+variant solver registry that binds semantic objects by role/hierarchy/group structure, plus a separate benchmark asset-binding layer. Add CI that forbids benchmark slide IDs inside reusable solvers.",
       "preventative_rules": ["archetype_solver_registry_required", "no_slide_id_dispatch_in_solver", "asset_binding_separate_from_composition", "solver_trace_persisted"],
       "regression_targets": ["problem-hook", "how-it-works", "validation-traction"]
+    },
+    {
+      "experience_id": "exp-008-panic-exception-contract-drift",
+      "source_stage": "stage4",
+      "failure": "The v15 full-deck run failed even though the structural/provenance audit and realization regressions passed, because the text-capacity panic test still caught SystemExit after the shared audit helper was refactored to raise ValueError.",
+      "root_cause": "Negative regression code depended on the transport-level exception type of a CLI-oriented helper rather than the helper's semantic failure contract.",
+      "fix": "Keep reusable audit helpers on ValueError and make panic tests assert the semantic failure message while catching ValueError; reserve SystemExit for top-level CLI adapters.",
+      "preventative_rules": ["library_helpers_raise_valueerror", "cli_converts_valueerror_to_systemexit", "panic_tests_assert_semantic_failure_contract"],
+      "regression_targets": ["stage4-full-deck-ci", "text-capacity-panic-suite"]
     }
   ]
 }
