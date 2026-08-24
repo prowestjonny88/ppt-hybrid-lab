@@ -7,6 +7,8 @@ on:
       - "scripts/build_stage4_deck.py"
       - "scripts/create_queuezero_mock_assets.py"
       - "tests/audit_stage4_deck.py"
+      - "tests/validate_stage4_solver_registry.py"
+      - "experiment/queuezero/stage4_asset_bindings.json"
       - "experiment/queuezero/visual_ir/**"
       - "experiment/queuezero/style_profiles/**"
       - "experiment/queuezero/slide_semantics/**"
@@ -40,17 +42,16 @@ jobs:
           sudo apt-get install -y libreoffice-impress poppler-utils fonts-crosextra-carlito fonts-liberation
       - name: Generate deterministic QueueZero benchmark fixtures
         run: python scripts/create_queuezero_mock_assets.py
-      - name: Validate Visual IR and deck rhythm
+      - name: Validate Visual IR, deck rhythm, compiler and solver boundary
         id: validate
         run: |
           python tests/validate_visual_ir.py
           python tests/validate_stage4_deck_rhythm.py
           python tests/validate_stage4_compiler.py
+          python tests/validate_stage4_solver_registry.py
       - name: Build three-slide editable deck
         id: build
         run: python scripts/build_stage4_deck.py
-      # Includes a conservative title-band capacity guard so a nominally valid
-      # editable textbox cannot silently wrap into adjacent copy.
       - name: Structural and text-capacity audit
         id: audit
         run: python tests/audit_stage4_deck.py
