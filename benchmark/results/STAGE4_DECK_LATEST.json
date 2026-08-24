@@ -1,8 +1,8 @@
 {
-  "schema_version": "stage4-deck-receipt-v8",
-  "generated_at": "2026-08-24T11:11:59.188190+00:00",
-  "commit": "f864f6c792b2edb11d0925f1c81bffc3484c0432",
-  "run_id": "32720567664",
+  "schema_version": "stage4-deck-receipt-v9",
+  "generated_at": "2026-08-24T11:58:49.507815+00:00",
+  "commit": "32a92ddd6d3ede1df7518a7c4256057a20d75136",
+  "run_id": "32724551658",
   "artifact_name": "queuezero-stage4-full-deck",
   "steps": {
     "validation": "failure",
@@ -16,6 +16,7 @@
     "asset_binding_fail_closed_panic",
     "visual_ir",
     "archetype_capacity",
+    "capacity_fail_closed_panic",
     "deterministic_routing",
     "routing_fail_closed_panic",
     "solver_contract_fail_closed_panic",
