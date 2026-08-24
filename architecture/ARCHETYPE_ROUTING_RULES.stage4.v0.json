@@ -1,0 +1,97 @@
+{
+  "schema_version": "stage4-archetype-routing-v0",
+  "status": "draft_machine_enforced",
+  "principle": "Deterministic eligibility first; model judgement only among surviving archetypes.",
+  "page_role_to_intents": {
+    "problem_hook": ["hook", "frame"],
+    "how_it_works": ["demonstrate", "explain"],
+    "validation_traction": ["prove", "frame"],
+    "product_demo": ["demonstrate", "explain"],
+    "comparison": ["compare", "prove"],
+    "roadmap": ["explain", "transition", "ask"],
+    "architecture": ["explain", "frame"],
+    "closing_ask": ["ask", "close"]
+  },
+  "rules": {
+    "editorial_hero": {
+      "intent_any": ["hook", "frame", "transition"],
+      "all": [
+        {"feature": "hero_visual_count", "op": ">=", "value": 1},
+        {"feature": "metric_count", "op": "<=", "value": 1}
+      ]
+    },
+    "dominant_metric": {
+      "intent_any": ["hook", "prove"],
+      "all": [
+        {"feature": "metric_count", "op": ">=", "value": 1}
+      ]
+    },
+    "product_stage": {
+      "intent_any": ["demonstrate", "explain"],
+      "all": [
+        {"feature": "image_slot_count", "op": ">=", "value": 1}
+      ]
+    },
+    "process_story": {
+      "intent_any": ["demonstrate", "explain"],
+      "all": [
+        {"feature": "diagram_node_count", "op": ">=", "value": 3},
+        {"feature": "diagram_node_count", "op": "<=", "value": 5},
+        {"feature": "connector_count", "op": ">=", "value": 2},
+        {"feature": "ordered_flow", "op": "==", "value": true}
+      ]
+    },
+    "evidence_constellation": {
+      "intent_any": ["prove", "frame"],
+      "all": [
+        {"feature": "metric_count", "op": ">=", "value": 3}
+      ]
+    },
+    "contrast_split": {
+      "intent_any": ["compare", "frame", "prove"],
+      "all": [
+        {"feature": "comparison_group_count", "op": "==", "value": 2}
+      ]
+    },
+    "comparison_axis": {
+      "intent_any": ["compare", "prove"],
+      "all": [
+        {"feature": "comparison_entity_count", "op": ">=", "value": 2},
+        {"feature": "semantic_axis_count", "op": ">=", "value": 1}
+      ]
+    },
+    "funnel_or_progression": {
+      "intent_any": ["explain", "prove"],
+      "all": [
+        {"feature": "ordered_stage_count", "op": ">=", "value": 3},
+        {"feature": "ordered_stage_count", "op": "<=", "value": 5}
+      ]
+    },
+    "architecture_layers": {
+      "intent_any": ["explain", "frame"],
+      "all": [
+        {"feature": "layer_group_count", "op": ">=", "value": 2}
+      ]
+    },
+    "timeline_journey": {
+      "intent_any": ["explain", "transition", "ask"],
+      "all": [
+        {"feature": "temporal_milestone_count", "op": ">=", "value": 2}
+      ]
+    },
+    "portfolio_map": {
+      "intent_any": ["frame", "explain", "compare"],
+      "all": [
+        {"feature": "portfolio_module_count", "op": ">=", "value": 2}
+      ]
+    },
+    "terminal_ask": {
+      "intent_any": ["ask", "close"],
+      "all": [
+        {"feature": "ask_object_count", "op": ">=", "value": 1}
+      ]
+    }
+  },
+  "unsupported_feature_policy": "A rule requiring an absent feature evaluates false; no permissive fallback.",
+  "selection_contract": "The chosen Visual IR archetype must appear in the deterministic candidate set before deck-rhythm and model judgement are applied."
+}
