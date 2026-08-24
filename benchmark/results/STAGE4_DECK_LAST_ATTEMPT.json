@@ -1,8 +1,8 @@
 {
-  "schema_version": "stage4-deck-receipt-v13",
-  "generated_at": "2026-08-24T18:13:34.487315+00:00",
-  "commit": "4969ae538bf1ef29b0b60e2870e1d2272af35da4",
-  "run_id": "32761083696",
+  "schema_version": "stage4-deck-receipt-v14",
+  "generated_at": "2026-08-24T19:13:35.210541+00:00",
+  "commit": "94aec69dbc60f348c3dcf6b9f1f2d23f685c4c0e",
+  "run_id": "32766857918",
   "artifact_name": "queuezero-stage4-full-deck",
   "canonical_green": false,
   "steps": {
@@ -26,6 +26,8 @@
     "deck_rhythm_fail_closed_panic",
     "all_slide_compiler",
     "archetype_solver_registry",
+    "pptx_realization_round_trip_identity",
+    "realization_identity_negative_regression",
     "semantic_text_capacity",
     "text_capacity_fail_closed_panic"
   ]
