@@ -2,8 +2,9 @@
 """Stage 4 Visual IR compiler.
 
 Semantic IR + Visual IR + resolved design language/profile -> normalized layout
-solution. The compiler validates deterministic routing eligibility, resolves
-concrete asset instances, and dispatches to a reusable archetype+variant solver.
+solution. The compiler validates capacity and deterministic routing eligibility,
+resolves concrete asset instances, and dispatches to a reusable archetype+variant
+solver.
 """
 
 from __future__ import annotations
@@ -12,6 +13,7 @@ from pathlib import Path
 
 from src.ir.runtime import canonical_hash, load_json
 from src.visual_ir.archetype_solvers import SOLVER_REGISTRY
+from src.visual_ir.capacity import require_capacity
 from src.visual_ir.router import route_candidates
 from src.visual_ir.style_runtime import resolve_style_profile
 
@@ -59,6 +61,7 @@ def compile_slide(root: Path, visual_ir_path: Path):
     if ir["style"]["profile_id"] != profile["profile_id"]:
         raise RuntimeError("Visual IR/style profile mismatch")
 
+    capacity = require_capacity(root, ir, semantics)
     routing = route_candidates(root, semantics)
     selected_archetype = ir["composition"]["archetype_id"]
     if selected_archetype not in routing["candidates"]:
@@ -91,6 +94,7 @@ def compile_slide(root: Path, visual_ir_path: Path):
         "resolved_style_hash": canonical_hash(style),
         "archetype_id": key[0],
         "variant": key[1],
+        "capacity_trace": capacity,
         "routing_trace": routing,
         "compiler": "src/visual_ir/compiler.py::compile_slide",
         "solver": f"src.visual_ir.archetype_solvers::{solver.__name__}",
