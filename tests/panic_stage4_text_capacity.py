@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Fail-closed regression coverage for the Stage 4 semantic text-capacity audit."""
 
+import importlib.util
 import sys
 from pathlib import Path
 
@@ -11,7 +12,13 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from tests.audit_stage4_deck import _check_text_capacity
+AUDIT_PATH = ROOT / "tests/audit_stage4_deck.py"
+spec = importlib.util.spec_from_file_location("stage4_deck_audit", AUDIT_PATH)
+if spec is None or spec.loader is None:
+    raise SystemExit("unable to load Stage 4 deck audit for panic coverage")
+audit_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(audit_module)
+_check_text_capacity = audit_module._check_text_capacity
 
 
 def _set_name(shape, name: str):
