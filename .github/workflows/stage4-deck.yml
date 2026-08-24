@@ -3,10 +3,12 @@ name: Stage 4 QueueZero Full Deck
 on:
   push:
     paths:
+      - "architecture/ARCHETYPE_ROUTING_RULES.stage4.v0.json"
       - "src/visual_ir/**"
       - "scripts/build_stage4_deck.py"
       - "scripts/create_queuezero_mock_assets.py"
       - "tests/audit_stage4_deck.py"
+      - "tests/validate_stage4_routing.py"
       - "tests/validate_stage4_solver_registry.py"
       - "experiment/queuezero/stage4_asset_bindings.json"
       - "experiment/queuezero/visual_ir/**"
@@ -42,10 +44,11 @@ jobs:
           sudo apt-get install -y libreoffice-impress poppler-utils fonts-crosextra-carlito fonts-liberation
       - name: Generate deterministic QueueZero benchmark fixtures
         run: python scripts/create_queuezero_mock_assets.py
-      - name: Validate Visual IR, deck rhythm, compiler and solver boundary
+      - name: Validate Visual IR, routing, deck rhythm, compiler and solver boundary
         id: validate
         run: |
           python tests/validate_visual_ir.py
+          python tests/validate_stage4_routing.py
           python tests/validate_stage4_deck_rhythm.py
           python tests/validate_stage4_compiler.py
           python tests/validate_stage4_solver_registry.py
@@ -91,7 +94,7 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
           payload = {
-            "schema_version": "stage4-deck-receipt-v1",
+            "schema_version": "stage4-deck-receipt-v2",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "commit": os.environ.get("GITHUB_SHA"),
             "run_id": os.environ.get("GITHUB_RUN_ID"),
@@ -102,6 +105,13 @@ jobs:
               "audit": os.environ.get("AUDIT_OUTCOME"),
               "render": os.environ.get("RENDER_OUTCOME"),
             },
+            "validation_contract": [
+              "visual_ir",
+              "deterministic_routing",
+              "deck_rhythm",
+              "all_slide_compiler",
+              "archetype_solver_registry"
+            ]
           }
           Path("benchmark/results/STAGE4_DECK_LATEST.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
           PY
