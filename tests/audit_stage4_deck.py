@@ -11,9 +11,19 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from src.ir.runtime import canonical_hash, load_json
+from src.visual_ir.style_runtime import resolve_style_profile
+
 PPTX = ROOT / "dist/stage4/deck/queuezero_stage4_v0.pptx"
 REAL = ROOT / "dist/stage4/deck/realizations.json"
+LAYOUT = ROOT / "dist/stage4/deck/layout_solutions.json"
+STYLE_PATH = ROOT / "experiment/queuezero/style_profiles/queuezero_hackathon_v0.json"
 EXPECTED_SLIDES = ["problem-hook", "how-it-works", "validation-traction"]
+VISUAL_IR_BY_SLIDE = {
+    "problem-hook": ROOT / "experiment/queuezero/visual_ir/problem_hook.stage4.v0.json",
+    "how-it-works": ROOT / "experiment/queuezero/visual_ir/how_it_works.stage4.v0.json",
+    "validation-traction": ROOT / "experiment/queuezero/visual_ir/validation_traction.stage4.v0.json",
+}
 EMU_PER_INCH = 914400
 
 
@@ -96,6 +106,9 @@ def validate_realization_identity(slide, realization):
     by_name = {shape.name: shape for shape in slide.shapes}
     expected_semantic_names = set()
 
+    if len(realization.get("objects", [])) != len({o["ppt_shape_name"] for o in realization.get("objects", [])}):
+        raise ValueError(f"duplicate realization object names on {slide_id}")
+
     for obj in realization["objects"]:
         name = obj["ppt_shape_name"]
         expected_semantic_names.add(name)
@@ -145,28 +158,89 @@ def validate_realization_identity(slide, realization):
         )
 
 
-def audit_deck(pptx_path=PPTX, realization_path=REAL):
+def validate_source_provenance(realization, layout_solution):
+    """Prove the rendered realization belongs to current source IR and style inputs."""
+    slide_id = realization["slide_id"]
+    if layout_solution.get("slide_id") != slide_id:
+        raise ValueError(
+            f"layout/realization slide-id drift: layout={layout_solution.get('slide_id')} realization={slide_id}"
+        )
+
+    passthrough = [
+        "semantic_hash",
+        "visual_ir_hash",
+        "design_language_id",
+        "design_language_hash",
+        "style_profile_id",
+        "style_profile_hash",
+        "resolved_style_hash",
+        "archetype_id",
+        "variant",
+        "solver",
+        "compiler",
+    ]
+    for key in passthrough:
+        if realization.get(key) != layout_solution.get(key):
+            raise ValueError(
+                f"layout/realization provenance drift on {slide_id}: {key} "
+                f"layout={layout_solution.get(key)!r} realization={realization.get(key)!r}"
+            )
+
+    visual_ir_path = VISUAL_IR_BY_SLIDE.get(slide_id)
+    if visual_ir_path is None or not visual_ir_path.is_file():
+        raise ValueError(f"no canonical Visual IR source registered for {slide_id}")
+    visual_ir = load_json(visual_ir_path)
+    semantic_path = ROOT / visual_ir["semantic_file"]
+    semantics = load_json(semantic_path)
+    resolved_style, profile, language = resolve_style_profile(ROOT, STYLE_PATH)
+
+    expected = {
+        "semantic_hash": canonical_hash(semantics),
+        "visual_ir_hash": canonical_hash(visual_ir),
+        "design_language_id": language["design_language_id"],
+        "design_language_hash": canonical_hash(language),
+        "style_profile_id": profile["profile_id"],
+        "style_profile_hash": canonical_hash(profile),
+        "resolved_style_hash": canonical_hash(resolved_style),
+        "archetype_id": visual_ir["composition"]["archetype_id"],
+        "variant": visual_ir["composition"]["variant"],
+    }
+    for key, expected_value in expected.items():
+        if layout_solution.get(key) != expected_value:
+            raise ValueError(
+                f"source/layout provenance drift on {slide_id}: {key} "
+                f"expected={expected_value!r} actual={layout_solution.get(key)!r}"
+            )
+
+
+def audit_deck(pptx_path=PPTX, realization_path=REAL, layout_path=LAYOUT):
     pptx_path = Path(pptx_path)
     realization_path = Path(realization_path)
-    if not pptx_path.is_file() or not realization_path.is_file():
+    layout_path = Path(layout_path)
+    if not pptx_path.is_file() or not realization_path.is_file() or not layout_path.is_file():
         raise ValueError("Stage 4 deck outputs missing")
 
     prs = Presentation(pptx_path)
     data = json.loads(realization_path.read_text(encoding="utf-8"))
-    if len(prs.slides) != 3 or data.get("slide_count") != 3:
+    solutions = json.loads(layout_path.read_text(encoding="utf-8"))
+    if len(prs.slides) != 3 or data.get("slide_count") != 3 or len(solutions) != 3:
         raise ValueError("Stage 4 deck must contain exactly three slides")
     ids = [s["slide_id"] for s in data["slides"]]
     if ids != EXPECTED_SLIDES:
         raise ValueError(f"unexpected slide order: {ids}")
+    solution_ids = [s["slide_id"] for s in solutions]
+    if solution_ids != EXPECTED_SLIDES:
+        raise ValueError(f"unexpected layout solution order: {solution_ids}")
 
     all_names = []
-    for slide, realization in zip(prs.slides, data["slides"]):
+    for slide, realization, solution in zip(prs.slides, data["slides"], solutions):
         names = [shape.name for shape in slide.shapes]
         if len(names) != len(set(names)):
             raise ValueError(f"duplicate PowerPoint shape names on {realization['slide_id']}")
         if not any(name.startswith(f"oxq:{realization['slide_id']}:") for name in names):
             raise ValueError(f"missing semantic identity on {realization['slide_id']}")
         all_names.extend(names)
+        validate_source_provenance(realization, solution)
         validate_realization_identity(slide, realization)
         _check_text_capacity(slide, realization["slide_id"])
 
@@ -180,7 +254,7 @@ def main():
         audit_deck()
     except ValueError as exc:
         raise SystemExit(str(exc)) from exc
-    print("Stage 4 deck structural + realization identity audit: PASS")
+    print("Stage 4 deck structural + provenance + realization identity audit: PASS")
 
 
 if __name__ == "__main__":
