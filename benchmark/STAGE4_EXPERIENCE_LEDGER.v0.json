@@ -1,0 +1,42 @@
+{
+  "schema_version": "stage4-experience-ledger-v0",
+  "status": "active_draft",
+  "entries": [
+    {
+      "experience_id": "exp-001-stage3-card-soup",
+      "source_stage": "stage3",
+      "failure": "Technically valid native/hybrid slides used equal-weight boxes/cards with weak focal hierarchy and dead space.",
+      "root_cause": "Renderer owned composition decisions and normalized heterogeneous evidence into peer components.",
+      "fix": "Introduce Visual IR with explicit protagonist, hierarchy, archetype, density, spatial grammar and deck rhythm before coordinates.",
+      "preventative_rules": ["single_protagonist_contract", "support_weight_differentiated", "composition_not_equal_weight_card_soup"],
+      "regression_targets": ["problem-hook", "how-it-works", "validation-traction"]
+    },
+    {
+      "experience_id": "exp-002-image-first-semantic-leakage",
+      "source_stage": "stage3",
+      "failure": "Image-first baseline rendered internal semantic/IR labels into presentation pixels.",
+      "root_cause": "Generated full-slide image was allowed to synthesize both semantics and presentation surface.",
+      "fix": "Keep semantic text native; generated assets must be bounded and text-free unless source text is explicitly preserved.",
+      "preventative_rules": ["semantic_leakage_absent", "forbidden_generated_text", "no_unapproved_full_slide_raster"],
+      "regression_targets": ["problem-hook", "how-it-works", "validation-traction"]
+    },
+    {
+      "experience_id": "exp-003-stage4-title-collision",
+      "source_stage": "stage4",
+      "failure": "First Validation sample passed structural checks but title wrapped into subtitle in the rendered pixels.",
+      "root_cause": "Geometry-only audit did not model actual rendered text line count and vertical occupation.",
+      "fix": "Treat structural geometry as necessary but insufficient; require pixel review and conservative text-fit preflight with role-specific floors.",
+      "preventative_rules": ["no_title_collision_proxy", "primary_text_readable", "pixel_gate_required_for_style_freeze"],
+      "regression_targets": ["validation-traction"]
+    },
+    {
+      "experience_id": "exp-004-floating-proof-panel-template-feel",
+      "source_stage": "stage4",
+      "failure": "Early Validation refinements were cleaner but still felt like a polished template because proof remained a floating panel/card.",
+      "root_cause": "Container geometry carried more visual identity than the claim/evidence relationship.",
+      "fix": "Prefer open/asymmetric fields and edge-anchored composition when containers are not semantically necessary.",
+      "preventative_rules": ["containers_require_semantic_grouping", "distinctive_through_composition_not_decoration"],
+      "regression_targets": ["validation-traction"]
+    }
+  ]
+}
