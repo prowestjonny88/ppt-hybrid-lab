@@ -1,10 +1,11 @@
 {
-  "schema_version": "stage4-ci-receipt-v3",
-  "generated_at": "2026-08-24T06:49:29.098862+00:00",
-  "commit": "f9b1b387cc54fd1b6754e61ae037a7365b40b450",
-  "run_id": "32698880941",
+  "schema_version": "stage4-ci-receipt-v4",
+  "generated_at": "2026-08-24T06:50:10.974737+00:00",
+  "commit": "65d291b5c7d739dcf89c533744963cd085907d4f",
+  "run_id": "32698926970",
   "run_attempt": "1",
   "visual_ir_validation": "success",
   "deck_rhythm_validation": "success",
-  "all_slide_compiler_validation": "success"
+  "all_slide_compiler_validation": "success",
+  "archetype_solver_registry_validation": "success"
 }
