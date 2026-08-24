@@ -9,6 +9,7 @@ on:
       - "scripts/build_stage4_deck.py"
       - "scripts/create_queuezero_mock_assets.py"
       - "tests/audit_stage4_deck.py"
+      - "tests/panic_stage4_text_capacity.py"
       - "tests/validate_stage4_capacity.py"
       - "tests/panic_stage4_capacity.py"
       - "tests/validate_stage4_routing.py"
@@ -79,7 +80,9 @@ jobs:
         run: python scripts/build_stage4_deck.py
       - name: Structural and text-capacity audit
         id: audit
-        run: python tests/audit_stage4_deck.py
+        run: |
+          python tests/audit_stage4_deck.py
+          python tests/panic_stage4_text_capacity.py
       - name: Render all slides
         id: render
         run: |
@@ -116,7 +119,7 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
           payload = {
-            "schema_version": "stage4-deck-receipt-v11",
+            "schema_version": "stage4-deck-receipt-v12",
             "generated_at": datetime.now(timezone.utc).isoformat(),
             "commit": os.environ.get("GITHUB_SHA"),
             "run_id": os.environ.get("GITHUB_RUN_ID"),
@@ -141,7 +144,9 @@ jobs:
               "deck_rhythm",
               "deck_rhythm_fail_closed_panic",
               "all_slide_compiler",
-              "archetype_solver_registry"
+              "archetype_solver_registry",
+              "semantic_text_capacity",
+              "text_capacity_fail_closed_panic"
             ]
           }
           Path("benchmark/results/STAGE4_DECK_LATEST.json").write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
