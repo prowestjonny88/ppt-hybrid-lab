@@ -61,8 +61,6 @@ def _compile_problem(root: Path, path: Path):
         _text("title", "title", _box(0.052, 0.080, 0.44, 0.175), 27, 700),
         _text("subtitle", "subtitle", _box(0.052, 0.270, 0.43, 0.072), 12.5, 400, "muted"),
         # Keep the supplied "15–30 min" evidence together as one visual unit.
-        # The previous 76pt / 0.39-wide treatment wrapped "min" onto a second
-        # line and collided with its label despite passing box-only QA.
         _text("metric_wait", "value", _box(0.052, 0.405, 0.43, 0.155), 64, 700, "signal", valign="middle"),
         _text("metric_wait", "label", _box(0.058, 0.575, 0.22, 0.050), 16, 600, source="label"),
         _text("pain_annotation", "annotation", _box(0.052, 0.690, 0.41, 0.125), 15, 500),
@@ -83,19 +81,30 @@ def _compile_problem(root: Path, path: Path):
 
 
 def _compile_how_it_works(root: Path, path: Path):
+    """Process story with the product as a true terminal destination.
+
+    The previous version put four labels on a horizontal spine and relegated the
+    screenshot to a small lower-right thumbnail. It was structurally valid but
+    visually sparse. This variant compresses the early sensing stages into a
+    vertical signal chain and gives the product destination a dedicated pale
+    field, while reserving the major dark proof field for the next slide.
+    """
     placements = [
-        _text("title", "title", _box(0.052, 0.070, 0.70, 0.145), 27, 700),
-        _text("subtitle", "subtitle", _box(0.052, 0.225, 0.72, 0.055), 12, 400, "muted"),
-        _text("node_camera", "node", _box(0.070, 0.370, 0.14, 0.070), 16, 600),
-        _text("node_queue_estimator", "node", _box(0.245, 0.370, 0.14, 0.070), 16, 600),
-        _text("node_wait_predictor", "node", _box(0.420, 0.355, 0.155, 0.100), 18, 700, "signal"),
-        _text("node_decision", "node", _box(0.620, 0.320, 0.205, 0.135), 19, 700),
-        {"semantic_object_id": "connector_camera_queue", "part": "connector", "kind": "line", "box": _box(0.205, 0.405, 0.045, 0.004), "color_token": "line"},
-        {"semantic_object_id": "connector_queue_prediction", "part": "connector", "kind": "line", "box": _box(0.380, 0.405, 0.045, 0.004), "color_token": "line"},
-        {"semantic_object_id": "connector_prediction_decision", "part": "connector", "kind": "line", "box": _box(0.570, 0.405, 0.055, 0.005), "color_token": "signal"},
+        _text("title", "title", _box(0.052, 0.070, 0.55, 0.135), 26.5, 700),
+        _text("subtitle", "subtitle", _box(0.052, 0.215, 0.50, 0.065), 12, 400, "muted"),
+
+        _text("node_camera", "node", _box(0.105, 0.355, 0.30, 0.055), 15, 600),
+        _text("node_queue_estimator", "node", _box(0.105, 0.495, 0.30, 0.055), 15, 600),
+        _text("node_wait_predictor", "node", _box(0.105, 0.635, 0.37, 0.090), 25, 700, "signal"),
+
+        {"semantic_object_id": "connector_camera_queue", "part": "connector", "kind": "line", "box": _box(0.075, 0.405, 0.004, 0.095), "color_token": "line"},
+        {"semantic_object_id": "connector_queue_prediction", "part": "connector", "kind": "line", "box": _box(0.075, 0.545, 0.004, 0.095), "color_token": "line"},
+        {"semantic_object_id": "connector_prediction_decision", "part": "connector", "kind": "line", "box": _box(0.430, 0.690, 0.205, 0.005), "color_token": "signal"},
+
+        _text("node_decision", "node", _box(0.665, 0.300, 0.285, 0.120), 20, 700),
         {
             "semantic_object_id": "screenshot_main", "part": "asset", "kind": "picture",
-            "box": _box(0.690, 0.490, 0.255, 0.370),
+            "box": _box(0.705, 0.445, 0.215, 0.405),
             "asset_path": "experiment/queuezero/assets/product_ui_v1.png",
             "fallback_fill_token": "surface",
         },
@@ -103,9 +112,19 @@ def _compile_how_it_works(root: Path, path: Path):
     ]
     decorations = [
         {"decor_id": "top_signal_rule", "kind": "rect", "box": _box(0.052, 0.045, 0.10, 0.005), "fill_token": "signal", "line_token": None},
-        {"decor_id": "pipeline_spine", "kind": "rect", "box": _box(0.070, 0.477, 0.755, 0.004), "fill_token": "line", "line_token": None},
-        {"decor_id": "decision_node", "kind": "ellipse", "box": _box(0.812, 0.461, 0.020, 0.035), "fill_token": "attention", "line_token": None},
-        {"decor_id": "product_stage_rule", "kind": "rect", "box": _box(0.690, 0.870, 0.255, 0.004), "fill_token": "signal", "line_token": None},
+
+        # Sensing signal track: deliberately not a row of peer cards.
+        {"decor_id": "signal_track", "kind": "rect", "box": _box(0.073, 0.350, 0.006, 0.385), "fill_token": "line", "line_token": None},
+        {"decor_id": "camera_node", "kind": "ellipse", "box": _box(0.062, 0.365, 0.026, 0.046), "fill_token": "surface", "line_token": "line"},
+        {"decor_id": "queue_node", "kind": "ellipse", "box": _box(0.062, 0.505, 0.026, 0.046), "fill_token": "surface", "line_token": "line"},
+        {"decor_id": "prediction_node", "kind": "ellipse", "box": _box(0.060, 0.650, 0.030, 0.053), "fill_token": "signal", "line_token": None},
+
+        # Product destination is a light field, keeping the dark proof field as
+        # rhythmic punctuation for the following validation slide.
+        {"decor_id": "product_destination_field", "kind": "rect", "box": _box(0.625, 0.250, 0.375, 0.660), "fill_token": "signal_soft", "line_token": None},
+        {"decor_id": "product_destination_edge", "kind": "rect", "box": _box(0.625, 0.250, 0.006, 0.660), "fill_token": "signal", "line_token": None},
+        {"decor_id": "decision_node", "kind": "ellipse", "box": _box(0.615, 0.672, 0.026, 0.046), "fill_token": "attention", "line_token": None},
+        {"decor_id": "product_stage_rule", "kind": "rect", "box": _box(0.705, 0.870, 0.215, 0.004), "fill_token": "signal", "line_token": None},
     ]
     return _solution(root, path, placements, decorations)
 
