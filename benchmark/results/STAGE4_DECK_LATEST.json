@@ -1,0 +1,13 @@
+{
+  "schema_version": "stage4-deck-receipt-v1",
+  "generated_at": "2026-08-24T04:15:22.035016+00:00",
+  "commit": "7bb60714c73350e3a26064ceba1a5434eb57e54b",
+  "run_id": "32689263056",
+  "artifact_name": "queuezero-stage4-full-deck",
+  "steps": {
+    "validation": "success",
+    "build": "success",
+    "audit": "failure",
+    "render": "skipped"
+  }
+}
