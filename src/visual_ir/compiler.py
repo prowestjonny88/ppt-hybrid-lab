@@ -58,11 +58,14 @@ def _solution(root: Path, visual_ir_path: Path, placements, decorations):
 
 def _compile_problem(root: Path, path: Path):
     placements = [
-        _text("title", "title", _box(0.052, 0.080, 0.47, 0.140), 31, 700),
-        _text("subtitle", "subtitle", _box(0.052, 0.225, 0.43, 0.080), 12.5, 400, "muted"),
-        _text("metric_wait", "value", _box(0.052, 0.385, 0.39, 0.180), 76, 700, "signal"),
-        _text("metric_wait", "label", _box(0.058, 0.565, 0.22, 0.055), 16, 600, source="label"),
-        _text("pain_annotation", "annotation", _box(0.052, 0.675, 0.41, 0.125), 15, 500),
+        # Pixel review of the first full-deck render exposed title overflow even
+        # though the semantic boxes did not geometrically intersect. Reserve a
+        # genuinely two-line title band before secondary copy begins.
+        _text("title", "title", _box(0.052, 0.080, 0.44, 0.175), 27, 700),
+        _text("subtitle", "subtitle", _box(0.052, 0.270, 0.43, 0.072), 12.5, 400, "muted"),
+        _text("metric_wait", "value", _box(0.052, 0.395, 0.39, 0.180), 76, 700, "signal"),
+        _text("metric_wait", "label", _box(0.058, 0.575, 0.22, 0.055), 16, 600, source="label"),
+        _text("pain_annotation", "annotation", _box(0.052, 0.690, 0.41, 0.125), 15, 500),
         {
             "semantic_object_id": "hero_visual_slot", "part": "asset", "kind": "picture",
             "box": _box(0.515, 0.000, 0.485, 1.000),
@@ -74,25 +77,28 @@ def _compile_problem(root: Path, path: Path):
     decorations = [
         {"decor_id": "top_signal_rule", "kind": "rect", "box": _box(0.052, 0.052, 0.10, 0.005), "fill_token": "signal", "line_token": None},
         {"decor_id": "image_edge", "kind": "rect", "box": _box(0.512, 0.000, 0.006, 1.000), "fill_token": "signal", "line_token": None},
-        {"decor_id": "metric_rule", "kind": "rect", "box": _box(0.052, 0.642, 0.165, 0.004), "fill_token": "attention", "line_token": None},
+        {"decor_id": "metric_rule", "kind": "rect", "box": _box(0.052, 0.655, 0.165, 0.004), "fill_token": "attention", "line_token": None},
     ]
     return _solution(root, path, placements, decorations)
 
 
 def _compile_how_it_works(root: Path, path: Path):
     placements = [
-        _text("title", "title", _box(0.052, 0.070, 0.70, 0.095), 27, 700),
-        _text("subtitle", "subtitle", _box(0.052, 0.168, 0.72, 0.060), 12, 400, "muted"),
-        _text("node_camera", "node", _box(0.070, 0.355, 0.14, 0.070), 16, 600),
-        _text("node_queue_estimator", "node", _box(0.245, 0.355, 0.14, 0.070), 16, 600),
-        _text("node_wait_predictor", "node", _box(0.420, 0.340, 0.155, 0.100), 18, 700, "signal"),
-        _text("node_decision", "node", _box(0.620, 0.305, 0.205, 0.135), 19, 700),
-        {"semantic_object_id": "connector_camera_queue", "part": "connector", "kind": "line", "box": _box(0.205, 0.390, 0.045, 0.004), "color_token": "line"},
-        {"semantic_object_id": "connector_queue_prediction", "part": "connector", "kind": "line", "box": _box(0.380, 0.390, 0.045, 0.004), "color_token": "line"},
-        {"semantic_object_id": "connector_prediction_decision", "part": "connector", "kind": "line", "box": _box(0.570, 0.390, 0.055, 0.005), "color_token": "signal"},
+        # The claim naturally wraps to two lines. Give it a two-line band and
+        # keep the subtitle outside that band instead of relying on renderer
+        # overflow behaviour.
+        _text("title", "title", _box(0.052, 0.070, 0.70, 0.145), 27, 700),
+        _text("subtitle", "subtitle", _box(0.052, 0.225, 0.72, 0.055), 12, 400, "muted"),
+        _text("node_camera", "node", _box(0.070, 0.370, 0.14, 0.070), 16, 600),
+        _text("node_queue_estimator", "node", _box(0.245, 0.370, 0.14, 0.070), 16, 600),
+        _text("node_wait_predictor", "node", _box(0.420, 0.355, 0.155, 0.100), 18, 700, "signal"),
+        _text("node_decision", "node", _box(0.620, 0.320, 0.205, 0.135), 19, 700),
+        {"semantic_object_id": "connector_camera_queue", "part": "connector", "kind": "line", "box": _box(0.205, 0.405, 0.045, 0.004), "color_token": "line"},
+        {"semantic_object_id": "connector_queue_prediction", "part": "connector", "kind": "line", "box": _box(0.380, 0.405, 0.045, 0.004), "color_token": "line"},
+        {"semantic_object_id": "connector_prediction_decision", "part": "connector", "kind": "line", "box": _box(0.570, 0.405, 0.055, 0.005), "color_token": "signal"},
         {
             "semantic_object_id": "screenshot_main", "part": "asset", "kind": "picture",
-            "box": _box(0.690, 0.475, 0.255, 0.385),
+            "box": _box(0.690, 0.490, 0.255, 0.370),
             "asset_path": "experiment/queuezero/assets/product_ui_v1.png",
             "fallback_fill_token": "surface",
         },
@@ -100,8 +106,8 @@ def _compile_how_it_works(root: Path, path: Path):
     ]
     decorations = [
         {"decor_id": "top_signal_rule", "kind": "rect", "box": _box(0.052, 0.045, 0.10, 0.005), "fill_token": "signal", "line_token": None},
-        {"decor_id": "pipeline_spine", "kind": "rect", "box": _box(0.070, 0.462, 0.755, 0.004), "fill_token": "line", "line_token": None},
-        {"decor_id": "decision_node", "kind": "ellipse", "box": _box(0.812, 0.446, 0.020, 0.035), "fill_token": "attention", "line_token": None},
+        {"decor_id": "pipeline_spine", "kind": "rect", "box": _box(0.070, 0.477, 0.755, 0.004), "fill_token": "line", "line_token": None},
+        {"decor_id": "decision_node", "kind": "ellipse", "box": _box(0.812, 0.461, 0.020, 0.035), "fill_token": "attention", "line_token": None},
         {"decor_id": "product_stage_rule", "kind": "rect", "box": _box(0.690, 0.870, 0.255, 0.004), "fill_token": "signal", "line_token": None},
     ]
     return _solution(root, path, placements, decorations)
