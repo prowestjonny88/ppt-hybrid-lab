@@ -9,12 +9,15 @@ on:
       - "architecture/STAGE4_GATE_SCHEMA.v0.json"
       - "benchmark/STAGE4_EXPERIENCE_LEDGER.v0.json"
       - "experiment/queuezero/stage4_deck_plan.v0.json"
+      - "experiment/queuezero/stage4_asset_bindings.json"
       - "experiment/queuezero/style_profiles/**"
       - "experiment/queuezero/visual_ir/**"
       - "src/visual_ir/compiler.py"
+      - "src/visual_ir/archetype_solvers.py"
       - "tests/validate_visual_ir.py"
       - "tests/validate_stage4_deck_rhythm.py"
       - "tests/validate_stage4_compiler.py"
+      - "tests/validate_stage4_solver_registry.py"
       - "benchmark/stage4-ci-trigger.txt"
       - ".github/workflows/stage4-validate.yml"
   workflow_dispatch:
@@ -54,12 +57,18 @@ jobs:
         if: always()
         run: python tests/validate_stage4_compiler.py
 
+      - name: Validate archetype solver registry boundary
+        id: solver_registry
+        if: always()
+        run: python tests/validate_stage4_solver_registry.py
+
       - name: Write Stage 4 CI receipt
         if: always()
         env:
           VISUAL_IR_OUTCOME: ${{ steps.visual_ir.outcome }}
           DECK_RHYTHM_OUTCOME: ${{ steps.deck_rhythm.outcome }}
           COMPILER_OUTCOME: ${{ steps.compiler.outcome }}
+          SOLVER_REGISTRY_OUTCOME: ${{ steps.solver_registry.outcome }}
         run: |
           mkdir -p benchmark/results
           python - <<'PY'
@@ -67,7 +76,7 @@ jobs:
           from datetime import datetime, timezone
           from pathlib import Path
           payload = {
-              "schema_version": "stage4-ci-receipt-v3",
+              "schema_version": "stage4-ci-receipt-v4",
               "generated_at": datetime.now(timezone.utc).isoformat(),
               "commit": os.environ.get("GITHUB_SHA"),
               "run_id": os.environ.get("GITHUB_RUN_ID"),
@@ -75,6 +84,7 @@ jobs:
               "visual_ir_validation": os.environ.get("VISUAL_IR_OUTCOME"),
               "deck_rhythm_validation": os.environ.get("DECK_RHYTHM_OUTCOME"),
               "all_slide_compiler_validation": os.environ.get("COMPILER_OUTCOME"),
+              "archetype_solver_registry_validation": os.environ.get("SOLVER_REGISTRY_OUTCOME"),
           }
           Path("benchmark/results/STAGE4_CI_LATEST.json").write_text(
               json.dumps(payload, indent=2) + "\n", encoding="utf-8"
