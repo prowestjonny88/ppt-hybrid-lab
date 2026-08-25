@@ -1,8 +1,8 @@
 {
   "schema_version": "stage4-ci-receipt-v7",
-  "generated_at": "2026-08-25T08:03:32.079615+00:00",
-  "commit": "bda4a1b98b3a54fa46fda69ab236d5c23d448afa",
-  "run_id": "32824647483",
+  "generated_at": "2026-08-25T08:14:47.819462+00:00",
+  "commit": "03ddc3f6365b2c8c41f22855ccca628aff198f06",
+  "run_id": "32825617888",
   "run_attempt": "1",
   "style_layering_validation": "success",
   "visual_ir_validation": "success",
