@@ -77,14 +77,14 @@ def main():
     else:
         manifest = {
             "schema_version": "stage4-visual-oracle-generation-v1",
-            "semantic_authority": false,
+            "semantic_authority": False,
             "provider": "Google Gemini Developer API",
             "model": args.model,
             "resolved_model": resolved,
             "resolution": args.resolution,
             "output_mime_type": OUTPUT_MIME,
             "jobs": [],
-            "complete": false if False else False
+            "complete": False,
         }
 
     if manifest.get("model") != args.model or manifest.get("resolution") != args.resolution:
