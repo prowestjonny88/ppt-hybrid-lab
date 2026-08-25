@@ -1,0 +1,53 @@
+name: Stage 4 Visual Oracle Preflight
+
+on:
+  push:
+    paths:
+      - "benchmark/STAGE4_VISUAL_ORACLE_BENCHMARK.v0.json"
+      - "scripts/build_stage4_oracle_prompts.py"
+      - "tools/stage4_gemini_visual_oracle.py"
+      - "experiment/queuezero/slide_semantics/**"
+      - ".github/workflows/stage4-oracle-preflight.yml"
+      - ".github/workflows/stage4-oracle-generate.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile oracle tooling
+        run: python -m py_compile scripts/build_stage4_oracle_prompts.py tools/stage4_gemini_visual_oracle.py
+      - name: Build deterministic oracle prompts without paid API calls
+        run: PYTHONPATH=. python scripts/build_stage4_oracle_prompts.py
+      - name: Validate benchmark and prompt contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          benchmark = json.loads(Path('benchmark/STAGE4_VISUAL_ORACLE_BENCHMARK.v0.json').read_text())
+          manifest = json.loads(Path('dist/stage4/oracle/prompt_manifest.json').read_text())
+          if benchmark['lanes']['image_oracle']['status'] != 'BLOCKED_ON_EXPLICIT_PAID_GENERATION_APPROVAL':
+              raise SystemExit('fresh oracle must remain spend-gated before explicit approval')
+          if benchmark['lanes']['image_oracle']['semantic_authority'] is not False:
+              raise SystemExit('oracle image must never become semantic authority')
+          if len(manifest.get('prompts', [])) != 3:
+              raise SystemExit('expected exactly three deterministic oracle prompts')
+          expected = {'problem-hook', 'how-it-works', 'validation-traction'}
+          actual = {p['slide_id'] for p in manifest['prompts']}
+          if actual != expected:
+              raise SystemExit(f'unexpected oracle prompt slides: {actual}')
+          for item in manifest['prompts']:
+              path = Path(item['prompt_file'])
+              text = path.read_text(encoding='utf-8')
+              if 'VISUAL ORACLE' not in text or 'only factual source of truth' not in text:
+                  raise SystemExit(f'missing oracle/semantic contract in {path}')
+          print('Stage 4 visual-oracle preflight: PASS')
+          PY
