@@ -12,13 +12,15 @@ from __future__ import annotations
 from pathlib import Path
 
 from src.ir.runtime import canonical_hash, load_json
-from src.visual_ir.archetype_solvers import SOLVER_REGISTRY
+from src.visual_ir.archetype_solvers import SOLVER_REGISTRY as BASE_SOLVER_REGISTRY
+from src.visual_ir.oracle_reconstruction_solvers import ORACLE_SOLVER_REGISTRY
 from src.visual_ir.capacity import require_capacity
 from src.visual_ir.router import route_candidates
 from src.visual_ir.style_runtime import resolve_style_profile
 
 STYLE_PATH = "experiment/queuezero/style_profiles/queuezero_hackathon_v0.json"
 ASSET_BINDINGS_PATH = "experiment/queuezero/stage4_asset_bindings.json"
+SOLVER_REGISTRY = {**BASE_SOLVER_REGISTRY, **ORACLE_SOLVER_REGISTRY}
 
 
 def _semantic_asset_source(semantics: dict, object_id: str):
@@ -32,8 +34,8 @@ def _semantic_asset_source(semantics: dict, object_id: str):
     return None
 
 
-def _asset_resolver(root: Path, ir: dict, semantics: dict):
-    bindings_path = root / ASSET_BINDINGS_PATH
+def _asset_resolver(root: Path, ir: dict, semantics: dict, bindings_rel=ASSET_BINDINGS_PATH):
+    bindings_path = root / bindings_rel
     bindings = load_json(bindings_path) if bindings_path.is_file() else {"bindings": {}}
     slide_bindings = bindings.get("bindings", {}).get(ir["slide_id"], {})
 
@@ -51,12 +53,23 @@ def _asset_resolver(root: Path, ir: dict, semantics: dict):
     return resolve
 
 
-def compile_slide(root: Path, visual_ir_path: Path):
+def compile_slide_ir(
+    root: Path,
+    ir: dict,
+    *,
+    style_path: str = STYLE_PATH,
+    asset_bindings_path: str = ASSET_BINDINGS_PATH,
+    compiler_label: str = "src/visual_ir/compiler.py::compile_slide_ir",
+):
+    """Compile an already-loaded Visual IR object.
+
+    This preserves the normal fail-closed routing/capacity/style contracts while
+    allowing derived benchmark variants to be created without mutating the
+    canonical Stage 4 Visual IR files.
+    """
     root = Path(root)
-    path = Path(visual_ir_path)
-    ir = load_json(path)
     semantics = load_json(root / ir["semantic_file"])
-    style, profile, language = resolve_style_profile(root, root / STYLE_PATH)
+    style, profile, language = resolve_style_profile(root, root / style_path)
 
     if ir["style"]["profile_id"] != profile["profile_id"]:
         raise RuntimeError("Visual IR/style profile mismatch")
@@ -78,7 +91,7 @@ def compile_slide(root: Path, visual_ir_path: Path):
     placements, decorations = solver(
         ir,
         semantics,
-        _asset_resolver(root, ir, semantics),
+        _asset_resolver(root, ir, semantics, asset_bindings_path),
     )
 
     return {
@@ -96,12 +109,27 @@ def compile_slide(root: Path, visual_ir_path: Path):
         "variant": key[1],
         "capacity_trace": capacity,
         "routing_trace": routing,
-        "compiler": "src/visual_ir/compiler.py::compile_slide",
-        "solver": f"src.visual_ir.archetype_solvers::{solver.__name__}",
-        "canvas": {"width_norm": 1.0, "height_norm": 1.0, "background_token": "canvas"},
+        "compiler": compiler_label,
+        "solver": f"{solver.__module__}::{solver.__name__}",
+        "canvas": {
+            "width_norm": 1.0,
+            "height_norm": 1.0,
+            "background_token": ir.get("style", {}).get("canvas_background_token", "canvas"),
+        },
         "placements": placements,
         "decorations": decorations,
     }
+
+
+def compile_slide(root: Path, visual_ir_path: Path):
+    root = Path(root)
+    path = Path(visual_ir_path)
+    ir = load_json(path)
+    return compile_slide_ir(
+        root,
+        ir,
+        compiler_label="src/visual_ir/compiler.py::compile_slide",
+    )
 
 
 def compile_validation_sample(root: Path, visual_ir_path: Path):
