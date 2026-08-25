@@ -1,0 +1,66 @@
+{
+  "schema_version": "stage4-visual-oracle-benchmark-v0",
+  "status": "scaffold_ready_fresh_oracle_not_generated",
+  "principle": "Image generation defines a visual-quality ceiling and art-direction target; semantic IR remains the source of truth and a flattened full-slide picture never counts as editable-slide success.",
+  "benchmark_project": "QueueZero",
+  "semantic_inputs": [
+    "experiment/queuezero/slide_semantics/problem_hook.v1.json",
+    "experiment/queuezero/slide_semantics/how_it_works.v1.json",
+    "experiment/queuezero/slide_semantics/validation_traction.v1.json"
+  ],
+  "lanes": {
+    "native_editable": {
+      "purpose": "Measure current structured editable-slide quality without a visual oracle.",
+      "source": "current Stage 4 semantic-first editable pipeline",
+      "expected_output": "editable PPTX plus fixed-pipeline PNG renders",
+      "status": "READY"
+    },
+    "image_oracle": {
+      "purpose": "Measure the unconstrained visual ceiling for the same semantic inputs.",
+      "source": "fresh full-slide image generation with exact semantic payload and no invented claims",
+      "expected_output": "three 16:9 oracle images plus prompt/generation hashes",
+      "status": "BLOCKED_ON_EXPLICIT_PAID_GENERATION_APPROVAL",
+      "semantic_authority": false
+    },
+    "hybrid_editable_reconstruction": {
+      "purpose": "Measure how much oracle visual quality can be retained while preserving editable semantic structure.",
+      "source": "semantic IR plus oracle image as art-direction evidence",
+      "expected_output": "editable native text/geometry plus replaceable assets, PPTX realization trace, fixed-pipeline renders",
+      "status": "WAITING_FOR_FRESH_ORACLE"
+    }
+  },
+  "legacy_reference": {
+    "generation": "benchmark/generated/queuezero/gemini31flashimage-v1/image_first",
+    "use": "adversarial visual reference and harness smoke-test only",
+    "reason_not_canonical_oracle": "Stage 3 image-first generation exhibited semantic leakage and therefore cannot define semantic truth for reconstruction."
+  },
+  "evaluation_dimensions": {
+    "visual": [
+      "first_impression",
+      "protagonist_clarity",
+      "composition_intentionality",
+      "typography_and_style",
+      "density_and_readability",
+      "oracle_fidelity"
+    ],
+    "engineering": [
+      "semantic_fidelity",
+      "native_text_editability",
+      "native_geometry_editability",
+      "replaceable_asset_integrity",
+      "source_layout_realization_provenance",
+      "pptx_round_trip_identity",
+      "fixed_pipeline_render_success"
+    ]
+  },
+  "hard_failures": [
+    "invented_claim",
+    "semantic_source_replaced_by_oracle_pixels",
+    "full_slide_picture_counted_as_editable_success",
+    "missing_provenance",
+    "broken_round_trip_identity",
+    "unrenderable_pptx"
+  ],
+  "comparison_rule": "Do not declare the system visually successful unless hybrid_editable_reconstruction materially closes the visual gap to image_oracle while retaining the engineering gates of native_editable.",
+  "freeze_policy": "Do not freeze current Stage 4 aesthetics before this benchmark is reviewed."
+}
