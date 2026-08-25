@@ -1,12 +1,19 @@
 {
   "project": "ppt-hybrid-lab",
-  "phase": "stage4_visual_quality_reset",
-  "status": "three_slide_visual_proof_green_human_style_freeze_pending",
+  "phase": "stage4_visual_oracle_evaluation_reset",
+  "status": "visual_oracle_pivot_approved_ox_hardening_in_progress",
   "canonical_brain": "ChatGPT Work",
   "delegated_investigator": "Ox Alpha",
   "infrastructure": {
-    "github_actions_ox_worker": "verified",
+    "github_actions_ox_worker": "verified_bounded_parallel_v1",
     "openrouter_ox_alpha": "verified",
+    "ox_worker_parallelism": "max_3_unique_task_matrix_workers_per_serialized_branch_run",
+    "ox_worker_result_persistence": "single_aggregator_commit",
+    "ox_worker_retry_policy": "up_to_4_attempts_with_exponential_backoff_and_retry_after",
+    "ox_worker_default_reasoning_effort": "high_task_overridable",
+    "ox_worker_default_context_chars": 250000,
+    "ox_worker_hard_context_chars": 600000,
+    "ox_worker_execution_metrics": "implemented_v1",
     "gemini_ai_studio_image_lane": "verified_with_gemini_3_1_flash_image",
     "gemini_output_mime": "image/jpeg",
     "stage3_validation_workflow": "green",
@@ -14,7 +21,7 @@
     "stage4_full_deck_workflow": "green_v15",
     "stage4_fixed_render_pipeline": "LibreOffice_PPTX_to_PDF_to_144dpi_PNG",
     "stage4_latest_good_receipt_preservation": "implemented",
-    "hourly_project_watch": "enabled"
+    "hourly_project_watch": "enabled_with_visual_oracle_pivot"
   },
   "research": {
     "stage1_broad_architecture_scan": "complete",
@@ -38,7 +45,7 @@
   },
   "stage4_architecture": {
     "semantic_ir": "frozen_stage3_v1_inputs_for_benchmark",
-    "visual_ir": "draft_v0_green_on_three_roles",
+    "visual_ir": "draft_v0_green_on_three_roles_not_style_frozen",
     "design_language_registry": "architecture/DESIGN_LANGUAGES.stage4.v0.json",
     "deck_style_profile": "queuezero-hackathon-v0_layers_over_design_language",
     "style_runtime": "resolved_design_language_plus_deck_profile",
@@ -59,7 +66,8 @@
     "asset_binding_gate": "green_with_negative_panic_suite",
     "source_layout_realization_provenance_identity_gate": "green_with_negative_regression",
     "pptx_realization_round_trip_identity_gate": "green_with_negative_regression",
-    "pixel_multimodal_gate": "model_pass_human_style_freeze_pending",
+    "pixel_multimodal_gate": "legacy_current_direction_machine_pass_not_human_frozen",
+    "visual_oracle_role": "image_generation_defines_visual_ceiling_and_art_direction_not_semantic_source_of_truth",
     "canonical_receipt_policy": "last_attempt_always_recorded_latest_only_advances_on_all_green"
   },
   "verified_stage4_evidence": {
@@ -97,7 +105,14 @@
     "mock_ui_invented_wait_values_removed": true,
     "experience_regression_ledger_active": true,
     "latest_full_deck_receipt_schema": "stage4-deck-receipt-v15",
-    "latest_known_good_receipt_preserved_on_failed_attempt": true
+    "latest_known_good_receipt_preserved_on_failed_attempt": true,
+    "ox_runner_per_task_execution": true,
+    "ox_runner_retry_backoff": true,
+    "ox_runner_execution_telemetry": true,
+    "ox_workflow_bounded_parallel_matrix": true,
+    "ox_workflow_single_aggregator_commit": true,
+    "ox_workflow_serialized_branch_runs_duplicate_work_guard": true,
+    "ox_worker_no_pending_smoke_run": "success_run_32818825027"
   },
   "architecture_artifacts": {
     "slide_ir_v1": "architecture/SLIDE_IR_V1.md",
@@ -124,7 +139,10 @@
     "capacity_panic_regressions": "tests/panic_stage4_capacity.py",
     "visual_ir_panic_regressions": "tests/panic_stage4_visual_ir.py",
     "deck_rhythm_panic_regressions": "tests/panic_stage4_deck_rhythm.py",
-    "text_capacity_panic_regressions": "tests/panic_stage4_text_capacity.py"
+    "text_capacity_panic_regressions": "tests/panic_stage4_text_capacity.py",
+    "ox_config": ".ox/config.yml",
+    "ox_runner": ".ox/runner/ox_runner.py",
+    "ox_workflow": ".github/workflows/ox-worker.yml"
   },
   "benchmark": {
     "project": "QueueZero",
@@ -134,28 +152,35 @@
     "latest_stage4_deck_receipt": "benchmark/results/STAGE4_DECK_LATEST.json",
     "last_stage4_attempt_receipt": "benchmark/results/STAGE4_DECK_LAST_ATTEMPT.json",
     "latest_stage4_ci_receipt": "benchmark/results/STAGE4_CI_LATEST.json",
-    "machine_visual_gate": "PASS",
+    "machine_visual_gate": "PASS_LEGACY_DIRECTION_ONLY",
     "machine_full_deck_gate": "PASS_v15",
-    "human_style_freeze": "PENDING",
-    "would_submit_to_win": "not_asserted_without_human_approval"
+    "human_style_freeze": "CANCELLED_CURRENT_DIRECTION_NOT_APPROVED",
+    "visual_oracle_benchmark": "AUTHORIZED_DESIGN_IN_PROGRESS",
+    "visual_oracle_lanes": ["native_editable_baseline", "image_generated_visual_ceiling", "hybrid_editable_reconstruction"],
+    "visual_oracle_rule": "full_slide_raster_alone_cannot_count_as_editable_system_success",
+    "would_submit_to_win": "not_asserted"
   },
   "stage4_hypotheses_status": {
     "visual_director_and_visual_ir_missing_layer": "supported",
     "visual_ir_should_precede_coordinates": "implemented",
     "archetypes_are_grammars_not_fixed_templates": "implemented_for_three_tested_variants",
-    "style_needs_identity_variation_and_anti_repetition": "implemented_and_gated",
+    "style_needs_identity_variation_and_anti_repetition": "implemented_and_gated_but_current_style_not_approved",
     "design_language_should_be_reusable_below_deck_profile": "implemented_draft",
     "deterministic_routing_should_precede_model_choice": "implemented_draft",
     "capacity_requires_machine_readable_constraints": "implemented_and_compiler_enforced_draft",
     "visual_quality_requires_pixel_multimodal_gate": "implemented_model_tier",
-    "full_slide_image_not_semantic_source_of_truth": "retained"
+    "image_generation_should_define_visual_ceiling": "approved_for_stage4_evaluation",
+    "full_slide_image_not_semantic_source_of_truth": "retained",
+    "editable_reconstruction_should_be_measured_against_visual_oracle": "approved_for_stage4_evaluation"
   },
   "next_priorities": [
-    "keep human style freeze pending until the user explicitly approves the current Stage 4 direction",
-    "continue only non-subjective hardening while style freeze is pending; do not silently freeze aesthetics",
-    "freeze the three visually proven archetype variants only after human approval; do not freeze untested registry entries",
-    "after human freeze, add one additional benchmark role to test solver generalization rather than QueueZero overfitting",
-    "only then advance toward Stage 5 production pipeline integration"
+    "do not freeze or scale the current Stage 4 visual direction",
+    "finish Ox harness hardening with deterministic no-cost tests for matrix isolation, aggregation paths, retries, and telemetry before relying on live parallel work",
+    "design the Stage 4 visual-oracle benchmark using identical frozen semantic inputs across native editable baseline, image-generated visual ceiling, and hybrid editable reconstruction lanes",
+    "use image generation as visual direction/oracle rather than accepting a flattened full-slide image as editable success",
+    "add objective fidelity/editability/provenance gates plus human visual comparison for the oracle benchmark",
+    "after the oracle benchmark reveals the dominant quality-loss layer, improve that layer before adding broader slide-role generalization",
+    "only advance toward Stage 5 after the new benchmark and at least one additional unseen role demonstrate generalization"
   ],
-  "last_updated": "2026-08-25T07:18+08:00"
+  "last_updated": "2026-08-25T14:53+08:00"
 }
