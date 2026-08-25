@@ -15,9 +15,6 @@ on:
         description: "Image resolution"
         required: true
         default: "2K"
-  push:
-    paths:
-      - "benchmark/approvals/stage4-oracle-gemini31flash-oracle-v1.approved"
 
 concurrency:
   group: stage4-gemini-visual-oracle
@@ -32,9 +29,9 @@ jobs:
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       IMAGE_MODEL: gemini-3.1-flash-image
-      IMAGE_RESOLUTION: ${{ inputs.resolution || '2K' }}
-      GENERATION_ID: ${{ inputs.generation_id || 'gemini31flash-oracle-v1' }}
-      CONFIRM_SPEND: ${{ inputs.confirm_spend || 'YES' }}
+      IMAGE_RESOLUTION: ${{ inputs.resolution }}
+      GENERATION_ID: ${{ inputs.generation_id }}
+      CONFIRM_SPEND: ${{ inputs.confirm_spend }}
 
     steps:
       - name: Require explicit paid-generation approval
