@@ -9,7 +9,7 @@ from pathlib import Path
 
 from pptx import Presentation
 from pptx.dml.color import RGBColor
-from pptx.enum.shapes import MSO_SHAPE
+from pptx.enum.shapes import MSO_CONNECTOR_TYPE, MSO_SHAPE
 from pptx.enum.text import MSO_ANCHOR, PP_ALIGN
 from pptx.util import Inches, Pt
 
@@ -39,6 +39,14 @@ def _to_emu_box(prs: Presentation, box):
     return (
         int(x * prs.slide_width), int(y * prs.slide_height),
         int(w * prs.slide_width), int(h * prs.slide_height),
+    )
+
+
+def _to_emu_points(prs: Presentation, points):
+    x1, y1, x2, y2 = points
+    return (
+        int(x1 * prs.slide_width), int(y1 * prs.slide_height),
+        int(x2 * prs.slide_width), int(y2 * prs.slide_height),
     )
 
 
@@ -83,11 +91,24 @@ def _add_text(slide, prs, placement, style, semantic_objects, semantics):
 
 
 def _add_decor(slide, prs, decor, style, slide_id):
-    x, y, w, h = _to_emu_box(prs, decor["box"])
     kind = decor["kind"]
-    shape = slide.shapes.add_shape(MSO_SHAPE.RECTANGLE if kind == "rect" else MSO_SHAPE.OVAL, x, y, w, h) if kind in {"rect", "ellipse"} else None
-    if shape is None:
+    if kind == "line":
+        x1, y1, x2, y2 = _to_emu_points(prs, decor["points"])
+        shape = slide.shapes.add_connector(MSO_CONNECTOR_TYPE.STRAIGHT, x1, y1, x2, y2)
+        _name_shape(shape, f"oxq:{slide_id}:decor:{decor['decor_id']}")
+        shape.line.color.rgb = _rgb(style["palette"][decor["color_token"]])
+        shape.line.width = Pt(decor.get("width_pt", 1.0))
+        return shape
+
+    x, y, w, h = _to_emu_box(prs, decor["box"])
+    shape_type = {
+        "rect": MSO_SHAPE.RECTANGLE,
+        "round_rect": MSO_SHAPE.ROUNDED_RECTANGLE,
+        "ellipse": MSO_SHAPE.OVAL,
+    }.get(kind)
+    if shape_type is None:
         raise RuntimeError(f"unsupported decoration kind {kind!r}")
+    shape = slide.shapes.add_shape(shape_type, x, y, w, h)
     _name_shape(shape, f"oxq:{slide_id}:decor:{decor['decor_id']}")
     shape.fill.solid(); shape.fill.fore_color.rgb = _rgb(style["palette"][decor["fill_token"]])
     if decor.get("line_token"):
@@ -103,6 +124,15 @@ def _add_line(slide, prs, placement, style, semantics):
     _name_shape(shape, f"oxq:{semantics['slide_id']}:{placement['semantic_object_id']}:{placement['part']}")
     shape.fill.solid(); shape.fill.fore_color.rgb = _rgb(style["palette"][placement["color_token"]])
     shape.line.fill.background()
+    return shape
+
+
+def _add_connector(slide, prs, placement, style, semantics):
+    x1, y1, x2, y2 = _to_emu_points(prs, placement["points"])
+    shape = slide.shapes.add_connector(MSO_CONNECTOR_TYPE.STRAIGHT, x1, y1, x2, y2)
+    _name_shape(shape, f"oxq:{semantics['slide_id']}:{placement['semantic_object_id']}:{placement['part']}")
+    shape.line.color.rgb = _rgb(style["palette"][placement["color_token"]])
+    shape.line.width = Pt(placement.get("width_pt", 1.25))
     return shape
 
 
@@ -150,6 +180,9 @@ def render_layout_slide(root: Path, prs: Presentation, layout_solution: dict):
             lane, fidelity = "native", "semantic_and_editable"
         elif kind == "line":
             shape = _add_line(slide, prs, placement, style, semantics)
+            lane, fidelity = "native", "semantic_and_editable"
+        elif kind == "connector":
+            shape = _add_connector(slide, prs, placement, style, semantics)
             lane, fidelity = "native", "semantic_and_editable"
         elif kind == "picture":
             shape, asset_present = _add_picture(slide, prs, root, placement, style, semantics)
