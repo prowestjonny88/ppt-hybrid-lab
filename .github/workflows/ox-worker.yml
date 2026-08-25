@@ -4,20 +4,67 @@ on:
   push:
     paths:
       - ".ox/tasks/**"
+      - ".ox/runner/**"
+      - ".ox/config.yml"
+      - ".github/workflows/ox-worker.yml"
   workflow_dispatch:
 
 permissions:
   contents: write
 
+# Serialize workflow runs per branch so a later push cannot rediscover the same
+# PENDING tasks while an earlier run is still executing them. Parallelism happens
+# only inside one run, where each matrix worker owns one unique task id.
 concurrency:
   group: ox-alpha-worker-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  ox-worker:
-    if: github.actor != 'github-actions[bot]'
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      task_ids: ${{ steps.pending.outputs.task_ids }}
+      pending_count: ${{ steps.pending.outputs.pending_count }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate runner syntax
+        run: python -m py_compile .ox/runner/ox_runner.py
+
+      - name: Discover pending tasks
+        id: pending
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          task_ids = []
+          for path in sorted(Path('.ox/tasks').glob('*.json')):
+              task = json.loads(path.read_text(encoding='utf-8'))
+              if task.get('status') == 'PENDING':
+                  task_ids.append(path.stem)
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              fh.write('task_ids=' + json.dumps(task_ids, separators=(',', ':')) + '\n')
+              fh.write(f'pending_count={len(task_ids)}\n')
+
+          print('Pending Ox tasks:', task_ids)
+          PY
+
+  worker:
+    needs: discover
+    if: needs.discover.outputs.pending_count != '0'
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        task_id: ${{ fromJSON(needs.discover.outputs.task_ids) }}
 
     steps:
       - name: Checkout repository
@@ -35,14 +82,39 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests pyyaml
 
-      - name: Run Ox worker
+      - name: Run one Ox task
         env:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
-        run: |
-          python .ox/runner/ox_runner.py
+        run: python .ox/runner/ox_runner.py --task-id "${{ matrix.task_id }}"
 
-      - name: Commit Ox task/report state
+      - name: Upload isolated task result
         if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ox-result-${{ matrix.task_id }}
+          if-no-files-found: warn
+          path: |
+            .ox/tasks/${{ matrix.task_id }}.json
+            .ox/reports/${{ matrix.task_id }}*
+
+  aggregate:
+    needs: [discover, worker]
+    if: always() && needs.discover.outputs.pending_count != '0'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download all worker results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: ox-result-*
+          path: .
+          merge-multiple: true
+
+      - name: Commit Ox task/report state once
         run: |
           git config user.name "ox-alpha-worker"
           git config user.email "ox-alpha-worker@users.noreply.github.com"
@@ -52,7 +124,13 @@ jobs:
           if git diff --cached --quiet; then
             echo "No Ox task/report changes."
           else
-            git commit -m "ox: persist delegated task state"
+            git commit -m "ox: persist delegated task results"
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
+
+      - name: Fail if any worker failed
+        if: needs.worker.result != 'success'
+        run: |
+          echo "At least one Ox worker failed; persisted task state is available for diagnosis."
+          exit 1
