@@ -1,14 +1,14 @@
 {
   "schema_version": "stage4-sample-receipt-v1",
-  "generated_at": "2026-08-25T08:05:52.548527+00:00",
-  "commit": "7d91d09a0489365b013c80166ef022c231ba1382",
-  "run_id": "32824712803",
+  "generated_at": "2026-08-25T08:14:54.453488+00:00",
+  "commit": "97caff3e9481369792572aeb5a82100c9349e30d",
+  "run_id": "32825584488",
   "run_attempt": "1",
   "artifact_name": "queuezero-stage4-validation-sample",
   "steps": {
-    "visual_ir_validation": "success",
-    "build": "success",
-    "audit": "success",
-    "render": "success"
+    "visual_ir_validation": "skipped",
+    "build": "skipped",
+    "audit": "skipped",
+    "render": "skipped"
   }
 }
