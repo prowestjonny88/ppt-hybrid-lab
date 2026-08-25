@@ -15,6 +15,9 @@ on:
         description: "Image resolution"
         required: true
         default: "2K"
+  push:
+    paths:
+      - "benchmark/approvals/stage4-oracle-gemini31flash-oracle-v1.approved"
 
 concurrency:
   group: stage4-gemini-visual-oracle
@@ -29,9 +32,9 @@ jobs:
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       IMAGE_MODEL: gemini-3.1-flash-image
-      IMAGE_RESOLUTION: ${{ inputs.resolution }}
-      GENERATION_ID: ${{ inputs.generation_id }}
-      CONFIRM_SPEND: ${{ inputs.confirm_spend }}
+      IMAGE_RESOLUTION: ${{ inputs.resolution || '2K' }}
+      GENERATION_ID: ${{ inputs.generation_id || 'gemini31flash-oracle-v1' }}
+      CONFIRM_SPEND: ${{ inputs.confirm_spend || 'YES' }}
 
     steps:
       - name: Require explicit paid-generation approval
@@ -98,8 +101,8 @@ jobs:
       - name: Upload visual-oracle artifact
         uses: actions/upload-artifact@v4
         with:
-          name: queuezero-stage4-${{ inputs.generation_id }}
-          path: benchmark/generated/queuezero/${{ inputs.generation_id }}/
+          name: queuezero-stage4-${{ env.GENERATION_ID }}
+          path: benchmark/generated/queuezero/${{ env.GENERATION_ID }}/
           if-no-files-found: error
 
       - name: Persist oracle generation and provenance
