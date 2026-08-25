@@ -1,0 +1,23 @@
+{
+  "schema_version": "stage4-oracle-prompts-v1",
+  "prompts": [
+    {
+      "slide_id": "problem-hook",
+      "semantic_file": "experiment/queuezero/slide_semantics/problem_hook.v1.json",
+      "prompt_file": "dist/stage4/oracle/prompts/problem-hook.txt",
+      "prompt_sha256": "55799ed225d3185df843bfe155206656922adedc76a77ad8aa442a7dd242ae74"
+    },
+    {
+      "slide_id": "how-it-works",
+      "semantic_file": "experiment/queuezero/slide_semantics/how_it_works.v1.json",
+      "prompt_file": "dist/stage4/oracle/prompts/how-it-works.txt",
+      "prompt_sha256": "dace057781ff8a98cb334674a2b549a3f51b5dca181d11d83061253010c74774"
+    },
+    {
+      "slide_id": "validation-traction",
+      "semantic_file": "experiment/queuezero/slide_semantics/validation_traction.v1.json",
+      "prompt_file": "dist/stage4/oracle/prompts/validation-traction.txt",
+      "prompt_sha256": "7401b1ef72ef69e1e80f9f70ff6a089fc7fc0c95839d87a84019a9a6939a96f9"
+    }
+  ]
+}

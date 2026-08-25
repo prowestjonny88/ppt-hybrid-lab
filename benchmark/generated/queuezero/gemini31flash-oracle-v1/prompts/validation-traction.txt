@@ -1,0 +1,120 @@
+Create a single exceptionally polished 16:9 presentation-slide concept image for a high-stakes hackathon/startup pitch deck.
+
+This image is a VISUAL ORACLE: maximize composition quality, visual hierarchy, typography, art direction, spatial rhythm, and memorable presentation impact. Do not imitate generic PowerPoint card grids. Favor one obvious visual protagonist, asymmetric editorial composition where appropriate, deliberate whitespace, and sophisticated but restrained graphic language. The result should feel competitive with best-in-class AI presentation products.
+
+IMPORTANT SEMANTIC CONTRACT:
+- The JSON payload below is the only factual source of truth.
+- Do not invent metrics, claims, logos, certifications, badges, product capabilities, or sources.
+- Do not add any readable text except strings listed in exact_allowed_slide_text.
+- You may choose not to show low-priority allowed strings if the composition benefits, but never paraphrase or invent replacements.
+- Treat forbidden_implications as strict exclusions.
+- This image will later be reconstructed into editable PowerPoint objects, so maintain clear visual regions and separable design layers rather than relying on impossible photorealistic text effects.
+- Do NOT optimize for editability now; optimize for the visual ceiling. The reconstruction system will separately preserve editability.
+
+SEMANTIC PAYLOAD:
+{
+  "slide_id": "validation-traction",
+  "page_role": "validation_traction",
+  "governing_claim": "Early testing clears the bar for a semester pilot.",
+  "why_it_matters": "The prototype has measurable technical performance and an initial demand signal, while retention and paid adoption remain unproven.",
+  "exact_allowed_slide_text": [
+    {
+      "object_id": "title",
+      "role": "title",
+      "text": "Early testing clears the bar for a semester pilot"
+    },
+    {
+      "object_id": "subtitle",
+      "role": "subtitle",
+      "text": "Technical accuracy and user intent are promising; retention and paid adoption remain unproven."
+    },
+    {
+      "object_id": "metric_mae",
+      "role": "metric",
+      "text": "3.8 min"
+    },
+    {
+      "object_id": "metric_mae",
+      "role": "metric_label",
+      "text": "prediction MAE"
+    },
+    {
+      "object_id": "metric_weekly_intent",
+      "role": "metric",
+      "text": "76%"
+    },
+    {
+      "object_id": "metric_weekly_intent",
+      "role": "metric_label",
+      "text": "would use weekly"
+    },
+    {
+      "object_id": "metric_students",
+      "role": "metric",
+      "text": "42"
+    },
+    {
+      "object_id": "metric_students",
+      "role": "metric_label",
+      "text": "students tested"
+    },
+    {
+      "object_id": "metric_cafeterias",
+      "role": "metric",
+      "text": "3"
+    },
+    {
+      "object_id": "metric_cafeterias",
+      "role": "metric_label",
+      "text": "cafeterias"
+    },
+    {
+      "object_id": "pilot_gate",
+      "role": "annotation",
+      "text": "Next proof: one-university semester pilot"
+    },
+    {
+      "object_id": "source_note",
+      "role": "source_note",
+      "text": "Source: QueueZero controlled benchmark brief"
+    }
+  ],
+  "forbidden_implications": [
+    {
+      "guardrail_id": "intent_not_retention",
+      "applies_to": [
+        {
+          "ref_type": "object",
+          "id": "metric_weekly_intent"
+        }
+      ],
+      "forbidden_claim": "weekly-use intent proves actual retention",
+      "forbidden_visual_forms": [
+        "retention_loop",
+        "verified_checkmark"
+      ],
+      "forbidden_depictions": [
+        "validated retention badge"
+      ]
+    },
+    {
+      "guardrail_id": "test_not_market_fit",
+      "applies_to": [
+        {
+          "ref_type": "group",
+          "id": "validation_evidence_stack"
+        }
+      ],
+      "forbidden_claim": "the initial test proves market fit",
+      "forbidden_visual_forms": [
+        "market_fit_badge",
+        "victory_checkmark"
+      ],
+      "forbidden_depictions": [
+        "market fit achieved"
+      ]
+    }
+  ]
+}
+
+Return only the slide image, edge-to-edge 16:9, with no surrounding device mockup, watermark, commentary, or presentation frame.

@@ -1,0 +1,78 @@
+Create a single exceptionally polished 16:9 presentation-slide concept image for a high-stakes hackathon/startup pitch deck.
+
+This image is a VISUAL ORACLE: maximize composition quality, visual hierarchy, typography, art direction, spatial rhythm, and memorable presentation impact. Do not imitate generic PowerPoint card grids. Favor one obvious visual protagonist, asymmetric editorial composition where appropriate, deliberate whitespace, and sophisticated but restrained graphic language. The result should feel competitive with best-in-class AI presentation products.
+
+IMPORTANT SEMANTIC CONTRACT:
+- The JSON payload below is the only factual source of truth.
+- Do not invent metrics, claims, logos, certifications, badges, product capabilities, or sources.
+- Do not add any readable text except strings listed in exact_allowed_slide_text.
+- You may choose not to show low-priority allowed strings if the composition benefits, but never paraphrase or invent replacements.
+- Treat forbidden_implications as strict exclusions.
+- This image will later be reconstructed into editable PowerPoint objects, so maintain clear visual regions and separable design layers rather than relying on impossible photorealistic text effects.
+- Do NOT optimize for editability now; optimize for the visual ceiling. The reconstruction system will separately preserve editability.
+
+SEMANTIC PAYLOAD:
+{
+  "slide_id": "problem-hook",
+  "page_role": "problem_hook",
+  "governing_claim": "Peak-meal queues turn a basic campus need into a predictable daily time tax.",
+  "why_it_matters": "A visible, repeated pain point creates a clear wedge for a real-time wait prediction product.",
+  "exact_allowed_slide_text": [
+    {
+      "object_id": "title",
+      "role": "title",
+      "text": "Lunch queues are stealing up to half an hour"
+    },
+    {
+      "object_id": "subtitle",
+      "role": "subtitle",
+      "text": "Peak-meal waits reach 15–30 min — a repeated pain students cannot plan around."
+    },
+    {
+      "object_id": "metric_wait",
+      "role": "metric",
+      "text": "15–30 min"
+    },
+    {
+      "object_id": "metric_wait",
+      "role": "metric_label",
+      "text": "peak wait"
+    },
+    {
+      "object_id": "pain_annotation",
+      "role": "annotation",
+      "text": "The problem is not just queue length; it is uncertainty about whether a cafeteria is worth walking to right now."
+    },
+    {
+      "object_id": "source_note",
+      "role": "source_note",
+      "text": "Source: QueueZero controlled benchmark brief"
+    }
+  ],
+  "forbidden_implications": [
+    {
+      "guardrail_id": "range_not_universal",
+      "applies_to": [
+        {
+          "ref_type": "object",
+          "id": "metric_wait"
+        },
+        {
+          "ref_type": "object",
+          "id": "hero_visual_slot"
+        }
+      ],
+      "forbidden_claim": "every student always waits 30 minutes",
+      "forbidden_visual_forms": [
+        "universal_badge",
+        "100_percent_label"
+      ],
+      "forbidden_depictions": [
+        "embedded numeric wait times other than the supplied range",
+        "text baked into generated hero art"
+      ]
+    }
+  ]
+}
+
+Return only the slide image, edge-to-edge 16:9, with no surrounding device mockup, watermark, commentary, or presentation frame.

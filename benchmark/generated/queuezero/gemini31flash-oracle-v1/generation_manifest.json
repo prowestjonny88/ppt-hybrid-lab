@@ -1,0 +1,111 @@
+{
+  "schema_version": "stage4-visual-oracle-generation-v1",
+  "semantic_authority": false,
+  "provider": "Google Gemini Developer API",
+  "model": "gemini-3.1-flash-image",
+  "resolved_model": "models/gemini-3.1-flash-image",
+  "resolution": "2K",
+  "output_mime_type": "image/jpeg",
+  "jobs": [
+    {
+      "slide_id": "problem-hook",
+      "status": "success",
+      "prompt_path": "dist/stage4/oracle/prompts/problem-hook.txt",
+      "prompt_sha256": "c5edb8b0b3250595a0cd4ed673c2c35cbc1f702df2eab9eaa159d47864710817",
+      "output_path": "benchmark/generated/queuezero/gemini31flash-oracle-v1/problem-hook.jpg",
+      "image_sha256": "540256d03938df49885d1276ed8d2a5360175ded9cb3421bdb33817234cb41a9",
+      "image_bytes": 2240337,
+      "aspect_ratio": "16:9",
+      "image_size": "2K",
+      "interaction_id": "v1_ChdqRWVOYXVYMUdkcWFfdU1QM2ZEUzJBRRIXakVlTmF1WDFHZHFhX3VNUDNmRFMyQUU",
+      "usage": {
+        "input_tokens_by_modality": [
+          {
+            "modality": "text",
+            "tokens": 838
+          }
+        ],
+        "output_tokens_by_modality": [
+          {
+            "modality": "image",
+            "tokens": 1120
+          }
+        ],
+        "total_cached_tokens": 0,
+        "total_input_tokens": 838,
+        "total_output_tokens": 1494,
+        "total_thought_tokens": 0,
+        "total_tokens": 2332,
+        "total_tool_use_tokens": 0,
+        "raw_prompt_token": 1280
+      }
+    },
+    {
+      "slide_id": "how-it-works",
+      "status": "success",
+      "prompt_path": "dist/stage4/oracle/prompts/how-it-works.txt",
+      "prompt_sha256": "bb225ab13a2e23ccd8f72c1a70031c13ff81de52690d37a151ed39c6a88eba63",
+      "output_path": "benchmark/generated/queuezero/gemini31flash-oracle-v1/how-it-works.jpg",
+      "image_sha256": "703b060b1c5d522ba26cbd426bf036826ee924a1e5336cc6a9cd3831480cbd06",
+      "image_bytes": 2072987,
+      "aspect_ratio": "16:9",
+      "image_size": "2K",
+      "interaction_id": "v1_ChdtMGVOYXZyZEVOQ1ZfdU1QazRlNXVBOBIXbTBlTmF2cmRFTkNWX3VNUGs0ZTV1QTg",
+      "usage": {
+        "input_tokens_by_modality": [
+          {
+            "modality": "text",
+            "tokens": 826
+          }
+        ],
+        "output_tokens_by_modality": [
+          {
+            "modality": "image",
+            "tokens": 1120
+          }
+        ],
+        "total_cached_tokens": 0,
+        "total_input_tokens": 826,
+        "total_output_tokens": 1527,
+        "total_thought_tokens": 0,
+        "total_tokens": 2353,
+        "total_tool_use_tokens": 0,
+        "raw_prompt_token": 1268
+      }
+    },
+    {
+      "slide_id": "validation-traction",
+      "status": "success",
+      "prompt_path": "dist/stage4/oracle/prompts/validation-traction.txt",
+      "prompt_sha256": "96e5f734e4a0d005ca1c89403055c3137481bf03de1d327658444c208aa23fce",
+      "output_path": "benchmark/generated/queuezero/gemini31flash-oracle-v1/validation-traction.jpg",
+      "image_sha256": "b87383adbde7e06bd6ec17b733fe6bffc794a19d7d2de708116d008527d198ea",
+      "image_bytes": 2124377,
+      "aspect_ratio": "16:9",
+      "image_size": "2K",
+      "interaction_id": "v1_ChdxVWVOYXRmN044WGNfdU1Qb1pYS2tRdxIXcVVlTmF0ZjdOOFhjX3VNUG9aWEtrUXc",
+      "usage": {
+        "input_tokens_by_modality": [
+          {
+            "modality": "text",
+            "tokens": 1121
+          }
+        ],
+        "output_tokens_by_modality": [
+          {
+            "modality": "image",
+            "tokens": 1120
+          }
+        ],
+        "total_cached_tokens": 0,
+        "total_input_tokens": 1121,
+        "total_output_tokens": 1449,
+        "total_thought_tokens": 0,
+        "total_tokens": 2570,
+        "total_tool_use_tokens": 0,
+        "raw_prompt_token": 1563
+      }
+    }
+  ],
+  "complete": true
+}

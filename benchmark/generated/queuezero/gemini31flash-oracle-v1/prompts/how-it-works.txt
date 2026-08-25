@@ -1,0 +1,79 @@
+Create a single exceptionally polished 16:9 presentation-slide concept image for a high-stakes hackathon/startup pitch deck.
+
+This image is a VISUAL ORACLE: maximize composition quality, visual hierarchy, typography, art direction, spatial rhythm, and memorable presentation impact. Do not imitate generic PowerPoint card grids. Favor one obvious visual protagonist, asymmetric editorial composition where appropriate, deliberate whitespace, and sophisticated but restrained graphic language. The result should feel competitive with best-in-class AI presentation products.
+
+IMPORTANT SEMANTIC CONTRACT:
+- The JSON payload below is the only factual source of truth.
+- Do not invent metrics, claims, logos, certifications, badges, product capabilities, or sources.
+- Do not add any readable text except strings listed in exact_allowed_slide_text.
+- You may choose not to show low-priority allowed strings if the composition benefits, but never paraphrase or invent replacements.
+- Treat forbidden_implications as strict exclusions.
+- This image will later be reconstructed into editable PowerPoint objects, so maintain clear visual regions and separable design layers rather than relying on impossible photorealistic text effects.
+- Do NOT optimize for editability now; optimize for the visual ceiling. The reconstruction system will separately preserve editability.
+
+SEMANTIC PAYLOAD:
+{
+  "slide_id": "how-it-works",
+  "page_role": "how_it_works",
+  "governing_claim": "QueueZero turns a live camera feed into a simple wait-time decision.",
+  "why_it_matters": "The system is useful only if the technical pipeline resolves into an understandable, actionable product experience.",
+  "exact_allowed_slide_text": [
+    {
+      "object_id": "title",
+      "role": "title",
+      "text": "From camera feed to a wait-time decision in three steps"
+    },
+    {
+      "object_id": "subtitle",
+      "role": "subtitle",
+      "text": "Observe the queue → estimate the wait → tell students whether to go now."
+    },
+    {
+      "object_id": "node_camera",
+      "role": "diagram_node",
+      "text": "Camera feed"
+    },
+    {
+      "object_id": "node_queue_estimator",
+      "role": "diagram_node",
+      "text": "Queue length"
+    },
+    {
+      "object_id": "node_wait_predictor",
+      "role": "diagram_node",
+      "text": "Wait prediction"
+    },
+    {
+      "object_id": "node_decision",
+      "role": "diagram_node",
+      "text": "Go now / choose another cafeteria"
+    },
+    {
+      "object_id": "source_note",
+      "role": "source_note",
+      "text": "Source: QueueZero controlled benchmark brief"
+    }
+  ],
+  "forbidden_implications": [
+    {
+      "guardrail_id": "pipeline_not_accuracy_proof",
+      "applies_to": [
+        {
+          "ref_type": "group",
+          "id": "system_pipeline"
+        }
+      ],
+      "forbidden_claim": "the architecture diagram proves production accuracy or privacy compliance",
+      "forbidden_visual_forms": [
+        "verified_checkmark",
+        "compliance_badge"
+      ],
+      "forbidden_depictions": [
+        "privacy certified",
+        "100% accurate"
+      ]
+    }
+  ]
+}
+
+Return only the slide image, edge-to-edge 16:9, with no surrounding device mockup, watermark, commentary, or presentation frame.
