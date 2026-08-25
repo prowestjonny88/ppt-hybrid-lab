@@ -1,8 +1,8 @@
 {
   "schema_version": "stage4-oracle-reconstruction-receipt-v1",
-  "generated_at": "2026-08-25T08:06:32.167488+00:00",
-  "commit": "34340bbaacfe9bd4123a2b545ae64b423cd4f204",
-  "run_id": "32824847797",
+  "generated_at": "2026-08-25T08:09:26.277619+00:00",
+  "commit": "72db4087780f5f2b2697ef3243823d8e662f2fc3",
+  "run_id": "32825104556",
   "canonical_green": true,
   "steps": {
     "build": "success",
