@@ -1,0 +1,21 @@
+{
+  "schema_version": "stage4-oracle-reconstruction-receipt-v1",
+  "generated_at": "2026-08-25T08:06:32.167488+00:00",
+  "commit": "34340bbaacfe9bd4123a2b545ae64b423cd4f204",
+  "run_id": "32824847797",
+  "canonical_green": true,
+  "steps": {
+    "build": "success",
+    "validate": "success",
+    "render": "success"
+  },
+  "visual_oracle_generation_id": "gemini31flash-oracle-v1",
+  "lanes": [
+    "native_editable_baseline",
+    "image_generated_visual_ceiling",
+    "hybrid_editable_reconstruction"
+  ],
+  "semantic_authority": "frozen_stage3_semantic_ir",
+  "full_slide_oracle_raster_used": false,
+  "human_visual_comparison": "PENDING"
+}
