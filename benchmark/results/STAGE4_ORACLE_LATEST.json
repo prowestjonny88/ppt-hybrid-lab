@@ -1,0 +1,26 @@
+{
+  "schema_version": "stage4-visual-oracle-receipt-v1",
+  "status": "visual_ceiling_generated_reconstruction_pending",
+  "run_id": 32822914348,
+  "artifact_id": 9553807891,
+  "artifact_name": "queuezero-stage4-gemini31flash-oracle-v1",
+  "generation_id": "gemini31flash-oracle-v1",
+  "provider": "Google Gemini Developer API",
+  "model": "gemini-3.1-flash-image",
+  "resolution": "2K",
+  "semantic_authority": false,
+  "generation_complete": true,
+  "paid_scope_consumed": "3 fresh 2K visual-oracle images",
+  "images": {
+    "problem-hook": "benchmark/generated/queuezero/gemini31flash-oracle-v1/problem-hook.jpg",
+    "how-it-works": "benchmark/generated/queuezero/gemini31flash-oracle-v1/how-it-works.jpg",
+    "validation-traction": "benchmark/generated/queuezero/gemini31flash-oracle-v1/validation-traction.jpg"
+  },
+  "image_sha256": {
+    "problem-hook": "540256d03938df49885d1276ed8d2a5360175ded9cb3421bdb33817234cb41a9",
+    "how-it-works": "703b060b1c5d522ba26cbd426bf036826ee924a1e5336cc6a9cd3831480cbd06",
+    "validation-traction": "b87383adbde7e06bd6ec17b733fe6bffc794a19d7d2de708116d008527d198ea"
+  },
+  "benchmark_rule": "oracle is art-direction evidence only; full-slide raster cannot count as editable reconstruction success",
+  "next_gate": "build and render hybrid editable reconstruction against these oracle images, then compare visual fidelity without relaxing semantic/editability/provenance gates"
+}
