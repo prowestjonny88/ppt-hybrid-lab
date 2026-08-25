@@ -14,13 +14,18 @@ from pathlib import Path
 from src.ir.runtime import canonical_hash, load_json
 from src.visual_ir.archetype_solvers import SOLVER_REGISTRY as BASE_SOLVER_REGISTRY
 from src.visual_ir.oracle_reconstruction_solvers import ORACLE_SOLVER_REGISTRY
+from src.visual_ir.oracle_reconstruction_overrides import ORACLE_OVERRIDE_SOLVER_REGISTRY
 from src.visual_ir.capacity import require_capacity
 from src.visual_ir.router import route_candidates
 from src.visual_ir.style_runtime import resolve_style_profile
 
 STYLE_PATH = "experiment/queuezero/style_profiles/queuezero_hackathon_v0.json"
 ASSET_BINDINGS_PATH = "experiment/queuezero/stage4_asset_bindings.json"
-SOLVER_REGISTRY = {**BASE_SOLVER_REGISTRY, **ORACLE_SOLVER_REGISTRY}
+SOLVER_REGISTRY = {
+    **BASE_SOLVER_REGISTRY,
+    **ORACLE_SOLVER_REGISTRY,
+    **ORACLE_OVERRIDE_SOLVER_REGISTRY,
+}
 
 
 def _semantic_asset_source(semantics: dict, object_id: str):
