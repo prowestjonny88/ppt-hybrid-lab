@@ -1,15 +1,15 @@
 {
   "schema_version": "stage4-deck-receipt-v15",
-  "generated_at": "2026-08-24T21:18:48.853091+00:00",
-  "commit": "af64490469f8908778b5e00182871ff4a86626ea",
-  "run_id": "32778722109",
+  "generated_at": "2026-08-25T08:03:36.418249+00:00",
+  "commit": "3c746cc8f5264858d1284bf386a799ad6aaf8d90",
+  "run_id": "32824616128",
   "artifact_name": "queuezero-stage4-full-deck",
-  "canonical_green": true,
+  "canonical_green": false,
   "steps": {
-    "validation": "success",
-    "build": "success",
-    "audit": "success",
-    "render": "success"
+    "validation": "skipped",
+    "build": "skipped",
+    "audit": "skipped",
+    "render": "skipped"
   },
   "validation_contract": [
     "design_language_profile_layering",
