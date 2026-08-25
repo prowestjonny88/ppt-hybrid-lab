@@ -107,11 +107,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      # actions/upload-artifact stores paths relative to their common .ox root,
+      # so restoring into .ox recreates .ox/tasks and .ox/reports correctly.
       - name: Download all worker results
         uses: actions/download-artifact@v4
         with:
           pattern: ox-result-*
-          path: .
+          path: .ox
           merge-multiple: true
 
       - name: Commit Ox task/report state once
