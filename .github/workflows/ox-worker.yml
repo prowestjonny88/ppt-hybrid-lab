@@ -6,6 +6,7 @@ on:
       - ".ox/tasks/**"
       - ".ox/runner/**"
       - ".ox/config.yml"
+      - "tests/test_ox_harness_contracts.py"
       - ".github/workflows/ox-worker.yml"
   workflow_dispatch:
 
@@ -33,6 +34,12 @@ jobs:
 
       - name: Validate runner syntax
         run: python -m py_compile .ox/runner/ox_runner.py
+
+      - name: Install deterministic test dependencies
+        run: pip install requests pyyaml
+
+      - name: Run Ox harness contract tests
+        run: python tests/test_ox_harness_contracts.py
 
       - name: Discover pending tasks
         id: pending
