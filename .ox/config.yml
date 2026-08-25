@@ -2,14 +2,21 @@ model: stealth/ox-alpha
 
 openrouter:
   base_url: https://openrouter.ai/api/v1
+  request_timeout_seconds: 900
+  max_attempts: 4
+  backoff_base_seconds: 5
+  backoff_max_seconds: 60
 
 reasoning:
-  effort: max
+  effort: high
 
 worker:
-  max_files: 60
-  max_file_bytes: 150000
-  max_context_chars: 600000
+  max_files: 40
+  max_file_bytes: 120000
+  max_context_chars: 250000
+  hard_max_files: 80
+  hard_max_file_bytes: 200000
+  hard_max_context_chars: 600000
 
 output:
   reports_dir: .ox/reports
