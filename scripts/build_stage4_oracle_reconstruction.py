@@ -56,9 +56,9 @@ def prepare_problem_hero():
     dst = ASSET_DIR / "problem_person_text_free_crop.jpg"
     with Image.open(src) as im:
         w, h = im.size
-        # Text-free right-side human/scene region only. The full-slide oracle is
-        # not used as a slide image and no raster typography is retained.
-        crop = im.crop((int(w * 0.575), int(h * 0.080), int(w * 0.990), int(h * 0.910)))
+        # Start right of the oracle's raster headline. This deliberately keeps
+        # only the human/scene region and excludes all raster typography.
+        crop = im.crop((int(w * 0.635), int(h * 0.080), int(w * 0.990), int(h * 0.910)))
         crop.save(dst, format="JPEG", quality=92, optimize=True)
     return src, dst
 
@@ -102,7 +102,7 @@ def main():
             "source_sha256": sha256(oracle_src),
             "output_sha256": sha256(hero_crop),
             "operation": "deterministic_text_free_crop",
-            "crop_norm": [0.575, 0.080, 0.415, 0.830],
+            "crop_norm": [0.635, 0.080, 0.355, 0.830],
             "semantic_authority": False,
         }],
     }
