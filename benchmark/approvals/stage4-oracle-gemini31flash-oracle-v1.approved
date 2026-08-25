@@ -1,7 +1,0 @@
-approval: YES
-approved_scope: 3 fresh visual-oracle images
-model: gemini-3.1-flash-image
-resolution: 2K
-generation_id: gemini31flash-oracle-v1
-approved_at: 2026-08-25T15:41:00+08:00
-purpose: Stage 4 visual-oracle ceiling for editable reconstruction benchmark
