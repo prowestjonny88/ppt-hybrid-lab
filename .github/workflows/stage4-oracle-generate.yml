@@ -1,0 +1,117 @@
+name: Stage 4 Visual Oracle Generate
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_spend:
+        description: "Type YES to allow paid Gemini visual-oracle generation"
+        required: true
+        default: "NO"
+      generation_id:
+        description: "Persistent oracle generation id"
+        required: true
+        default: "gemini31flash-oracle-v1"
+      resolution:
+        description: "Image resolution"
+        required: true
+        default: "2K"
+
+concurrency:
+  group: stage4-gemini-visual-oracle
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    env:
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      IMAGE_MODEL: gemini-3.1-flash-image
+      IMAGE_RESOLUTION: ${{ inputs.resolution }}
+      GENERATION_ID: ${{ inputs.generation_id }}
+      CONFIRM_SPEND: ${{ inputs.confirm_spend }}
+
+    steps:
+      - name: Require explicit paid-generation approval
+        run: |
+          if [ "${CONFIRM_SPEND}" != "YES" ]; then
+            echo "Paid Stage 4 oracle generation was NOT approved. Re-run and type YES to proceed."
+            exit 1
+          fi
+          if ! [[ "${GENERATION_ID}" =~ ^[A-Za-z0-9._-]+$ ]]; then
+            echo "generation_id may contain only letters, digits, dot, underscore and hyphen"
+            exit 1
+          fi
+          if [ -z "${GEMINI_API_KEY}" ]; then
+            echo "GEMINI_API_KEY secret is missing"
+            exit 1
+          fi
+          if [ "${IMAGE_MODEL}" != "gemini-3.1-flash-image" ]; then
+            echo "Stage 4 oracle benchmark is pinned to gemini-3.1-flash-image"
+            exit 1
+          fi
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-genai
+
+      - name: Build deterministic semantic-only oracle prompts
+        run: PYTHONPATH=. python scripts/build_stage4_oracle_prompts.py
+
+      - name: Generate or resume paid visual oracles
+        run: |
+          OUTPUT_DIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          PYTHONPATH=. python tools/stage4_gemini_visual_oracle.py \
+            --model "${IMAGE_MODEL}" \
+            --resolution "${IMAGE_RESOLUTION}" \
+            --output-dir "${OUTPUT_DIR}"
+          mkdir -p "${OUTPUT_DIR}/prompts"
+          cp dist/stage4/oracle/prompts/*.txt "${OUTPUT_DIR}/prompts/"
+          cp dist/stage4/oracle/prompt_manifest.json "${OUTPUT_DIR}/prompt_manifest.json"
+
+      - name: Validate generation manifest
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          root = Path('benchmark/generated/queuezero') / os.environ['GENERATION_ID']
+          manifest = json.loads((root / 'generation_manifest.json').read_text())
+          if manifest.get('complete') is not True:
+              raise SystemExit('oracle generation manifest is not complete')
+          if manifest.get('semantic_authority') is not False:
+              raise SystemExit('oracle generation must never claim semantic authority')
+          if len(manifest.get('jobs', [])) != 3:
+              raise SystemExit('expected three oracle images')
+          print('Stage 4 fresh visual-oracle generation: PASS')
+          PY
+
+      - name: Upload visual-oracle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: queuezero-stage4-${{ inputs.generation_id }}
+          path: benchmark/generated/queuezero/${{ inputs.generation_id }}/
+          if-no-files-found: error
+
+      - name: Persist oracle generation and provenance
+        run: |
+          OUTPUT_DIR="benchmark/generated/queuezero/${GENERATION_ID}"
+          git config user.name "stage4-oracle-worker"
+          git config user.email "stage4-oracle-worker@users.noreply.github.com"
+          git add -f "${OUTPUT_DIR}"
+          if git diff --cached --quiet; then
+            echo "No oracle generation changes"
+          else
+            git commit -m "benchmark: persist ${GENERATION_ID} visual oracle"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
