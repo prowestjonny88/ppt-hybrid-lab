@@ -182,14 +182,16 @@ jobs:
           STAGE3_PANIC_HYBRID: ${{ steps.panic_hybrid.outcome }}
         run: python scripts/write_stage3_ci_receipt.py
 
-      - name: Commit Stage 3 CI receipt and Gemini diagnostic
+      - name: Commit Stage 3 CI receipt and Gemini diagnostic metadata
         if: always() && github.event_name != 'pull_request'
         run: |
           git config user.name "stage3-ci"
           git config user.email "stage3-ci@users.noreply.github.com"
-          git add benchmark/results/STAGE3_CI_LATEST.json benchmark/results/GEMINI_ONE_TIME_PAID_RUN.json benchmark/results/GEMINI_ONE_TIME_PAID_RUN.log
+          # The verbose .log is intentionally gitignored and remains available
+          # in the uploaded workflow artifact; only stable JSON metadata is tracked.
+          git add benchmark/results/STAGE3_CI_LATEST.json benchmark/results/GEMINI_ONE_TIME_PAID_RUN.json
           if git diff --cached --quiet; then
-            echo "No CI receipt/diagnostic change"
+            echo "No CI receipt/diagnostic metadata change"
           else
             git commit -m "ci: publish Stage 3 receipt and Gemini failure diagnostic"
             git pull --rebase origin "${GITHUB_REF_NAME}"
